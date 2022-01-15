@@ -7,7 +7,6 @@ Imports System.Runtime.InteropServices
 ' associated with an assembly.
 
 ' Review the values of the assembly attributes
-
 <Assembly: AssemblyTitle("UI")>
 <Assembly: AssemblyDescription("")>
 <Assembly: AssemblyCompany("")>
@@ -17,8 +16,8 @@ Imports System.Runtime.InteropServices
 
 <Assembly: ComVisible(False)>
 
-'The following GUID is for the ID of the typelib if this project is exposed to COM
-<Assembly: Guid("4823b4c9-fbc9-47d5-b4f5-1c05bc6d9fa1")>
+' The following GUID is for the ID of the typelib if this project is exposed to COM
+<Assembly: Guid("f2e20918-0c56-43da-a048-b9dd37a28fbf")>
 
 ' Version information for an assembly consists of the following four values:
 '

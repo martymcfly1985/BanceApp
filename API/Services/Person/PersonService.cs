@@ -1,12 +1,20 @@
-﻿namespace API.Services.Person
+﻿using API.Repositories.Person;
+
+namespace API.Services.Person
 {
     public class PersonService : IPersonService
     {
-        public PersonService() { }
+        private readonly IPersonRepository personRepository;
+
+        public PersonService(IPersonRepository personRepository) 
+        {
+            this.personRepository = personRepository;
+        }
 
         public string GetFirstNameOfFirstPersonInDatabase()
         {
-            return "Lance";
+            var persons = personRepository.GetPersons();
+            return persons[0].FirstName;
         }
     }
 }

@@ -10,7 +10,6 @@ Public Class HomeController
         End Get
     End Property
 
-
     Function Index() As ActionResult
         Return View()
     End Function

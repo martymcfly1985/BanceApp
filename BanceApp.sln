@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "API\API.csproj", "{4
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "UI", "UI\UI.vbproj", "{E1440B7F-F3F0-40B7-906B-5A747C97AAFC}"
 EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Database", "Database\Database.sqlproj", "{4970F924-45A4-40D7-A268-942325B149B4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,12 @@ Global
 		{E1440B7F-F3F0-40B7-906B-5A747C97AAFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E1440B7F-F3F0-40B7-906B-5A747C97AAFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E1440B7F-F3F0-40B7-906B-5A747C97AAFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4970F924-45A4-40D7-A268-942325B149B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4970F924-45A4-40D7-A268-942325B149B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4970F924-45A4-40D7-A268-942325B149B4}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{4970F924-45A4-40D7-A268-942325B149B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4970F924-45A4-40D7-A268-942325B149B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4970F924-45A4-40D7-A268-942325B149B4}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

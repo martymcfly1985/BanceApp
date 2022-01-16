@@ -2,6 +2,7 @@
 An app for Lance and Ben to practice code
 
 # Setup
+## Setup Visual Studio
 
 - Download visual studio community:
 https://visualstudio.microsoft.com/free-developer-offers/
@@ -34,6 +35,7 @@ System.Data.Common (API)
 System.Data.SqlClient (API)
 Validation (UI)
 
+## Setup IIS
 - In the search bar on your computer type "Turn windows features on or off" and choose that option
 - Scroll down to the option labeled "Internet Information Services" and check the box then expand its node
 - Expand the “World Wide Web Service” node
@@ -54,6 +56,7 @@ Validation (UI)
 - Click Add
 - Add this user: IIS_IUSRS, then click check names, then ok
 
+## Setup SQL Server
 - Download the Free Developer Version of SQL Server 2019: https://www.microsoft.com/en-us/sql-server/sql-server-downloads
 - Choose basic
 - (ignore this. This was a note for me) Server=localhost;Database=master;Trusted_Connection=True;

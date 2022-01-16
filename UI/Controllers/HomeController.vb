@@ -1,5 +1,15 @@
-﻿Public Class HomeController
+﻿Imports API.Services.Person
+Imports UI.Plumbing
+
+Public Class HomeController
     Inherits System.Web.Mvc.Controller
+
+    Private ReadOnly Property PersonService As IPersonService
+        Get
+            Return AppContainer.Container.Resolve(Of IPersonService)
+        End Get
+    End Property
+
 
     Function Index() As ActionResult
         Return View()
@@ -7,6 +17,7 @@
 
     Function About() As ActionResult
         ViewData("Message") = "Your application description page."
+        ViewData("FirstName") = PersonService.GetFirstNameOfFirstPersonInDatabase()
 
         Return View()
     End Function

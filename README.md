@@ -69,3 +69,6 @@ Validation (UI)
 - Type localhost as the server name then click Connect
 - From the object explorer on the left, expand localhost/databases/Bance/Tables
 - There should be a table there called Person (I made that table) indicating the publish worked.
+
+## Starting the App
+- In your web browser go to localhost/BanceApp and cross your fingers that a website talking about ASP.NET loads. If so, you did everything right. If you click About at the top, that's where I've been making my changes. 

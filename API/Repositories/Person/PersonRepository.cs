@@ -16,7 +16,7 @@ namespace API.Repositories.Person
             //this login needs created in sql server management studio
             //i tried but it sql server management studio doesn't let me login with it for some reason.
             //if we can figure that out, we'd be set...i think
-            using (SqlConnection connection = new SqlConnection("Data Source=localhost; Initial Catalog=Bance; User ID=VisualStudio; Password=vs123"))
+            using (SqlConnection connection = new SqlConnection("Data Source=localhost; Initial Catalog=Bance; User ID=BanceAppUser; Password=banceappuser123"))
             {
                 SqlCommand command = new SqlCommand("SELECT * FROM Person", connection);
                 command.Connection.Open();
@@ -24,20 +24,18 @@ namespace API.Repositories.Person
                 {
                     while (reader.Read())
                     {
+                        // This is ugly and should be cleaned up but I did various styles of retrieving data to show you the different ways you could do it.
                         var person = new Models.Person.Person();
-                        person.FirstName = reader["P_FirstName"].ToString();
-                        person.LastName = reader["P_LastName"].ToString();
+                        person.FirstName = reader.IsDBNull(reader.GetOrdinal("P_FirstName")) ? "" : reader.GetString(reader.GetOrdinal("P_FirstName"));
+                        person.LastName = reader.IsDBNull(reader.GetOrdinal("P_LastName")) ? "" : reader["P_LastName"].ToString();
+                        person.MiddleInitial = reader.IsDBNull(reader.GetOrdinal("P_MiddleInitial")) ? "" : reader["P_MiddleInitial"].ToString();
+                        person.Recnum = (int)reader["P_Recnum"];
+                        person.Ssn = reader.IsDBNull(reader.GetOrdinal("P_SSN")) ? "" : reader["P_SSN"].ToString();
+                        person.BirthDate = reader.IsDBNull(reader.GetOrdinal("P_Birthdate")) ? (System.DateTime?)null : reader.GetDateTime(reader.GetOrdinal("P_Birthdate"));
                         persons.Add(person);
-                        //Console.WriteLine(String.Format("{0}", reader["id"]));
                     }
                 }
             }
-
-            //List<Models.Person.Person> persons = new List<Models.Person.Person>();
-            //var person = new Models.Person.Person();
-            //person.FirstName = "Ben";
-            //person.LastName = "Windland";
-            //persons.Add(person);
 
             return persons;
         }

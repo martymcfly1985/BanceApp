@@ -14,6 +14,11 @@ namespace API.Services.Person
         public string GetFirstNameOfFirstPersonInDatabase()
         {
             var persons = personRepository.GetPersons();
+            if (persons.Count == 0)
+            {
+                return "No name to display";
+            }
+
             return persons[0].FirstName;
         }
     }

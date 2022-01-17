@@ -69,6 +69,21 @@ Validation (UI)
 - Type localhost as the server name then click Connect
 - From the object explorer on the left, expand localhost/databases/Bance/Tables
 - There should be a table there called Person (I made that table) indicating the publish worked.
+- Right click on localhost and go to properties/security
+- Under Server authentication choose SQL Server and Windows Authentication Mode
+- Click Ok and then Ok again, acknowledging the server needs restarted.
+- Right click on localhost and choose restart
+- Close all instances of SQL Server Management Studio and then reopen it.
+- Sign back into localhost and under the object explorer go to localhost/security/logins
+- Right click on logins and click New Login
+- Choose Sql Server Authentication and make the login name BanceAppUser and the password banceappuser123
+- Uncheck the "Enforce Password Expiration" box
+- Click Server Roles
+- Check public and sysadmin
+- Click User Mapping
+- Check Bance, at the top, and db owner and public, at the bottom
+- Click Ok
+- If you want to add records to the Person table, you can do that now, but it isn't required.
 
 ## Starting the App
 - In your web browser go to localhost/BanceApp and cross your fingers that a website talking about ASP.NET loads. If so, you did everything right. If you click About at the top, that's where I've been making my changes. 

@@ -13,9 +13,6 @@ namespace API.Repositories.Person
         public List<Models.Person.Person> GetPersons()
         {
             List<Models.Person.Person> persons = new List<Models.Person.Person>();
-            //this login needs created in sql server management studio
-            //i tried but it sql server management studio doesn't let me login with it for some reason.
-            //if we can figure that out, we'd be set...i think
             using (SqlConnection connection = new SqlConnection("Data Source=localhost; Initial Catalog=Bance; User ID=BanceAppUser; Password=banceappuser123"))
             {
                 SqlCommand command = new SqlCommand("SELECT * FROM Person", connection);

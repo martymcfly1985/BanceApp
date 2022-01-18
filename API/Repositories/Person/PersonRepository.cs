@@ -22,6 +22,7 @@ namespace API.Repositories.Person
                     while (reader.Read())
                     {
                         // This is ugly and should be cleaned up but I did various styles of retrieving data to show you the different ways you could do it.
+                        // You are wrong. This is beautiful.
                         var person = new Models.Person.Person();
                         person.FirstName = reader.IsDBNull(reader.GetOrdinal("P_FirstName")) ? "" : reader.GetString(reader.GetOrdinal("P_FirstName"));
                         person.LastName = reader.IsDBNull(reader.GetOrdinal("P_LastName")) ? "" : reader["P_LastName"].ToString();

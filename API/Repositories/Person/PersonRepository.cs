@@ -15,7 +15,8 @@ namespace API.Repositories.Person
             List<Models.Person.Person> persons = new List<Models.Person.Person>();
             using (SqlConnection connection = new SqlConnection("Data Source=localhost; Initial Catalog=Bance; User ID=BanceAppUser; Password=banceappuser123"))
             {
-                SqlCommand command = new SqlCommand("SELECT * FROM Person", connection);
+                SqlCommand command = new SqlCommand("GetPersons", connection);
+                command.CommandType = System.Data.CommandType.StoredProcedure;
                 command.Connection.Open();
                 using (SqlDataReader reader = command.ExecuteReader())
                 {

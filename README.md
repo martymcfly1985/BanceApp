@@ -1,6 +1,12 @@
 # BanceApp
 An app for Lance and Ben to practice code
 
+# Development Workflow
+- Create and/or assign yourself to a JIRA and put it in progress. 
+- Create a new branch named after the JIRA, all lowercase. For example, ban-1
+- Once work is complete on the branch, make a pull request and assign the other engineers for review. 
+- Once you have at least one approval (but preferably all approvals) merge the pull request and delete the branch. 
+
 # Setup
 ## Setup Visual Studio
 

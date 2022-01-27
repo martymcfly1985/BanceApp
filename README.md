@@ -7,6 +7,20 @@ An app for Lance and Ben to practice code
 - Once work is complete on the branch, make a pull request and assign the other engineers for review. 
 - Once you have at least one approval (but preferably all approvals) merge the pull request and delete the branch. 
 
+# Clean Coding Practices
+- The UI should be as dumb as possible. We should put as much logic as we can in the API code. This makes it easier to swap out the UI framework, in the future, if we wanted to. It also makes the code more testable, if we ever add integration tests. 
+- The controller code should have as little logic as possible. This code is just a middle-man between the UI code and the backend code so 90% of the time, the function in the controller will be able to be boiled down to simply calling the service code. 
+- The service classes in the API are where the meat of the logic is written. This is the middle-man between the controller and the repository. The controller should never call the repository directly. This code will perform any logic we need, including structuring the data in a way that the repository needs it and taking data from the repo and structuring it in a way the controller needs it. 
+- The repository classes are what talk to the database. It'll call the stored procedures and pass any required parameters. It'll also pass the results (if there are any) back to the service. 
+- Any SQL scripts/statements should be put into stored procedures. If we run into a case where this isn't feasible, the code building the script belongs in the repo. 
+- Most, if not all, tables should have some sort of auto-incrementing recnum or id (whatever we want to call it) so that it can be used to easily link tables together. 
+- The interfaces created alongside the services and repos only need the public functions.
+- Functions and variables should be named as descriptively as possible. The idea is that the code will be descriptive and readable enough that we don't need comments describing what's going on because the code will describe itself. 
+- Functions should be small and if you feel like they're getting big, see if you can pull any of the code out into another function. 
+- Functions should only do one thing, if at all possible, and shouldn't do more than the name of the function suggests. 
+- Private variables should be lowerCamelCase
+- Public variables and functions should be CamelCase
+
 # Setup
 ## Setup Visual Studio
 

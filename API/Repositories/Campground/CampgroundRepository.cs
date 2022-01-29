@@ -23,10 +23,10 @@ namespace API.Repositories.Campground
                     while (reader.Read())
                     {
                         var campground = new Models.Campground.Campground();
-                        campground.DateVisited = reader.IsDBNull(reader.GetOrdinal("P_DateVisited")) ? (System.DateTime?)null : reader.GetDateTime(reader.GetOrdinal("P_DateVisited"));
-                        campground.Name = reader.IsDBNull(reader.GetOrdinal("P_Name")) ? "" : reader["P_Name"].ToString();
-                        campground.Recnum = (int)reader["P_Recnum"];
-                        campground.Coordinates = reader.IsDBNull(reader.GetOrdinal("P_Coordinates")) ? "" : reader["P_Coordinates"].ToString();
+                        campground.DateVisited = reader.IsDBNull(reader.GetOrdinal("CG_DateVisited")) ? (System.DateTime?)null : reader.GetDateTime(reader.GetOrdinal("CG_DateVisited"));
+                        campground.Name = reader["CG_Name"].ToString();
+                        campground.Recnum = (int)reader["CG_Recnum"];
+                        campground.Name = reader.IsDBNull(reader.GetOrdinal("CG_Coordinates")) ? "" : reader["CG_Coordinates"].ToString();
                         campgrounds.Add(campground);
                     }
                 }

@@ -4,6 +4,10 @@ End Code
 
 <h2>@ViewData("Title").</h2>
 <h3>@ViewData("Message")</h3>
+<div>@ViewData("Name")</div>
+
+<p>^^This is where the campground table will be. </p>
+<p></p>
 
 <address>
     One Microsoft Way<br />

@@ -1,6 +1,7 @@
 ﻿using API.DataAccess;
 using API.DataAccess.Models;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace API.Repositories.Campground
@@ -18,7 +19,7 @@ namespace API.Repositories.Campground
             using (SqlConnection connection = new SqlConnection(Connection.ConnectionString))
             {
                 SqlCommand command = new SqlCommand("GetCampgrounds", connection);
-                command.CommandType = System.Data.CommandType.StoredProcedure;
+                command.CommandType = CommandType.StoredProcedure;
                 command.Connection.Open();
                 using (EnhancedSqlDataReader reader = new EnhancedSqlDataReader(command.ExecuteReader()))
                 {

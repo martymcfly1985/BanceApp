@@ -25,7 +25,6 @@ namespace API.Repositories.Person
                 {
                     while (reader.Read())
                     {
-                        // This is ugly and should be cleaned up but I did various styles of retrieving data to show you the different ways you could do it.
                         var person = new Models.Person.Person();
                         person.FirstName = reader.GetStringValueOrEmptyString("P_FirstName");
                         person.LastName = reader.GetStringValueOrEmptyString("P_LastName");

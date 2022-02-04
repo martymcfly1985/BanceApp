@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using API.DataAccess;
+using API.DataAccess.Models;
+using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace API.Repositories.Person
@@ -13,23 +16,22 @@ namespace API.Repositories.Person
         public List<Models.Person.Person> GetPersons()
         {
             List<Models.Person.Person> persons = new List<Models.Person.Person>();
-            using (SqlConnection connection = new SqlConnection("Data Source=localhost; Initial Catalog=Bance; User ID=BanceAppUser; Password=banceappuser123"))
+            using (SqlConnection connection = new SqlConnection(Connection.ConnectionString))
             {
                 SqlCommand command = new SqlCommand("GetPersons", connection);
-                command.CommandType = System.Data.CommandType.StoredProcedure;
+                command.CommandType = CommandType.StoredProcedure;
                 command.Connection.Open();
-                using (SqlDataReader reader = command.ExecuteReader())
+                using (EnhancedSqlDataReader reader = new EnhancedSqlDataReader(command.ExecuteReader()))
                 {
                     while (reader.Read())
                     {
-                        // This is ugly and should be cleaned up but I did various styles of retrieving data to show you the different ways you could do it.
                         var person = new Models.Person.Person();
-                        person.FirstName = reader.IsDBNull(reader.GetOrdinal("P_FirstName")) ? "" : reader.GetString(reader.GetOrdinal("P_FirstName"));
-                        person.LastName = reader.IsDBNull(reader.GetOrdinal("P_LastName")) ? "" : reader["P_LastName"].ToString();
-                        person.MiddleInitial = reader.IsDBNull(reader.GetOrdinal("P_MiddleInitial")) ? "" : reader["P_MiddleInitial"].ToString();
-                        person.Recnum = (int)reader["P_Recnum"];
-                        person.Ssn = reader.IsDBNull(reader.GetOrdinal("P_SSN")) ? "" : reader["P_SSN"].ToString();
-                        person.BirthDate = reader.IsDBNull(reader.GetOrdinal("P_Birthdate")) ? (System.DateTime?)null : reader.GetDateTime(reader.GetOrdinal("P_Birthdate"));
+                        person.FirstName = reader.GetStringValueOrEmptyString("P_FirstName");
+                        person.LastName = reader.GetStringValueOrEmptyString("P_LastName");
+                        person.MiddleInitial = reader.GetStringValueOrEmptyString("P_MiddleInitial");
+                        person.Recnum = reader.GetInt32("P_Recnum");
+                        person.Ssn = reader.GetStringValueOrEmptyString("P_SSN");
+                        person.BirthDate = reader.GetNullableDateTime("P_Birthdate");
                         persons.Add(person);
                     }
                 }

@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using API.DataAccess;
+using API.DataAccess.Models;
+using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace API.Repositories.Campground
@@ -13,20 +16,20 @@ namespace API.Repositories.Campground
         public List<Models.Campground.Campground> GetCampgrounds()
         {
             List<Models.Campground.Campground> campgrounds = new List<Models.Campground.Campground>();
-            using (SqlConnection connection = new SqlConnection("Data Source=localhost; Initial Catalog=Bance; User ID=BanceAppUser; Password=banceappuser123"))
+            using (SqlConnection connection = new SqlConnection(Connection.ConnectionString))
             {
                 SqlCommand command = new SqlCommand("GetCampgrounds", connection);
-                command.CommandType = System.Data.CommandType.StoredProcedure;
+                command.CommandType = CommandType.StoredProcedure;
                 command.Connection.Open();
-                using (SqlDataReader reader = command.ExecuteReader())
+                using (EnhancedSqlDataReader reader = new EnhancedSqlDataReader(command.ExecuteReader()))
                 {
                     while (reader.Read())
                     {
                         var campground = new Models.Campground.Campground();
-                        campground.DateVisited = reader.IsDBNull(reader.GetOrdinal("CG_DateVisited")) ? (System.DateTime?)null : reader.GetDateTime(reader.GetOrdinal("CG_DateVisited"));
-                        campground.Name = reader["CG_Name"].ToString();
-                        campground.Recnum = (int)reader["CG_Recnum"];
-                        campground.Name = reader.IsDBNull(reader.GetOrdinal("CG_Coordinates")) ? "" : reader["CG_Coordinates"].ToString();
+                        campground.DateVisited = reader.GetNullableDateTime("CG_DateVisited");
+                        campground.Name = reader.GetString("CG_Name");
+                        campground.Recnum = reader.GetInt32("CG_Recnum");
+                        campground.Coordinates = reader.GetStringValueOrEmptyString("CG_Coordinates");
                         campgrounds.Add(campground);
                     }
                 }

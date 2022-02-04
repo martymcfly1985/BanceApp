@@ -94,6 +94,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="DataAccess\EnhancedSqlDataReader.cs" />
+    <Compile Include="DataAccess\Models\Connection.cs" />
     <Compile Include="Models\Campground\Campground.cs" />
     <Compile Include="Models\Factory\IGenericFactory.cs" />
     <Compile Include="Models\Person\Person.cs" />

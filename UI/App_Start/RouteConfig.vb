@@ -8,6 +8,8 @@ Imports System.Web.Routing
 Public Module RouteConfig
     Public Sub RegisterRoutes(ByVal routes As RouteCollection)
         routes.IgnoreRoute("{resource}.axd/{*pathInfo}")
+        routes.MapMvcAttributeRoutes()
+        routes.AppendTrailingSlash = True
 
         routes.MapRoute(
             name:="Default",

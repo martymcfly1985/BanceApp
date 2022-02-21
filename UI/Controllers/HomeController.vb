@@ -2,6 +2,8 @@
 Imports API.Services.Campground
 Imports UI.Plumbing
 Imports System.Web.Services
+Imports API.Models.Person
+Imports API.Extensions
 
 Public Class HomeController
     Inherits System.Web.Mvc.Controller
@@ -35,9 +37,23 @@ Public Class HomeController
 
     <HttpPost()>
     Function AddPerson()
-        Dim test = Request.Form("firstName")
+        Dim person = New Person()
+        person.FirstName = Request.Form("firstName")
+        person.LastName = Request.Form("lastName")
+        person.MiddleInitial = Request.Form("middleInitial")
+        person.Ssn = Request.Form("ssn")
+        person.BirthDate = Request.Form("birthDate").ToNullableDateTime()
+
+        Dim formSubmissionMessage = "Person Added Successfully!"
+        Try
+            PersonService.SavePerson(person)
+        Catch ex As Exception
+            formSubmissionMessage = ex.Message
+        End Try
+
 
         SetInitialAboutScreenData()
+        ViewData("FormSubmissionMessage") = formSubmissionMessage
         Return View("About")
     End Function
 

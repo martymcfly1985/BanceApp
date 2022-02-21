@@ -51,7 +51,6 @@ Public Class HomeController
             formSubmissionMessage = ex.Message
         End Try
 
-
         SetInitialAboutScreenData()
         ViewData("FormSubmissionMessage") = formSubmissionMessage
         Return View("About")

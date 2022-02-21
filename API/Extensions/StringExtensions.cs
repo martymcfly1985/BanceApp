@@ -6,7 +6,7 @@ namespace API.Extensions
     {
         public static DateTime? ToNullableDateTime(this string input)
         {
-            if(input == "")
+            if (input == "")
             {
                 return null;
             }

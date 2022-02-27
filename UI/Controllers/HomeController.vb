@@ -1,6 +1,9 @@
 ﻿Imports API.Services.Person
 Imports API.Services.Campground
 Imports UI.Plumbing
+Imports System.Web.Services
+Imports API.Models.Person
+Imports API.Extensions
 
 Public Class HomeController
     Inherits System.Web.Mvc.Controller
@@ -20,8 +23,7 @@ Public Class HomeController
     End Function
 
     Function About() As ActionResult
-        ViewData("Message") = "Your application description page."
-        ViewData("FirstName") = PersonService.GetFirstNameOfFirstPersonInDatabase()
+        SetInitialAboutScreenData()
 
         Return View()
     End Function
@@ -31,5 +33,31 @@ Public Class HomeController
         ViewData("Name") = CampgroundService.GetNameOfFirstCampgroundInDatabase()
 
         Return View()
+    End Function
+
+    <HttpPost()>
+    Function AddPerson()
+        Dim person = New Person()
+        person.FirstName = Request.Form("firstName")
+        person.LastName = Request.Form("lastName")
+        person.MiddleInitial = Request.Form("middleInitial")
+        person.Ssn = Request.Form("ssn")
+        person.BirthDate = Request.Form("birthDate").ToNullableDateTime()
+
+        Dim formSubmissionMessage = "Person Added Successfully!"
+        Try
+            PersonService.SavePerson(person)
+        Catch ex As Exception
+            formSubmissionMessage = ex.Message
+        End Try
+
+        SetInitialAboutScreenData()
+        ViewData("FormSubmissionMessage") = formSubmissionMessage
+        Return View("About")
+    End Function
+
+    Private Function SetInitialAboutScreenData()
+        ViewData("Message") = "Your application description page."
+        ViewData("FirstName") = PersonService.GetFirstNameOfFirstPersonInDatabase()
     End Function
 End Class

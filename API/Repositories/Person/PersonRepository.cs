@@ -39,5 +39,23 @@ namespace API.Repositories.Person
 
             return persons;
         }
+
+        public void SavePerson(Models.Person.Person person)
+        {
+            using (SqlConnection connection = new SqlConnection(Connection.ConnectionString))
+            {
+                using (SqlCommand command = new SqlCommand("SavePerson", connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add("@FirstName", SqlDbType.VarChar).Value = person.FirstName;
+                    command.Parameters.Add("@LastName", SqlDbType.VarChar).Value = person.LastName;
+                    command.Parameters.Add("@MiddleInitial", SqlDbType.VarChar).Value = person.MiddleInitial;
+                    command.Parameters.Add("@Ssn", SqlDbType.VarChar).Value = person.Ssn;
+                    command.Parameters.Add("@BirthDate", SqlDbType.DateTime).Value = person.BirthDate;
+                    command.Connection.Open();
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }

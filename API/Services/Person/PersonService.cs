@@ -21,5 +21,10 @@ namespace API.Services.Person
 
             return persons[0].FirstName;
         }
+
+        public void SavePerson(Models.Person.Person person)
+        {
+            personRepository.SavePerson(person);
+        }
     }
 }

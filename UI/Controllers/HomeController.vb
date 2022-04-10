@@ -4,6 +4,7 @@ Imports UI.Plumbing
 Imports System.Web.Services
 Imports API.Models.Person
 Imports API.Extensions
+Imports API.Services.Tennis
 
 Public Class HomeController
     Inherits System.Web.Mvc.Controller
@@ -18,13 +19,23 @@ Public Class HomeController
             Return AppContainer.Container.Resolve(Of ICampgroundService)
         End Get
     End Property
+    Private ReadOnly Property CourtService As ICourtService
+        Get
+            Return AppContainer.Container.Resolve(Of ICourtService)
+        End Get
+    End Property
     Function Index() As ActionResult
         Return View()
     End Function
 
     Function About() As ActionResult
+        Dim court = CourtService.GetCourtInformation()
+        If court.Surface <> "" AndAlso court.Condition <> "" AndAlso court.Lights <> False Then
+            ViewData("CourtSurface") = court.Surface
+            ViewData("CourtCondition") = court.Condition
+            ViewData("Lights") = court.Lights
+        End If
         SetInitialAboutScreenData()
-
         Return View()
     End Function
 

@@ -8,20 +8,21 @@ const { TabPane } = Tabs;
 
 function App() {
   return (
+      <Layout className='header'>
+          <Header>
+            <div className="logo"/>
+            <Menu theme="dark" mode="horizontal">
+              <Menu.Item key={1}>Find a Court</Menu.Item>
+              <Menu.Item key={2}>Find a League</Menu.Item>
+            </Menu>
+          </Header>
 
-    <Tabs type="card">
-      <TabPane tab="Tab 1" key="1">
-        Content of Tab Pane 1
-      </TabPane>
-      <TabPane tab="Tab 2" key="2">
-        Content of Tab Pane 2
-      </TabPane>
-      <TabPane tab="Tab 3" key="3">
-        Content of Tab Pane 3
-      </TabPane>
-    </Tabs>
-  );
-  
+          <Content style={{ padding: '50px' }}>
+             <div className="site-layout-content">Content</div>
+            
+          </Content>
+      </Layout>
+      );
 }
 
 export default App;

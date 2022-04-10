@@ -1,13 +1,9 @@
 ﻿using API.DataAccess;
 using API.DataAccess.Models;
 using API.Models.Tennis;
-using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace API.Repositories.Tennis
 {
@@ -35,7 +31,7 @@ namespace API.Repositories.Tennis
                         court.LocationRecnum = reader.GetInt32("C_LRecnum");
                         court.Surface = reader.GetStringValueOrEmptyString("C_Surface");
                         court.Condition = reader.GetStringValueOrEmptyString("C_Condition");
-                        court.Lights = reader.GetBoolean("C_Lights");
+                        court.Lights = reader.IsDBNull("C_Lights") ? false : reader.GetBoolean("C_Lights");
                         courts.Add(court);
                     }
                 }

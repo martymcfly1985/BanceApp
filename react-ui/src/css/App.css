@@ -1,7 +1,5 @@
 @import '~antd/dist/antd.css';
 
-
-
 .site-layout-content {
   min-height: fit-content;
   padding: 30px;
@@ -13,7 +11,7 @@
   height: 31px;
   margin: 16px 24px 16px 0;
   background: rgba(120, 204, 11, 0.3);
-  background-image: url(C:\Users\Public\Pictures\tennisballs.jpg);
+  /* background-image: url(C:\Users\Public\Pictures\tennisballs.jpg); */
 }
 
 ant.layout.header .header {

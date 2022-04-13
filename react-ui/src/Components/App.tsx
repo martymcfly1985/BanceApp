@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Button, Layout, Menu, Tabs } from 'antd';
 import '../css/App.css';
 import FindACourt from './find-a-court/FindACourt';
+import FindALeague from './find-a-league/FindALeague';
+import { fetchCourtData } from '../BusinessLogic/courtActions';
 
 const { Header, Content, Footer } = Layout;
 const { TabPane } = Tabs;
@@ -9,8 +11,9 @@ const { TabPane } = Tabs;
 function App() {
   const [currentMenuKey, setcurrentMenuKey] = useState('1');
 
-  const menuClicked = (event: any) => {
-    setcurrentMenuKey(event.key)
+  const menuClicked = async(event: any) => {
+    setcurrentMenuKey(event.key);
+    await fetchCourtData();
   }
 
   const componentsSwtich = (currentMenuKey: string) => {
@@ -18,9 +21,7 @@ function App() {
       case '1':
         return (<FindACourt/>);
       case '2':
-        return (<Content style={{ padding: '50px' }}>
-        <div className="site-layout-content">Find a League</div>
-      </Content>);
+        return (<FindALeague/>);
       default:
         break;
      }

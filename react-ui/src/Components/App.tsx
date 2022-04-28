@@ -13,7 +13,6 @@ function App() {
 
   const menuClicked = async(event: any) => {
     setcurrentMenuKey(event.key);
-    await fetchCourtData();
   }
 
   const componentsSwtich = (currentMenuKey: string) => {

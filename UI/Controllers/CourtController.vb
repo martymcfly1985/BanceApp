@@ -1,4 +1,6 @@
 ﻿Imports System.Web.Http
+Imports System.Web.Http.Results
+Imports API.Models.Tennis
 Imports API.Services.Tennis
 Imports UI.Plumbing
 Imports HttpGetAttribute = System.Web.Http.HttpGetAttribute
@@ -15,9 +17,9 @@ Namespace Controllers
         End Property
 
         <Route("api/getCourtData")>
-        <HttpGet>
-        Function GetCourts()
-            Dim courts = CourtService.GetCourtInformation()
+        <HttpGet()>
+        Function GetCourts() As JsonResult(Of List(Of Court))
+            Return Json(CourtService.GetCourtInformation())
         End Function
     End Class
 End Namespace

@@ -1,5 +1,6 @@
 ﻿using API.Models.Tennis;
 using API.Repositories.Tennis;
+using System.Collections.Generic;
 
 namespace API.Services.Tennis
 {
@@ -11,14 +12,9 @@ namespace API.Services.Tennis
             this.courtRepository = courtRepository;
         }
 
-        public Court GetCourtInformation()
+        public List<Court> GetCourtInformation()
         {
-            var courts = courtRepository.GetCourts();
-            if(courts.Count == 0)
-            {
-                return new Court();
-            }
-            return courts[0];
+            return courtRepository.GetCourts();
         }
     }
 }

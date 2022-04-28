@@ -29,12 +29,12 @@ Public Class HomeController
     End Function
 
     Function About() As ActionResult
-        Dim court = CourtService.GetCourtInformation()
-        If court.Surface <> "" AndAlso court.Condition <> "" AndAlso court.Lights <> False Then
-            ViewData("CourtSurface") = court.Surface
-            ViewData("CourtCondition") = court.Condition
-            ViewData("Lights") = court.Lights
-        End If
+        'Dim court = CourtService.GetCourtInformation()
+        'If court.Surface <> "" AndAlso court.Condition <> "" AndAlso court.Lights <> False Then
+        '    ViewData("CourtSurface") = court.Surface
+        '    ViewData("CourtCondition") = court.Condition
+        '    ViewData("Lights") = court.Lights
+        'End If
         SetInitialAboutScreenData()
         Return View()
     End Function

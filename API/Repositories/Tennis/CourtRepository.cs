@@ -32,6 +32,7 @@ namespace API.Repositories.Tennis
                         court.Surface = reader.GetStringValueOrEmptyString("C_Surface");
                         court.Condition = reader.GetStringValueOrEmptyString("C_Condition");
                         court.Lights = reader.IsDBNull("C_Lights") ? false : reader.GetBoolean("C_Lights");
+                        court.Name = reader.GetStringValueOrEmptyString("C_Name");
                         courts.Add(court);
                     }
                 }

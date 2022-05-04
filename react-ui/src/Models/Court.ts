@@ -4,4 +4,5 @@ export interface ICourt {
   surface: string;
   condition: string;
   lights: boolean;
+  name: string;
 }

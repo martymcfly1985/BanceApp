@@ -38,6 +38,7 @@ class FindACourt extends React.Component {
       title: 'Lights',
       dataIndex: 'Lights',
       key: 'lights',
+      render : (lights: boolean) => String(lights).charAt(0).toUpperCase() + String(lights).slice(1)
     },
     {
       title: 'Condition',

@@ -4,11 +4,23 @@ import React from "react";
 import { fetchCourtData } from "../../BusinessLogic/courtActions";
 import { ICourt } from "../../Models/Court";
 
-class FindACourt extends React.Component {
-  state = {
-    courtData: [],
-    loading: true
+interface IFindACourtProps {}
+
+interface IFindACourtState {
+  courtData: ICourt[];
+  loading: boolean;
+}
+
+class FindACourt extends React.Component<IFindACourtProps, IFindACourtState> {
+  constructor(props: IFindACourtProps) {
+    super(props);
+
+    this.state = {
+      courtData: [],
+      loading: true
+    }
   }
+  
 
   async componentDidMount() {
     let court: ICourt[] = [];
@@ -55,6 +67,7 @@ class FindACourt extends React.Component {
           dataSource={this.state.courtData} 
           columns={this.columns} 
           loading={this.state.loading}
+          rowKey={record => String(record.recnum)}
         />
       </Content>
     );

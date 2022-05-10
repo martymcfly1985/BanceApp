@@ -105,5 +105,13 @@ Validation (UI)
 - Click Ok
 - If you want to add records to the Person table, you can do that now, but it isn't required.
 
+## Setup Visual Studio Code
+- Download Visual Studio Code:https://code.visualstudio.com/
+- Download Node.js: https://nodejs.org/en/
+  - The one recommended for most users is fine
+  - You don't need to download chocolatey, when it asks
+- Open Visual Studio Code and Select File/Open Folder
+- Select the react-ui folder under the BanceApp folder
+
 ## Starting the App
 - In your web browser go to localhost/BanceApp and cross your fingers that a website talking about ASP.NET loads. If so, you did everything right. If you click About at the top, that's where I've been making my changes. 

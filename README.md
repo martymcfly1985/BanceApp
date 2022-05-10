@@ -112,6 +112,9 @@ Validation (UI)
   - You don't need to download chocolatey, when it asks
 - Open Visual Studio Code and Select File/Open Folder
 - Select the react-ui folder under the BanceApp folder
+- On the left-hand side, select the 3rd item from top (labeled Source Control when you hover over it)
+- Install what it suggests to install (Github for Windows)
+- Restart Visual Studio Code
 
 ## Starting the App
 - In your web browser go to localhost/BanceApp and cross your fingers that a website talking about ASP.NET loads. If so, you did everything right. If you click About at the top, that's where I've been making my changes. 

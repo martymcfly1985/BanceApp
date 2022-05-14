@@ -115,6 +115,9 @@ Validation (UI)
 - On the left-hand side, select the 3rd item from top (labeled Source Control when you hover over it)
 - Install what it suggests to install (Github for Windows)
 - Restart Visual Studio Code
+- Hit Ctrl~ to open the command prompt at the bottom of the screen. 
+- Choose GitBash from the top right corner of the command prompt
+- Type npm install
 
 ## Starting the App
-- In your web browser go to localhost/BanceApp and cross your fingers that a website talking about ASP.NET loads. If so, you did everything right. If you click About at the top, that's where I've been making my changes. 
+- Open visual studio code and in the build-in command prompt at the bottom, type npm start. A web browser should open up automatically, displaying a page with court information (if you put any in your local db)

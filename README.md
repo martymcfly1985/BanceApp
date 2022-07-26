@@ -123,7 +123,7 @@ Validation (UI)
 - Open visual studio code and in the build-in command prompt at the bottom, type npm start. A web browser should open up automatically, displaying a page with court information (if you put any in your local db)
 
 ## ERROR HANDLING
-Proxy Connection Error - ECONNREFUSED  
+- Proxy Connection Error - ECONNREFUSED  
 In an elevated command prompt, enter the following commands  
   netsh  
   netsh>interface  

@@ -121,3 +121,11 @@ Validation (UI)
 
 ## Starting the App
 - Open visual studio code and in the build-in command prompt at the bottom, type npm start. A web browser should open up automatically, displaying a page with court information (if you put any in your local db)
+
+## ERROR HANDLING
+Proxy Connection Error - ECONNREFUSED  
+In an elevated command prompt, enter the following commands  
+  netsh  
+  netsh>interface  
+  netsh interface>portproxy  
+  netsh interface portproxy>add v4tov6 listenport=3001 connectaddress=[::1] connectport=80 [80 was Ben's backend port]  

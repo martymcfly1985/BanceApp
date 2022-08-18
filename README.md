@@ -33,7 +33,7 @@ https://visualstudio.microsoft.com/free-developer-offers/
 - Choose clone a repository
 - Paste in this URL: https://github.com/martymcfly1985/BanceApp.git
 
-- Inside Visual Studio, at the top, select Extensions/Manage Extensions and add CodeMaid
+- Inside Visual Studio, at the top, select Extensions/Manage Extensions and add CodeMaid and Specflow for Visual Studio 2022
 - Close Visual Studio
 - Right Click on Visual Studio and Select Properties/Shortcut/Advanced then check Run as Administrator and Apply the changes
 - Open Visual Studio

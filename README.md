@@ -33,7 +33,7 @@ https://visualstudio.microsoft.com/free-developer-offers/
 - Choose clone a repository
 - Paste in this URL: https://github.com/martymcfly1985/BanceApp.git
 
-- Inside Visual Studio, at the top, select Extensions/Manage Extensions and add CodeMaid
+- Inside Visual Studio, at the top, select Extensions/Manage Extensions and add CodeMaid and Specflow for Visual Studio 2022
 - Close Visual Studio
 - Right Click on Visual Studio and Select Properties/Shortcut/Advanced then check Run as Administrator and Apply the changes
 - Open Visual Studio
@@ -82,9 +82,15 @@ Validation (UI)
 - (ignore this. This was a note for me) Server=localhost;Database=master;Trusted_Connection=True;
 - After the Installation has completed, Choose "Install SSMS" at the bottom
 - Use the download link in the window that was opened to download SQL Server Management Studio 2019
-- In Visual Studio, under the Database project, double-click the Local.publish.xml file
+- In Visual Studio, under the Database project, right click on the Local.publish.xml file and click open
+- In the CreateNewDatabase node replace False with True
+- Repeat this step for the Test.publish.xml file.
+- Save both files
+- Double-click the Local.publish.xml file
 - Click "Load Values" then change the filepath that was loaded to match the appropriate path on your computer.
 - Click Publish
+- Repeat this for the Test.publish.xml file.
+- Open both the Local.publish.xml file and the Test.publish.xml file and change the values back to False.
 - Open Sql Server Management Studio
 - Type localhost as the server name then click Connect
 - From the object explorer on the left, expand localhost/databases/Bance/Tables
@@ -102,6 +108,7 @@ Validation (UI)
 - Check public and sysadmin
 - Click User Mapping
 - Check Bance, at the top, and db owner and public, at the bottom
+- Check Bance_Test, at the top, and db owner and public, at the bottom
 - Click Ok
 - If you want to add records to the Person table, you can do that now, but it isn't required.
 

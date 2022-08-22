@@ -1,27 +1,32 @@
 ﻿using API.DataAccess.Models;
 using API.Models.Tennis;
-using System;
+using API.Services.Tennis;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using TechTalk.SpecFlow;
+using Tests.DependencyInjection;
 
 namespace Tests.TestDataManagers
 {
-    public class CourtDataManager
+    public class CourtDataManager : BaseDataManager
     {
+        public ICourtService CourtService => ContainerFactory.Resolve<ICourtService>();
+
         public void AddCourtInformation(List<Court> courtInformation)
         {
+            StringBuilder insertStatement = new StringBuilder();
+            foreach (var court in courtInformation)
+            {
+                insertStatement.Append("INSERT INTO Court (C_LRecnum,C_Lights,C_Surface,C_Condition,C_Name) VALUES(" +
+                    court.LocationRecnum + ",'" +
+                    court.Lights + "','" +
+                    court.Surface + "','" +
+                    court.Condition + "','" +
+                    court.Name + "'); ");
+            }
             using (SqlConnection connection = new SqlConnection(Connection.TestConnectionString))
             {
-                SqlCommand command = new SqlCommand("INSERT INTO Court (C_LRecnum,C_Lights,C_Surface,C_Condition,C_Name) VALUES(" +
-                    courtInformation[0].LocationRecnum + ",'" +
-                    courtInformation[0].Lights + "','" +
-                    courtInformation[0].Surface + "','" +
-                    courtInformation[0].Condition + "','" +
-                    courtInformation[0].Name + "')", connection);
+                SqlCommand command = new SqlCommand(insertStatement.ToString(), connection);
                 command.Connection.Open();
                 command.ExecuteNonQuery();
             }

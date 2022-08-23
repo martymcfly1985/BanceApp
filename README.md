@@ -129,6 +129,10 @@ Validation (UI)
 ## Starting the App
 - Open visual studio code and in the build-in command prompt at the bottom, type npm start. A web browser should open up automatically, displaying a page with court information (if you put any in your local db)
 
+## Running the Integration Tests
+- In Visual Studio select View/Test Explorer
+- All the tests will be listed. From here you can right click at the highest level to run all the tests or debug them or you can select individual tests and right click to run or debug.
+
 ## ERROR HANDLING
 - Proxy Connection Error - ECONNREFUSED  
 In an elevated command prompt, enter the following commands  

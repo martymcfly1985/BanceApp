@@ -1,4 +1,6 @@
-﻿using API.Models.Factory;
+﻿using API.DataAccess.Models;
+using API.Models.Factory;
+using API.Services.Configuration;
 using Castle.Facilities.TypedFactory;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.Resolvers.SpecializedResolvers;
@@ -15,6 +17,11 @@ namespace Tests.DependencyInjection
             Container.Register(Component.For<IGenericFactory>().AsFactory());
 
             Container.Kernel.Resolver.AddSubResolver(new CollectionResolver(Container.Kernel));
+
+            Container.Register(Component
+                .For<IApplicationConfiguration>()
+                .ImplementedBy<ApplicationConfiguration>()
+                .DependsOn(Dependency.OnValue("connectionString", Connection.TestConnectionString)));
 
             Container.Register(Classes
                 .FromAssemblyNamed("Tests")

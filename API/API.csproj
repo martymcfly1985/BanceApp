@@ -101,6 +101,8 @@
     <Compile Include="Models\Factory\IGenericFactory.cs" />
     <Compile Include="Models\Person\Person.cs" />
     <Compile Include="Models\Tennis\Court.cs" />
+    <Compile Include="Models\Tennis\CourtCondition.cs" />
+    <Compile Include="Models\Tennis\CourtSurface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\Campground\CampgroundRepository.cs" />
     <Compile Include="Repositories\Campground\ICampgroundRepository.cs" />

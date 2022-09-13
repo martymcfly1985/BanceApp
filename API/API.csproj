@@ -110,6 +110,8 @@
     <Compile Include="Repositories\Tennis\ICourtRepository.cs" />
     <Compile Include="Services\Campground\CampgroundService.cs" />
     <Compile Include="Services\Campground\ICampgroundService.cs" />
+    <Compile Include="Services\Configuration\ApplicationConfiguration.cs" />
+    <Compile Include="Services\Configuration\IApplicationConfiguration.cs" />
     <Compile Include="Services\Person\IPersonService.cs" />
     <Compile Include="Services\Person\PersonService.cs" />
     <Compile Include="Services\Tennis\CourtService.cs" />
@@ -118,6 +120,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">

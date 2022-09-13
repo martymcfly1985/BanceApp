@@ -1,6 +1,7 @@
 ﻿using API.DataAccess;
 using API.DataAccess.Models;
 using API.Models.Tennis;
+using API.Services.Configuration;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -9,15 +10,17 @@ namespace API.Repositories.Tennis
 {
     public class CourtRepository : ICourtRepository
     {
-        public CourtRepository()
-        {
+        private string connectionString;
 
+        public CourtRepository(IApplicationConfiguration config)
+        {
+            connectionString = config.ConnectionString;
         }
 
         public List<Court> GetCourts()
         {
             List<Court> courts = new List<Court>();
-            using (SqlConnection connection = new SqlConnection(Connection.ConnectionString))
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 SqlCommand command = new SqlCommand("GetCourts", connection);
                 command.CommandType = CommandType.StoredProcedure;

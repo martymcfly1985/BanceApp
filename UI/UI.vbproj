@@ -198,6 +198,7 @@
     <Compile Include="Controllers\HomeController.vb" />
     <Compile Include="Plumbing\AppContainer.vb" />
     <Compile Include="Plumbing\ControllerFactory.vb" />
+    <Compile Include="Plumbing\Installers\AppInstaller.vb" />
     <Compile Include="Plumbing\Installers\ControllerInstaller.vb" />
     <Compile Include="Plumbing\Installers\RepositoryInstaller.vb" />
     <Compile Include="Plumbing\Installers\ServiceInstaller.vb" />

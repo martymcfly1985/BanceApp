@@ -5,6 +5,6 @@ namespace API.Services.Tennis
 {
     public interface ICourtService
     {
-        List<Court> GetCourtInformation();
+        List<Location> GetCourtInformation();
     }
 }

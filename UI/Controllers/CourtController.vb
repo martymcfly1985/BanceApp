@@ -16,9 +16,9 @@ Namespace Controllers
             End Get
         End Property
 
-        <Route("api/getCourtData")>
+        <Route("api/getLocationData")>
         <HttpGet()>
-        Function GetCourts() As JsonResult(Of List(Of Court))
+        Function GetLocations() As JsonResult(Of List(Of Location))
             Return Json(CourtService.GetCourtInformation())
         End Function
     End Class

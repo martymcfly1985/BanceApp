@@ -5,6 +5,6 @@ namespace API.Repositories.Tennis
 {
     public interface ICourtRepository
     {
-        List<Court> GetCourts();
+        List<Location> GetLocations();
     }
 }

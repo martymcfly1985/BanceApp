@@ -21,4 +21,18 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="C_Recnum" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="f490f814-0f81-43d5-a7fe-fc34a20d0508" ChangeDateTime="09/13/2022 01:29:06">
+    <Property Name="ElementName" Value="[dbo].[Location].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Location]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="recnum" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="3d4efa6f-f9f3-4be8-b3a3-65cf58a60e27" ChangeDateTime="09/13/2022 01:29:35">
+    <Property Name="ElementName" Value="[dbo].[Location].[recnum]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Location]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="L_Recnum" />
+  </Operation>
 </Operations>

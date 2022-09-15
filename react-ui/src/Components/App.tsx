@@ -3,7 +3,7 @@ import { Button, Layout, Menu, Tabs } from 'antd';
 import '../css/App.css';
 import FindACourt from './find-a-court/FindACourt';
 import FindALeague from './find-a-league/FindALeague';
-import { fetchCourtData } from '../BusinessLogic/courtActions';
+import { fetchLocationData } from '../BusinessLogic/courtActions';
 
 const { Header, Content, Footer } = Layout;
 const { TabPane } = Tabs;

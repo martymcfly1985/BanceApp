@@ -1,13 +1,13 @@
 import { message, Table } from "antd";
 import { Content } from "antd/lib/layout/layout";
 import React from "react";
-import { fetchCourtData } from "../../BusinessLogic/courtActions";
-import { ICourt } from "../../Models/Court";
+import { fetchLocationData } from "../../BusinessLogic/courtActions";
+import { ILocation } from "../../Models/Location";
 
 interface IFindACourtProps {}
 
 interface IFindACourtState {
-  courtData: ICourt[];
+  locationData: ILocation[];
   loading: boolean;
 }
 
@@ -16,21 +16,21 @@ class FindACourt extends React.Component<IFindACourtProps, IFindACourtState> {
     super(props);
 
     this.state = {
-      courtData: [],
+      locationData: [],
       loading: true
     }
   }
   
 
   async componentDidMount() {
-    let court: ICourt[] = [];
+    let locations: ILocation[] = [];
     try {
-      court = await fetchCourtData();
+      locations = await fetchLocationData();
     } catch {
-      message.error('Unable to retrieve court data. Please try again.');
+      message.error('Unable to retrieve location data. Please try again.');
     } 
     this.setState ({
-      courtData: court,
+      locationData: locations,
       loading: false
     });
   }
@@ -64,7 +64,7 @@ class FindACourt extends React.Component<IFindACourtProps, IFindACourtState> {
     return (
       <Content style={{ padding: '50px', height: '92vh' }}>
         <Table 
-          dataSource={this.state.courtData} 
+          dataSource={this.state.locationData} 
           columns={this.columns} 
           loading={this.state.loading}
           rowKey={record => String(record.recnum)}

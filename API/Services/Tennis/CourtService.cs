@@ -12,9 +12,9 @@ namespace API.Services.Tennis
             this.courtRepository = courtRepository;
         }
 
-        public List<Court> GetCourtInformation()
+        public List<Location> GetCourtInformation()
         {
-            return courtRepository.GetCourts();
+            return courtRepository.GetLocations();
         }
     }
 }

@@ -1,8 +1,8 @@
-import { ICourt } from "../Models/Court";
+import { ILocation } from "../Models/Location";
 
-export const fetchCourtData = async() => {
-  const response = await fetch('api/getCourtData');
-  const data: ICourt[] = await response.json();
+export const fetchLocationData = async() => {
+  const response = await fetch('api/getLocationData');
+  const data: ILocation[] = await response.json();
 
   return data;
 }

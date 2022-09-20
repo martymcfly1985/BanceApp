@@ -1,8 +1,10 @@
-import { message, Table } from "antd";
+import { message, Rate, Table } from "antd";
 import { Content } from "antd/lib/layout/layout";
 import React from "react";
 import { fetchLocationData } from "../../BusinessLogic/courtActions";
+import { ICourt } from "../../Models/Court";
 import { ILocation } from "../../Models/Location";
+import "../../css/FindACourt.css";
 
 interface IFindACourtProps {}
 
@@ -35,6 +37,55 @@ class FindACourt extends React.Component<IFindACourtProps, IFindACourtState> {
     });
   }
 
+  expandedRowRender = (courts: ICourt[]) => 
+  {
+    const columns = [
+      {
+        title: 'Name',
+        dataIndex: 'Name',
+        key: 'courtName',
+        width: '40%'
+      },
+      {
+        title: 'Surface',
+        dataIndex: 'Surface',
+        key: 'surface',
+        width: '20%'
+      },
+      {
+        title: 'Lights',
+        dataIndex: 'Lights',
+        key: 'lights',
+        width: '20%',
+        render : (lights: boolean) => String(lights).charAt(0).toUpperCase() + String(lights).slice(1)
+      },
+      {
+        title: 'Condition',
+        dataIndex: 'Condition',
+        key: 'condition',
+        width: '20%',
+        render : (condition: number | null) => 
+        {
+          if(condition === null)
+          {
+            return "No Rating";
+          }
+          return <Rate disabled defaultValue={condition} />;
+        }
+      }
+    ];
+    return (
+      <Table
+        pagination={false}
+        columns={columns}
+        dataSource={courts}
+        size={'small'}
+        bordered={true}
+        rowClassName={'location'}
+      />
+    );
+  }
+
   columns = [
     {
       title: 'Name',
@@ -42,20 +93,14 @@ class FindACourt extends React.Component<IFindACourtProps, IFindACourtState> {
       key: 'name',
     },
     {
-      title: 'Surface',
-      dataIndex: 'Surface',
-      key: 'surface',
+      title: 'Address',
+      dataIndex: 'Address',
+      key: 'address',
     },
     {
-      title: 'Lights',
-      dataIndex: 'Lights',
-      key: 'lights',
-      render : (lights: boolean) => String(lights).charAt(0).toUpperCase() + String(lights).slice(1)
-    },
-    {
-      title: 'Condition',
-      dataIndex: 'Condition',
-      key: 'condition',
+      title: 'Hours',
+      dataIndex: 'Hours',
+      key: 'hours',
     }
   ];
 
@@ -63,11 +108,18 @@ class FindACourt extends React.Component<IFindACourtProps, IFindACourtState> {
   render() {
     return (
       <Content style={{ padding: '50px', height: '92vh' }}>
-        <Table 
+        <Table
+          pagination={false}
           dataSource={this.state.locationData} 
           columns={this.columns} 
+          expandable={{
+            expandedRowRender: (record: any) => {
+              return this.expandedRowRender(record.Courts);}
+          }}
           loading={this.state.loading}
-          rowKey={record => String(record.recnum)}
+          rowKey={(record: any) => String(record.Recnum)}
+          bordered={true}
+          rowClassName={() => 'location'}
         />
       </Content>
     );

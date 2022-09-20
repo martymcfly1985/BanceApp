@@ -54,7 +54,7 @@ namespace API.Repositories.Tennis
                         court.Recnum = reader.GetInt32("C_Recnum");
                         court.LocationRecnum = locationRecnumInDb;
                         court.Surface = reader.GetStringValueOrEmptyString("C_Surface");
-                        court.Condition = reader.GetStringValueOrEmptyString("C_Condition");
+                        court.Condition = GetIntOrNull(reader);
                         court.Lights = reader.IsDBNull("C_Lights") ? false : reader.GetBoolean("C_Lights");
                         court.Name = reader.GetStringValueOrEmptyString("C_Name");
 
@@ -74,6 +74,16 @@ namespace API.Repositories.Tennis
         private bool NotInitialLoop(int currentLocationRecnum)
         {
             return currentLocationRecnum != 0;
+        }
+
+        private int? GetIntOrNull(EnhancedSqlDataReader reader)
+        {
+            if (reader.IsDBNull("C_Condition"))
+            {
+                return null;
+            }
+            
+            return reader.GetInt32("C_Condition");
         }
     }
 }

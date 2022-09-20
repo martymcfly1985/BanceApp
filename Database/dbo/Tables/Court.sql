@@ -4,7 +4,7 @@
     [C_LRecnum] INT NOT NULL, 
     [C_Lights] BIT NULL, 
     [C_Surface] VARCHAR(50) NULL, 
-    [C_Condition] VARCHAR(50) NULL,
+    [C_Condition] INT NULL,
     [C_Name] VARCHAR(50) NULL,
     CONSTRAINT [PK_Court]  PRIMARY KEY CLUSTERED ([C_Recnum] ASC)
 )

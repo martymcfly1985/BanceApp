@@ -77,7 +77,7 @@ Validation (UI)
 - Click Add
 - Add this user: IIS_IUSRS, then click check names, then ok
 
-- In Visual Studio, from the Solution Explorer, right click the UI project and select Set As Starup Project
+- In Visual Studio, from the Solution Explorer, right click the UI project and select Set As Startup Project
 - Right Click UI again and select properties, then Web on the left side of the window that opened.
 - Select the Start URL option and set this as the start url http://localhost/BanceApp
 - In the dropdown under Servers select Local IIS and for the project URL put this http://localhost/BanceApp

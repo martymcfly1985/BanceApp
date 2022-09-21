@@ -22,7 +22,7 @@ namespace Tests.StepDefinitions
                 {
                     Name = table.Rows[i]["Name"],
                     Surface = table.Rows[i]["Surface"],
-                    Condition = table.Rows[i]["Condition"],
+                    Condition = int.Parse(table.Rows[i]["Condition"]),
                     Lights = table.Rows[i]["Lights"].ToLower() == "true" ? true : false,
                     LocationRecnum = 1,
                     Recnum = i + 1

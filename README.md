@@ -32,6 +32,7 @@ https://visualstudio.microsoft.com/free-developer-offers/
 - In the setup where you pick your color scheme and other settings, choose C#
 - Choose clone a repository
 - Paste in this URL: https://github.com/martymcfly1985/BanceApp.git
+- Make the path C:\GIT
 
 - Inside Visual Studio, at the top, select Extensions/Manage Extensions and add CodeMaid and Specflow for Visual Studio 2022
 - Close Visual Studio
@@ -64,7 +65,7 @@ Validation (UI)
 - Click OK
 - Back in the windows search bar, type "iis" and open the app labeled "Internet Information Services"
 - On the bar labeled connections, on the left, click the dropdown next to your computer name, then site, then right click default web site and choose Add Application
-- Alias is BanceApp and physical path is where the UI project is located on your computer, for example, mine is C:\Users\Lance\source\repos\BanceApp\UI
+- Alias is BanceApp and physical path is where the UI project is located on your computer, for example, mine is C:\GIT\BanceApp\UI
 - Click ok
 - With BanceApp selected, double-click on Authentication
 - Right Click on Anonymous Authentication, choose edit, and choose "Application Pool Identity"
@@ -75,6 +76,12 @@ Validation (UI)
 - Click Edit
 - Click Add
 - Add this user: IIS_IUSRS, then click check names, then ok
+
+- In Visual Studio, from the Solution Explorer, right click the UI project and select Set As Startup Project
+- Right Click UI again and select properties, then Web on the left side of the window that opened.
+- Select the Start URL option and set this as the start url http://localhost/BanceApp
+- In the dropdown under Servers select Local IIS and for the project URL put this http://localhost/BanceApp
+- Save the file (it will likely tell you that it suggests you use IIS express, just say no).
 
 ## Setup SQL Server
 - Download the Free Developer Version of SQL Server 2019: https://www.microsoft.com/en-us/sql-server/sql-server-downloads
@@ -127,7 +134,7 @@ Validation (UI)
 - Type npm install
 
 ## Starting the App
-- Open visual studio code and in the build-in command prompt at the bottom, type npm start. A web browser should open up automatically, displaying a page with court information (if you put any in your local db)
+- Open visual studio code and in the built-in command prompt at the bottom, type npm start. A web browser should open up automatically, displaying a page with court information (if you put any in your local db)
 
 ## Running the Integration Tests
 - In Visual Studio select View/Test Explorer

@@ -23,7 +23,6 @@ class FindACourt extends React.Component<IFindACourtProps, IFindACourtState> {
     }
   }
   
-
   async componentDidMount() {
     let locations: ILocation[] = [];
     try {

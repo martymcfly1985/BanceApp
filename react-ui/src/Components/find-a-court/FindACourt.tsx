@@ -41,26 +41,26 @@ class FindACourt extends React.Component<IFindACourtProps, IFindACourtState> {
     const columns = [
       {
         title: 'Name',
-        dataIndex: 'Name',
+        dataIndex: 'name',
         key: 'courtName',
         width: '40%'
       },
       {
         title: 'Surface',
-        dataIndex: 'Surface',
+        dataIndex: 'surface',
         key: 'surface',
         width: '20%'
       },
       {
         title: 'Lights',
-        dataIndex: 'Lights',
+        dataIndex: 'lights',
         key: 'lights',
         width: '20%',
         render : (lights: boolean) => String(lights).charAt(0).toUpperCase() + String(lights).slice(1)
       },
       {
         title: 'Condition',
-        dataIndex: 'Condition',
+        dataIndex: 'condition',
         key: 'condition',
         width: '20%',
         render : (condition: number | null) => 
@@ -81,6 +81,7 @@ class FindACourt extends React.Component<IFindACourtProps, IFindACourtState> {
         size={'small'}
         bordered={true}
         rowClassName={'location'}
+        rowKey={(record: ICourt) => String(record.recnum)}
       />
     );
   }
@@ -88,17 +89,17 @@ class FindACourt extends React.Component<IFindACourtProps, IFindACourtState> {
   columns = [
     {
       title: 'Name',
-      dataIndex: 'Name',
+      dataIndex: 'name',
       key: 'name',
     },
     {
       title: 'Address',
-      dataIndex: 'Address',
+      dataIndex: 'address',
       key: 'address',
     },
     {
       title: 'Hours',
-      dataIndex: 'Hours',
+      dataIndex: 'hours',
       key: 'hours',
     }
   ];
@@ -112,11 +113,11 @@ class FindACourt extends React.Component<IFindACourtProps, IFindACourtState> {
           dataSource={this.state.locationData} 
           columns={this.columns} 
           expandable={{
-            expandedRowRender: (record: any) => {
-              return this.expandedRowRender(record.Courts);}
+            expandedRowRender: (record: ILocation) => {
+              return this.expandedRowRender(record.courts);}
           }}
           loading={this.state.loading}
-          rowKey={(record: any) => String(record.Recnum)}
+          rowKey={(record: ILocation) => String(record.recnum)}
           bordered={true}
           rowClassName={() => 'location'}
         />

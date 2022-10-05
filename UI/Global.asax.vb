@@ -1,5 +1,6 @@
 ﻿Imports System.Web.Http
 Imports System.Web.Optimization
+Imports Newtonsoft.Json.Serialization
 Imports UI.Plumbing
 
 Public Class MvcApplication
@@ -16,5 +17,7 @@ Public Class MvcApplication
 
     Shared Sub RegisterWebApi(ByVal config As HttpConfiguration)
         config.MapHttpAttributeRoutes()
+        config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = New CamelCasePropertyNamesContractResolver
+        config.Formatters.JsonFormatter.UseDataContractJsonSerializer = False
     End Sub
 End Class

@@ -5,6 +5,7 @@ import { fetchLocationData } from "../../BusinessLogic/courtActions";
 import { ICourt } from "../../Models/Court";
 import { ILocation } from "../../Models/Location";
 import "../../css/FindACourt.css";
+import "../../css/Shared.css";
 
 interface IFindACourtProps {}
 
@@ -107,7 +108,7 @@ class FindACourt extends React.Component<IFindACourtProps, IFindACourtState> {
 
   render() {
     return (
-      <Content style={{ padding: '50px', height: '92vh' }}>
+      <Content className="content">
         <Table
           pagination={false}
           dataSource={this.state.locationData} 

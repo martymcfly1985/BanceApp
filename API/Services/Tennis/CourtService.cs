@@ -16,5 +16,10 @@ namespace API.Services.Tennis
         {
             return courtRepository.GetLocations();
         }
+
+        public void SaveCourt(Court court)
+        {
+            courtRepository.SaveCourt(court);
+        }
     }
 }

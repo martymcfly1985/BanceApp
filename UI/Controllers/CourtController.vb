@@ -23,5 +23,12 @@ Namespace Controllers
         Function GetLocations() As HttpResponseMessage
             Return Request.CreateResponse(HttpStatusCode.OK, CourtService.GetCourtInformation(), Request.GetConfiguration())
         End Function
+
+        <Route("api/submitNewCourt")>
+        <HttpPost()>
+        Function SaveNewCourt(newCourt As Court) As HttpResponseMessage
+            CourtService.SaveCourt(newCourt)
+            Return Request.CreateResponse(HttpStatusCode.OK)
+        End Function
     End Class
 End Namespace

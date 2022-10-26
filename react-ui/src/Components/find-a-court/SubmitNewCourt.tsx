@@ -1,10 +1,11 @@
 import React from "react";
-import { fetchLocationData } from "../../BusinessLogic/courtActions";
+import { fetchLocationData, saveNewCourt } from "../../BusinessLogic/courtActions";
 import { ILocation } from "../../Models/Location";
 import { Button, Divider, Form, FormInstance, Input, message, Popconfirm, Rate, Select, Space, Switch, Tooltip } from "antd";
 import { Content } from "antd/lib/layout/layout";
 import { BulbFilled, CloseOutlined} from '@ant-design/icons';
 import "../../css/Shared.css";
+import { ICourt } from "../../Models/Court";
 
 const { Option } = Select;
 
@@ -15,6 +16,8 @@ interface ISubmitNewCourtState {
     loading: boolean;
     formDisabled: boolean;
     selectDisabled: boolean;
+    selectedLocationRecnum: number;
+    submitLoading: boolean;
 }
 
 class SubmitNewCourt extends React.Component<ISubmitNewCourtProps, ISubmitNewCourtState> {
@@ -25,14 +28,42 @@ class SubmitNewCourt extends React.Component<ISubmitNewCourtProps, ISubmitNewCou
         locationData: [],
         loading: true,
         formDisabled: true,
-        selectDisabled: false
+        selectDisabled: false,
+        selectedLocationRecnum: 0,
+        submitLoading: false
     }
   }
   formRef = React.createRef<FormInstance>();
 
-  onFinish = (values: any) => {
-    console.log(values);
+  onFinish =  async (values: any) => {
+    const newCourt: ICourt = {
+      name: values.courtName,
+      lights: values.courtLights,
+      surface: values.courtSurface,
+      condition: values.courtCondition,
+      locationRecnum: this.state.selectedLocationRecnum
+    }
+    try {
+      this.setState ({
+        submitLoading: true
+      })
+      await saveNewCourt(newCourt); 
+      this.formRef.current!.resetFields();
+      message.success('The new court has been added!');
+      this.setState ({
+        submitLoading: false,
+        selectDisabled: false
+      })
+    } catch {
+      message.error('Unable to submit new court.');
+      this.setState ({
+        submitLoading: false
+      })
+    }
   };
+
+  onFinishFailed = () => {
+  }
 
   onFormChange = () => {
     this.setState ({
@@ -40,14 +71,16 @@ class SubmitNewCourt extends React.Component<ISubmitNewCourtProps, ISubmitNewCou
     })
   };
 
-  onLocationSelected = (values: any) => {
-    if(values) {
+  onLocationSelected = (value: any) => {
+    if(value) {
       this.setState ({
-        formDisabled: false
+        formDisabled: false,
+        selectedLocationRecnum: value
       });
     } else {
       this.setState ({
-        formDisabled: true
+        formDisabled: true,
+        selectedLocationRecnum: 0
       });
     } 
     this.formRef.current!.resetFields();
@@ -91,7 +124,7 @@ class SubmitNewCourt extends React.Component<ISubmitNewCourtProps, ISubmitNewCou
               >
                 {
                   this.state.locationData.map((location: ILocation) => {
-                    return <Option value={location.name}>{location.name}</Option>
+                    return <Option value={location.recnum}>{location.name}</Option>
                   })
                 }
               </Select>
@@ -103,6 +136,7 @@ class SubmitNewCourt extends React.Component<ISubmitNewCourtProps, ISubmitNewCou
               onFinish={this.onFinish} 
               disabled={this.state.formDisabled}
               onValuesChange={this.onFormChange}
+              onFinishFailed={this.onFinishFailed}
             >
               <Form.Item 
                 name='courtName'
@@ -140,6 +174,7 @@ class SubmitNewCourt extends React.Component<ISubmitNewCourtProps, ISubmitNewCou
               >
                 <Rate
                   disabled={this.state.formDisabled}
+                  allowClear={false}
                 />
               </Form.Item>
               <Divider/>
@@ -155,7 +190,11 @@ class SubmitNewCourt extends React.Component<ISubmitNewCourtProps, ISubmitNewCou
                       Clear
                     </Button>
                   </Popconfirm>
-                    <Button>
+                    <Button 
+                      type="primary" 
+                      htmlType="submit"
+                      loading={this.state.submitLoading}
+                    >
                       Submit
                     </Button>
                   </Space>

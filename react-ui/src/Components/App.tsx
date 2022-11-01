@@ -4,6 +4,7 @@ import '../css/App.css';
 import FindACourt from './find-a-court/FindACourt';
 import FindALeague from './find-a-league/FindALeague';
 import SubmitNewCourt from './find-a-court/SubmitNewCourt';
+import SubmitNewLocation from './find-a-court/SubmitNewLocation';
 
 const { Header} = Layout;
 
@@ -19,7 +20,7 @@ function App() {
       case 'ViewLocations':
         return (<FindACourt/>);
       case 'SubmitNewLocation':
-        return (<div>Submit New Location - Under Construction</div>);
+        return (<SubmitNewLocation/>);
       case 'SubmitNewCourt':
         return (<SubmitNewCourt/>);
       case 'FindALeague':

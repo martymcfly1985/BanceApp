@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { Button, Layout, Menu, Tabs } from 'antd';
+import {Layout, Menu} from 'antd';
 import '../css/App.css';
 import FindACourt from './find-a-court/FindACourt';
 import FindALeague from './find-a-league/FindALeague';
-import { fetchLocationData } from '../BusinessLogic/courtActions';
+import SubmitNewCourt from './find-a-court/SubmitNewCourt';
 
-const { Header, Content, Footer } = Layout;
-const { TabPane } = Tabs;
+const { Header} = Layout;
 
 function App() {
   const [currentMenuKey, setcurrentMenuKey] = useState('1');
@@ -17,9 +16,13 @@ function App() {
 
   const componentsSwtich = (currentMenuKey: string) => {
     switch (currentMenuKey) {
-      case '1':
+      case 'ViewLocations':
         return (<FindACourt/>);
-      case '2':
+      case 'SubmitNewLocation':
+        return (<div>Submit New Location - Under Construction</div>);
+      case 'SubmitNewCourt':
+        return (<SubmitNewCourt/>);
+      case 'FindALeague':
         return (<FindALeague/>);
       default:
         break;
@@ -31,8 +34,12 @@ function App() {
       <Header>
         <div className="logo"/>
         <Menu theme="dark" mode="horizontal" selectedKeys={[currentMenuKey]} onClick={menuClicked}>
-          <Menu.Item key={'1'}>Find a Court</Menu.Item>
-          <Menu.Item key={'2'}>Find a League</Menu.Item>
+          <Menu.SubMenu key={'FindACourt'} title="Find a Court">
+            <Menu.Item key={'ViewLocations'}>View Locations</Menu.Item>
+            <Menu.Item key={'SubmitNewLocation'}>Submit New Location</Menu.Item>
+            <Menu.Item key={'SubmitNewCourt'}>Submit New Court</Menu.Item>
+          </Menu.SubMenu>
+          <Menu.Item key={'FindALeague'}>Find a League</Menu.Item>
         </Menu>
       </Header>
       {componentsSwtich(currentMenuKey)}   

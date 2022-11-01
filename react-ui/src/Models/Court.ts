@@ -1,5 +1,5 @@
 export interface ICourt {
-  recnum: number;
+  recnum?: number;
   locationRecnum: number;
   surface: string;
   condition: number | null;

@@ -66,6 +66,24 @@ namespace API.Repositories.Tennis
             return locations;
         }
 
+        public void SaveCourt(Court court)
+        {
+            using (SqlConnection connection = new SqlConnection(Connection.ConnectionString))
+            {
+                using (SqlCommand command = new SqlCommand("SaveCourt", connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add("@Name", SqlDbType.VarChar).Value = court.Name;
+                    command.Parameters.Add("@Lights", SqlDbType.Bit).Value = court.Lights;
+                    command.Parameters.Add("@Surface", SqlDbType.VarChar).Value = court.Surface;
+                    command.Parameters.Add("@Condition", SqlDbType.Int).Value = court.Condition;
+                    command.Parameters.Add("@LocationRecnum", SqlDbType.Int).Value = court.LocationRecnum;
+                    command.Connection.Open();
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
         private bool LocationHasChanged(int currentLocationRecnum, int locationRecnumInDb)
         {
             return currentLocationRecnum != locationRecnumInDb;

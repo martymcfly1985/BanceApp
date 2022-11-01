@@ -4,7 +4,7 @@ import React from "react";
 import { fetchLocationData } from "../../BusinessLogic/courtActions";
 import { ICourt } from "../../Models/Court";
 import { ILocation } from "../../Models/Location";
-import "../../css/FindACourt.css";
+import "../../css/Shared.css";
 
 interface IFindACourtProps {}
 
@@ -23,7 +23,6 @@ class FindACourt extends React.Component<IFindACourtProps, IFindACourtState> {
     }
   }
   
-
   async componentDidMount() {
     let locations: ILocation[] = [];
     try {
@@ -81,7 +80,6 @@ class FindACourt extends React.Component<IFindACourtProps, IFindACourtState> {
         dataSource={courts}
         size={'small'}
         bordered={true}
-        rowClassName={'location'}
         rowKey={(record: ICourt) => String(record.recnum)}
       />
     );
@@ -108,7 +106,7 @@ class FindACourt extends React.Component<IFindACourtProps, IFindACourtState> {
 
   render() {
     return (
-      <Content style={{ padding: '50px', height: '92vh' }}>
+      <Content className="content">
         <Table
           pagination={false}
           dataSource={this.state.locationData} 
@@ -120,7 +118,6 @@ class FindACourt extends React.Component<IFindACourtProps, IFindACourtState> {
           loading={this.state.loading}
           rowKey={(record: ILocation) => String(record.recnum)}
           bordered={true}
-          rowClassName={() => 'location'}
         />
       </Content>
     );

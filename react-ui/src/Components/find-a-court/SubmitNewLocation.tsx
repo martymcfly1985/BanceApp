@@ -1,14 +1,11 @@
 import React from "react";
-import { fetchLocationData, saveNewCourt } from "../../BusinessLogic/courtActions";
 import { ILocation } from "../../Models/Location";
 import { Button, Divider, Drawer, Form, FormInstance, Input, message, Popconfirm, Rate, Select, Space, Switch, Table, TimePicker, Tooltip } from "antd";
 import { Content } from "antd/lib/layout/layout";
-import { BulbFilled, CloseOutlined } from '@ant-design/icons';
 import "../../css/Shared.css";
 import { ICourt } from "../../Models/Court";
 import SubmitNewCourtFormFields from "./SubmitNewCourtFormFields";
-
-const { Option } = Select;
+import { saveNewLocation } from "../../BusinessLogic/locationActions";
 
 interface ISubmitNewLocationProps { }
 
@@ -17,7 +14,6 @@ interface ISubmitNewLocationState {
 	submitLoading: boolean;
 	drawerOpen: boolean;
 	courtList: ICourt[];
-	courtTableVisible: boolean;
 }
 
 class SubmitNewLocation extends React.Component<ISubmitNewLocationProps, ISubmitNewLocationState> {
@@ -29,7 +25,6 @@ class SubmitNewLocation extends React.Component<ISubmitNewLocationProps, ISubmit
 			submitLoading: false,
 			drawerOpen: false,
 			courtList: [],
-			courtTableVisible: false
 		}
 	}
 	formRef = React.createRef<FormInstance>();
@@ -44,14 +39,40 @@ class SubmitNewLocation extends React.Component<ISubmitNewLocationProps, ISubmit
 		this.setState({
 			courtList: [...this.state.courtList, newCourt],
 			drawerOpen: false,
-			courtTableVisible: true
 		})
 		this.formRef.current!.resetFields();
-		console.log(this.state);
 	};
 
-	onLocationFinish = () => {
+	onLocationFinish = async (values: any) => {
+		const newLocation: ILocation = {
+			name: values.locationName,
+			address: values.locationAddress,
+			hours: `${values.locationHours[0].format('hh:mm A')}-${values.locationHours[1].format('hh:mm A')}`,
+			courts: this.state.courtList
+		}
+		try {
+      this.setState ({
+        submitLoading: true
+      })
+      await saveNewLocation(newLocation); 
+      this.formRef.current!.resetFields();
+      message.success('The new location has been added!');
+      this.setState ({
+        submitLoading: false,
+				courtList: []
+      })
+    } catch {
+      message.error('Unable to submit new location.');
+      this.setState ({
+        submitLoading: false
+      })
+    }
+	}
 
+	onDrawerCancel = () => {
+		this.setState({
+			drawerOpen: false
+		})
 	}
 
 	onClearForm = () => {
@@ -150,20 +171,22 @@ class SubmitNewLocation extends React.Component<ISubmitNewLocationProps, ISubmit
 							</Button>
 							<Divider />
 							{
-								this.state.courtTableVisible ? 
-								<><Table
-									pagination={false}
-									columns={columns}
-									dataSource={this.state.courtList}
-									size={'small'}
-									bordered={true}
-									rowKey={(record: ICourt) => String(record.recnum)}
-								/>
-								<Divider /> 
-								</> : undefined
+								this.state.courtList.length !== 0 ?
+									<><Table
+										pagination={false}
+										columns={columns}
+										dataSource={this.state.courtList}
+										size={'small'}
+										bordered={true}
+										rowKey={(record: ICourt) => String(record.recnum)}
+									/>
+										<Divider />
+									</> : undefined
 							}
 							<Button
-								htmlType="button"
+								htmlType="submit"
+								loading={this.state.submitLoading}
+								disabled={this.state.courtList.length === 0}
 							>
 								Submit Location
 							</Button>
@@ -175,6 +198,19 @@ class SubmitNewLocation extends React.Component<ISubmitNewLocationProps, ISubmit
 					width={'50%'}
 					open={this.state.drawerOpen}
 					closable={false}
+					destroyOnClose={true}
+					extra={
+						<Space>
+							<Popconfirm
+								title='All changes will be lost. Are you sure you want to clear the form?'
+								okText='Yes'
+								cancelText='No'
+								onConfirm={this.onDrawerCancel}
+							>
+								<Button>Cancel</Button>
+							</Popconfirm>
+						</Space>
+					}
 				>
 					<SubmitNewCourtFormFields
 						formRef={this.formRef}
@@ -182,7 +218,6 @@ class SubmitNewLocation extends React.Component<ISubmitNewLocationProps, ISubmit
 						onClearForm={this.onClearForm}
 					/>
 				</Drawer>
-
 			</>
 		);
 	}

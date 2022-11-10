@@ -111,6 +111,8 @@
     <Compile Include="Repositories\Person\PersonRepository.cs" />
     <Compile Include="Repositories\Tennis\CourtRepository.cs" />
     <Compile Include="Repositories\Tennis\ICourtRepository.cs" />
+    <Compile Include="Repositories\Tennis\ILocationRepository.cs" />
+    <Compile Include="Repositories\Tennis\LocationRepository.cs" />
     <Compile Include="Services\Campground\CampgroundService.cs" />
     <Compile Include="Services\Campground\ICampgroundService.cs" />
     <Compile Include="Services\Configuration\ApplicationConfiguration.cs" />
@@ -119,6 +121,8 @@
     <Compile Include="Services\Person\PersonService.cs" />
     <Compile Include="Services\Tennis\CourtService.cs" />
     <Compile Include="Services\Tennis\ICourtService.cs" />
+    <Compile Include="Services\Tennis\ILocationService.cs" />
+    <Compile Include="Services\Tennis\LocationService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -1,10 +1,6 @@
 ﻿using API.Models.Tennis;
 using API.Repositories.Tennis;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace API.Services.Tennis
 {
@@ -28,6 +24,11 @@ namespace API.Services.Tennis
                 court.LocationRecnum = savedLocationRecnum;
                 courtRepository.SaveCourt(court);
             }
+        }
+
+        public List<Location> GetLocationInformation()
+        {
+            return locationRepository.GetLocations();
         }
     }
 }

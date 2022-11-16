@@ -14,6 +14,12 @@ Namespace Controllers
             End Get
         End Property
 
+        <Route("api/getLocationData")>
+        <HttpGet()>
+        Function GetLocations() As HttpResponseMessage
+            Return Request.CreateResponse(HttpStatusCode.OK, LocationService.GetLocationInformation(), Request.GetConfiguration())
+        End Function
+
         <Route("api/submitNewLocation")>
         <HttpPost()>
         Function SaveNewLocation(newLocation As Location) As HttpResponseMessage

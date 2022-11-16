@@ -1,6 +1,6 @@
 import React from "react";
 import { ILocation } from "../../Models/Location";
-import { Button, Divider, Drawer, Form, FormInstance, Input, message, Popconfirm, Rate, Select, Space, Switch, Table, TimePicker, Tooltip } from "antd";
+import { Button, Divider, Drawer, Form, FormInstance, Input, message, Popconfirm, Rate, Space, Table, TimePicker} from "antd";
 import { Content } from "antd/lib/layout/layout";
 import "../../css/Shared.css";
 import { ICourt } from "../../Models/Court";
@@ -14,6 +14,8 @@ interface ISubmitNewLocationState {
 	submitLoading: boolean;
 	drawerOpen: boolean;
 	courtList: ICourt[];
+	validationStatus: "" | "success" | "warning" | "error" | "validating" | undefined;
+	validationText: string | undefined;
 }
 
 class SubmitNewLocation extends React.Component<ISubmitNewLocationProps, ISubmitNewLocationState> {
@@ -25,6 +27,8 @@ class SubmitNewLocation extends React.Component<ISubmitNewLocationProps, ISubmit
 			submitLoading: false,
 			drawerOpen: false,
 			courtList: [],
+			validationStatus: undefined,
+			validationText: undefined
 		}
 	}
 	formRef = React.createRef<FormInstance>();
@@ -54,13 +58,22 @@ class SubmitNewLocation extends React.Component<ISubmitNewLocationProps, ISubmit
       this.setState ({
         submitLoading: true
       })
-      await saveNewLocation(newLocation); 
-      this.formRef.current!.resetFields();
-      message.success('The new location has been added!');
-      this.setState ({
-        submitLoading: false,
-				courtList: []
-      })
+      const result = await saveNewLocation(newLocation); 
+      if(result===true)
+			{
+				this.formRef.current!.resetFields();
+				message.success('The new location has been added!');
+				this.setState ({
+					submitLoading: false,
+					courtList: []
+				})
+			} else{
+				this.setState ({
+					validationStatus: "error",
+					validationText: "Please enter a unique location name.",
+					submitLoading: false
+				})
+			}
     } catch {
       message.error('Unable to submit new location.');
       this.setState ({
@@ -72,6 +85,13 @@ class SubmitNewLocation extends React.Component<ISubmitNewLocationProps, ISubmit
 	onDrawerCancel = () => {
 		this.setState({
 			drawerOpen: false
+		})
+	}
+
+	onLocationNameChange = () => {
+		this.setState ({
+			validationStatus: undefined,
+			validationText: undefined
 		})
 	}
 
@@ -133,10 +153,13 @@ class SubmitNewLocation extends React.Component<ISubmitNewLocationProps, ISubmit
 								name='locationName'
 								label='Location Name'
 								rules={[{ required: true, message: 'Please enter a location name.' }]}
+								validateStatus={this.state.validationStatus}
+								help={this.state.validationText}
 							>
 								<Input
 									style={{ width: '20%' }}
 									maxLength={50}
+									onChange={this.onLocationNameChange}
 								/>
 							</Form.Item>
 							<Form.Item

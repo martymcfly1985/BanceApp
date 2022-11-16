@@ -16,6 +16,36 @@ namespace API.Repositories.Tennis
             connectionString = config.ConnectionString;
         }
 
+        public Location GetLocationByName(string locationName)
+        {
+            Location location = new Location();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand("GetLocationByName", connection);
+                command.Parameters.Add("@Name", SqlDbType.VarChar).Value = locationName;
+                command.CommandType = CommandType.StoredProcedure;
+                command.Connection.Open();
+                using (EnhancedSqlDataReader reader = new EnhancedSqlDataReader(command.ExecuteReader()))
+                {
+                    
+                    var initialLoop = true;
+                    while (reader.Read())
+                    {
+                        var locationRecnumInDb = reader.GetInt32("L_Recnum");
+
+                        if(initialLoop)
+                        {
+                            GetLocationDataFromDb(location, reader);
+                            initialLoop = false;
+                        }
+
+                        AddCourtFromDbToLocation(location, reader);
+                    }
+                }
+            }
+            return location;
+        }
+
         public List<Location> GetLocations()
         {
             List<Location> locations = new List<Location>();
@@ -40,24 +70,12 @@ namespace API.Repositories.Tennis
                                 locations.Add(location);
                             }
                             location = new Location();
-                            location.Courts = new List<Court>();
-                            location.Address = reader.GetStringValueOrEmptyString("L_Address");
-                            location.Hours = reader.GetStringValueOrEmptyString("L_Hours");
-                            location.Name = reader.GetStringValueOrEmptyString("L_Name");
-                            location.Recnum = locationRecnumInDb;
+                            GetLocationDataFromDb(location, reader);
 
                             currentLocationRecnum = locationRecnumInDb;
                         }
 
-                        var court = new Court();
-                        court.Recnum = reader.GetInt32("C_Recnum");
-                        court.LocationRecnum = locationRecnumInDb;
-                        court.Surface = reader.GetStringValueOrEmptyString("C_Surface");
-                        court.Condition = GetIntOrNull(reader);
-                        court.Lights = reader.IsDBNull("C_Lights") ? false : reader.GetBoolean("C_Lights");
-                        court.Name = reader.GetStringValueOrEmptyString("C_Name");
-
-                        location.Courts.Add(court);
+                        AddCourtFromDbToLocation(location, reader); 
                     }
                     locations.Add(location);
                 }
@@ -105,6 +123,28 @@ namespace API.Repositories.Tennis
             }
 
             return reader.GetInt32("C_Condition");
+        }
+
+        private void GetLocationDataFromDb(Location location, EnhancedSqlDataReader reader)
+        {
+            location.Courts = new List<Court>();
+            location.Address = reader.GetStringValueOrEmptyString("L_Address");
+            location.Hours = reader.GetStringValueOrEmptyString("L_Hours");
+            location.Name = reader.GetStringValueOrEmptyString("L_Name");
+            location.Recnum = reader.GetInt32("L_Recnum");
+        }
+
+        private void AddCourtFromDbToLocation(Location location, EnhancedSqlDataReader reader)
+        {
+            var court = new Court();
+            court.Recnum = reader.GetInt32("C_Recnum");
+            court.LocationRecnum = reader.GetInt32("L_Recnum");
+            court.Surface = reader.GetStringValueOrEmptyString("C_Surface");
+            court.Condition = GetIntOrNull(reader);
+            court.Lights = reader.IsDBNull("C_Lights") ? false : reader.GetBoolean("C_Lights");
+            court.Name = reader.GetStringValueOrEmptyString("C_Name");
+
+            location.Courts.Add(court);
         }
     }
 }

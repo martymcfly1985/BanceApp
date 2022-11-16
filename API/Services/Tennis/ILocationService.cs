@@ -6,6 +6,6 @@ namespace API.Services.Tennis
     public interface ILocationService
     {
         List<Location> GetLocationInformation();
-        void SaveLocation(Location location);
+        bool SaveLocation(Location location);
     }
 }

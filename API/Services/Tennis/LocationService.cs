@@ -15,20 +15,30 @@ namespace API.Services.Tennis
             this.courtRepository = courtRepository;
         }
 
-        public void SaveLocation(Location location)
+        public bool SaveLocation(Location location)
         {
-            var savedLocationRecnum = locationRepository.SaveLocation(location);
-
-            foreach(Court court in location.Courts)
+            if(LocationNameIsUnique(location.Name))
             {
-                court.LocationRecnum = savedLocationRecnum;
-                courtRepository.SaveCourt(court);
+                var savedLocationRecnum = locationRepository.SaveLocation(location);
+
+                foreach(Court court in location.Courts)
+                {
+                    court.LocationRecnum = savedLocationRecnum;
+                    courtRepository.SaveCourt(court);
+                }
+                return true;
             }
+            return false;
         }
 
         public List<Location> GetLocationInformation()
         {
             return locationRepository.GetLocations();
+        }
+
+        private bool LocationNameIsUnique(string locationName)
+        {
+            return locationRepository.GetLocationByName(locationName).Name == null;
         }
     }
 }

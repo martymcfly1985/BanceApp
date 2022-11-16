@@ -1,11 +1,11 @@
 import React from "react";
 import { fetchLocationData, saveNewCourt } from "../../BusinessLogic/courtActions";
 import { ILocation } from "../../Models/Location";
-import { Button, Divider, Form, FormInstance, Input, message, Popconfirm, Rate, Select, Space, Switch, Tooltip } from "antd";
+import { Divider, FormInstance, message, Select, Space, Tooltip } from "antd";
 import { Content } from "antd/lib/layout/layout";
-import { BulbFilled, CloseOutlined} from '@ant-design/icons';
 import "../../css/Shared.css";
 import { ICourt } from "../../Models/Court";
+import SubmitNewCourtFormFields from "./SubmitNewCourtFormFields";
 
 const { Option } = Select;
 
@@ -129,77 +129,15 @@ class SubmitNewCourt extends React.Component<ISubmitNewCourtProps, ISubmitNewCou
                 }
               </Select>
             </Tooltip>
-            <Form 
-              layout={'vertical'} 
-              ref={this.formRef} 
-              name='courtForm' 
-              onFinish={this.onFinish} 
-              disabled={this.state.formDisabled}
-              onValuesChange={this.onFormChange}
+            <SubmitNewCourtFormFields
+              formRef={this.formRef}
+              onFinish={this.onFinish}
+              formDisabled={this.state.formDisabled}
+              onFormChange={this.onFormChange}
               onFinishFailed={this.onFinishFailed}
-            >
-              <Form.Item 
-                name='courtName'
-                label='Court Name' 
-                rules={[{ required: true, message: 'Please enter a court name.'}]}
-              >
-                <Input 
-                  style={{width:'20%'}}
-                  maxLength={50}
-                />
-              </Form.Item>
-              <Form.Item name='courtLights' label='Court Lights'>
-                <Switch 
-                  checkedChildren={<BulbFilled/>} 
-                  unCheckedChildren={<CloseOutlined />}
-                />
-              </Form.Item>
-              <Form.Item
-                name='courtSurface'
-                label='Court Surface'
-                rules={[{required: true, message: 'Please select a surface type.'}]}
-              >
-                <Select 
-                  placeholder='Surface'
-                  style={{width:'20%'}}
-                >
-                  <Option value='Clay'>Clay</Option>
-                  <Option value='Grass'>Grass</Option>
-                  <Option value='Hard'>Hard</Option>
-                </Select>
-              </Form.Item>
-              <Form.Item
-                name='courtCondition'
-                label='Court Condition'
-              >
-                <Rate
-                  disabled={this.state.formDisabled}
-                  allowClear={false}
-                />
-              </Form.Item>
-              <Divider/>
-              <Form.Item>
-                <Space size={'large'}>
-                  <Popconfirm
-                    title='All changes will be lost. Are you sure you want to clear the form?'
-                    onConfirm={this.onClearForm}
-                    okText='Yes'
-                    cancelText='No'
-                  >
-                    <Button htmlType="button">
-                      Clear
-                    </Button>
-                  </Popconfirm>
-                    <Button 
-                      type="primary" 
-                      htmlType="submit"
-                      loading={this.state.submitLoading}
-                    >
-                      Submit
-                    </Button>
-                  </Space>
-              </Form.Item>
-            </Form>
+              onClearForm={this.onClearForm}
+              submitLoading={this.state.submitLoading}
+            />
           </Space>
         </Content>
       );

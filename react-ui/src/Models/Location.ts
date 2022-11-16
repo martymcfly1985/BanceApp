@@ -1,7 +1,7 @@
 import { ICourt } from "./Court";
 
 export interface ILocation {
-    recnum: number;
+    recnum?: number;
     address: string;
     hours: string;
     courts: ICourt[];

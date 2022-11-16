@@ -2,7 +2,7 @@
 	@Name VARCHAR(50),
 	@Lights BIT,
 	@Surface VARCHAR(50),
-	@Condition INT,
+	@Condition INT = NULL,
 	@LocationRecnum INT
 AS
 	INSERT INTO Court

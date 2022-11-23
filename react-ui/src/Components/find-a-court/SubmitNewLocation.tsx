@@ -1,11 +1,12 @@
 import React from "react";
 import { ILocation } from "../../Models/Location";
-import { Button, Divider, Drawer, Form, FormInstance, Input, message, Popconfirm, Rate, Space, Table, TimePicker} from "antd";
+import { Button, Divider, Drawer, Form, FormInstance, Input, message, Popconfirm, Rate, Space, Table, TimePicker } from "antd";
 import { Content } from "antd/lib/layout/layout";
 import "../../css/Shared.css";
 import { ICourt } from "../../Models/Court";
 import SubmitNewCourtFormFields from "./SubmitNewCourtFormFields";
 import { saveNewLocation } from "../../BusinessLogic/locationActions";
+import { courtNameIsUnique } from "../../BusinessLogic/sharedCourtFunctionality";
 
 interface ISubmitNewLocationProps { }
 
@@ -14,8 +15,10 @@ interface ISubmitNewLocationState {
 	submitLoading: boolean;
 	drawerOpen: boolean;
 	courtList: ICourt[];
-	validationStatus: "" | "success" | "warning" | "error" | "validating" | undefined;
-	validationText: string | undefined;
+	locationValidationStatus: "" | "success" | "warning" | "error" | "validating" | undefined;
+	locationValidationText: string | undefined;
+	courtValidationStatus: "" | "success" | "warning" | "error" | "validating" | undefined;
+	courtValidationText: string | undefined;
 }
 
 class SubmitNewLocation extends React.Component<ISubmitNewLocationProps, ISubmitNewLocationState> {
@@ -27,8 +30,10 @@ class SubmitNewLocation extends React.Component<ISubmitNewLocationProps, ISubmit
 			submitLoading: false,
 			drawerOpen: false,
 			courtList: [],
-			validationStatus: undefined,
-			validationText: undefined
+			locationValidationStatus: undefined,
+			locationValidationText: undefined,
+			courtValidationStatus: undefined,
+			courtValidationText: undefined
 		}
 	}
 	formRef = React.createRef<FormInstance>();
@@ -40,11 +45,20 @@ class SubmitNewLocation extends React.Component<ISubmitNewLocationProps, ISubmit
 			surface: values.courtSurface,
 			condition: values.courtCondition,
 		}
-		this.setState({
-			courtList: [...this.state.courtList, newCourt],
-			drawerOpen: false,
-		})
-		this.formRef.current!.resetFields();
+		if(courtNameIsUnique(newCourt.name,this.state.courtList)){
+			this.setState({
+				courtList: [...this.state.courtList, newCourt],
+				drawerOpen: false,
+				courtValidationStatus: undefined,
+				courtValidationText: undefined
+			})
+			this.formRef.current!.resetFields();
+		} else{
+			this.setState ({
+				courtValidationStatus: "error",
+				courtValidationText: "Please enter a unique court name."
+			})
+		}
 	};
 
 	onLocationFinish = async (values: any) => {
@@ -69,8 +83,8 @@ class SubmitNewLocation extends React.Component<ISubmitNewLocationProps, ISubmit
 				})
 			} else{
 				this.setState ({
-					validationStatus: "error",
-					validationText: "Please enter a unique location name.",
+					locationValidationStatus: "error",
+					locationValidationText: "Please enter a unique location name.",
 					submitLoading: false
 				})
 			}
@@ -90,8 +104,8 @@ class SubmitNewLocation extends React.Component<ISubmitNewLocationProps, ISubmit
 
 	onLocationNameChange = () => {
 		this.setState ({
-			validationStatus: undefined,
-			validationText: undefined
+			locationValidationStatus: undefined,
+			locationValidationText: undefined
 		})
 	}
 
@@ -153,8 +167,8 @@ class SubmitNewLocation extends React.Component<ISubmitNewLocationProps, ISubmit
 								name='locationName'
 								label='Location Name'
 								rules={[{ required: true, message: 'Please enter a location name.' }]}
-								validateStatus={this.state.validationStatus}
-								help={this.state.validationText}
+								validateStatus={this.state.locationValidationStatus}
+								help={this.state.locationValidationText}
 							>
 								<Input
 									style={{ width: '20%' }}
@@ -239,6 +253,8 @@ class SubmitNewLocation extends React.Component<ISubmitNewLocationProps, ISubmit
 						formRef={this.formRef}
 						onFinish={this.onCourtFinish}
 						onClearForm={this.onClearForm}
+						validationStatus={this.state.courtValidationStatus}
+          	validationText={this.state.courtValidationText}
 					/>
 				</Drawer>
 			</>

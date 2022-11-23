@@ -14,6 +14,5 @@ export const saveNewLocation = async(newLocation: ILocation) => {
     throw error;
   }
   const data: boolean = await response.json();
-  console.log(data);
   return data;
 }

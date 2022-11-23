@@ -6,18 +6,21 @@ import { Content } from "antd/lib/layout/layout";
 import "../../css/Shared.css";
 import { ICourt } from "../../Models/Court";
 import SubmitNewCourtFormFields from "./SubmitNewCourtFormFields";
+import { courtNameIsUnique } from "../../BusinessLogic/sharedCourtFunctionality";
 
 const { Option } = Select;
 
 interface ISubmitNewCourtProps {}
 
 interface ISubmitNewCourtState {
-    locationData: ILocation[];
-    loading: boolean;
-    formDisabled: boolean;
-    selectDisabled: boolean;
-    selectedLocationRecnum: number;
-    submitLoading: boolean;
+  locationData: ILocation[];
+  loading: boolean;
+  formDisabled: boolean;
+  selectDisabled: boolean;
+  selectedLocationRecnum: number;
+  submitLoading: boolean;
+  validationStatus: "" | "success" | "warning" | "error" | "validating" | undefined;
+  validationText: string | undefined;
 }
 
 class SubmitNewCourt extends React.Component<ISubmitNewCourtProps, ISubmitNewCourtState> {
@@ -25,12 +28,14 @@ class SubmitNewCourt extends React.Component<ISubmitNewCourtProps, ISubmitNewCou
     super(props);
 
     this.state = {
-        locationData: [],
-        loading: true,
-        formDisabled: true,
-        selectDisabled: false,
-        selectedLocationRecnum: 0,
-        submitLoading: false
+      locationData: [],
+      loading: true,
+      formDisabled: true,
+      selectDisabled: false,
+      selectedLocationRecnum: 0,
+      submitLoading: false,
+      validationStatus: undefined,
+      validationText: undefined
     }
   }
   formRef = React.createRef<FormInstance>();
@@ -47,13 +52,23 @@ class SubmitNewCourt extends React.Component<ISubmitNewCourtProps, ISubmitNewCou
       this.setState ({
         submitLoading: true
       })
-      await saveNewCourt(newCourt); 
-      this.formRef.current!.resetFields();
-      message.success('The new court has been added!');
-      this.setState ({
-        submitLoading: false,
-        selectDisabled: false
-      })
+      if(this.courtNameIsUnique(newCourt.name)) {
+        await saveNewCourt(newCourt); 
+        this.formRef.current!.resetFields();
+        message.success('The new court has been added!');
+        this.setState ({
+          submitLoading: false,
+          selectDisabled: false,
+          validationStatus: undefined,
+          validationText: undefined
+        })
+      } else{
+				this.setState ({
+					validationStatus: "error",
+					validationText: "Please enter a unique court name.",
+					submitLoading: false
+				})
+			}
     } catch {
       message.error('Unable to submit new court.');
       this.setState ({
@@ -61,6 +76,17 @@ class SubmitNewCourt extends React.Component<ISubmitNewCourtProps, ISubmitNewCou
       })
     }
   };
+
+  courtNameIsUnique = (newCourtName: string) => {
+    const currentLocation = this.state.locationData.find((location) => {
+      return location.recnum === this.state.selectedLocationRecnum;
+    });
+    if(currentLocation === undefined)
+    {
+      throw Error;
+    }
+    return courtNameIsUnique(newCourtName, currentLocation.courts);
+  }
 
   onFinishFailed = () => {
   }
@@ -137,6 +163,8 @@ class SubmitNewCourt extends React.Component<ISubmitNewCourtProps, ISubmitNewCou
               onFinishFailed={this.onFinishFailed}
               onClearForm={this.onClearForm}
               submitLoading={this.state.submitLoading}
+              validationStatus={this.state.validationStatus}
+              validationText={this.state.validationText}
             />
           </Space>
         </Content>

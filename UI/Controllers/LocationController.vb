@@ -23,8 +23,7 @@ Namespace Controllers
         <Route("api/submitNewLocation")>
         <HttpPost()>
         Function SaveNewLocation(newLocation As Location) As HttpResponseMessage
-            LocationService.SaveLocation(newLocation)
-            Return Request.CreateResponse(HttpStatusCode.OK)
+            Return Request.CreateResponse(HttpStatusCode.OK, LocationService.SaveLocation(newLocation), Request.GetConfiguration())
         End Function
     End Class
 End Namespace

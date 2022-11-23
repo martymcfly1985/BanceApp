@@ -5,13 +5,15 @@ import "../../css/Shared.css";
 const { Option } = Select;
 
 interface SubmitNewCourtFormFieldsProps {
-  formRef: any
-  onFinish: any
-  formDisabled?: boolean
-  onFormChange?: any
-  onFinishFailed?: any
-  onClearForm: any
-  submitLoading?: boolean
+  formRef: any;
+  onFinish: any;
+  formDisabled?: boolean;
+  onFormChange?: any;
+  onFinishFailed?: any;
+  onClearForm: any;
+  submitLoading?: boolean;
+  validationStatus: "" | "success" | "warning" | "error" | "validating" | undefined;
+  validationText: string | undefined;
 }
 
 function SubmitNewCourtFormFields({
@@ -22,6 +24,8 @@ function SubmitNewCourtFormFields({
   onFinishFailed,
   onClearForm,
   submitLoading=false,
+  validationStatus,
+  validationText
 }: SubmitNewCourtFormFieldsProps) {
   return (
     <Form
@@ -37,6 +41,8 @@ function SubmitNewCourtFormFields({
         name='courtName'
         label='Court Name'
         rules={[{ required: true, message: 'Please enter a court name.' }]}
+        validateStatus={validationStatus}
+				help={validationText}
       >
         <Input
           style={{ width: '20%' }}

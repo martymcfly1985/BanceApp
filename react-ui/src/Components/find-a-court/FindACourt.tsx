@@ -56,7 +56,7 @@ class FindACourt extends React.Component<IFindACourtProps, IFindACourtState> {
         dataIndex: 'lights',
         key: 'lights',
         width: '20%',
-        render : (lights: boolean) => String(lights).charAt(0).toUpperCase() + String(lights).slice(1)
+        render : (lights: boolean) => lights === true ? "Yes" : "No"
       },
       {
         title: 'Condition',

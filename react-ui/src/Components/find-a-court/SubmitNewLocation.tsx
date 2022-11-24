@@ -197,9 +197,7 @@ class SubmitNewLocation extends React.Component<ISubmitNewLocationProps, ISubmit
 							<Button icon={<DeleteOutlined/>} onClick={() => {this.onDeleteRow(record.name)}}/>
 						</>
 					)
-
 				}
-
 			}
 		];
 		return (

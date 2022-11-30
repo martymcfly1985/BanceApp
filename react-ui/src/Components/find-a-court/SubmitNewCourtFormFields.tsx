@@ -1,6 +1,7 @@
 import { Button, Divider, Form, Input, Popconfirm, Rate, Select, Space, Switch } from "antd";
 import { BulbFilled, CloseOutlined } from '@ant-design/icons';
 import "../../css/Shared.css";
+import { ICourt } from "../../Models/Court";
 
 const { Option } = Select;
 
@@ -14,6 +15,7 @@ interface SubmitNewCourtFormFieldsProps {
   submitLoading?: boolean;
   validationStatus: "" | "success" | "warning" | "error" | "validating" | undefined;
   validationText: string | undefined;
+  defaultFieldValues?: ICourt | undefined;
 }
 
 function SubmitNewCourtFormFields({
@@ -25,7 +27,8 @@ function SubmitNewCourtFormFields({
   onClearForm,
   submitLoading=false,
   validationStatus,
-  validationText
+  validationText,
+  defaultFieldValues=undefined
 }: SubmitNewCourtFormFieldsProps) {
   return (
     <Form
@@ -38,27 +41,36 @@ function SubmitNewCourtFormFields({
       onFinishFailed={onFinishFailed}
     >
       <Form.Item
-        name='courtName'
+        name='name'
         label='Court Name'
         rules={[{ required: true, message: 'Please enter a court name.' }]}
         validateStatus={validationStatus}
 				help={validationText}
+        initialValue={
+          defaultFieldValues === undefined ? undefined : defaultFieldValues.name
+        }
       >
         <Input
           style={{ width: '20%' }}
           maxLength={50}
         />
       </Form.Item>
-      <Form.Item name='courtLights' label='Court Lights'>
+      <Form.Item name='lights' label='Court Lights'>
         <Switch
           checkedChildren={<BulbFilled />}
           unCheckedChildren={<CloseOutlined />}
+          defaultChecked={
+            defaultFieldValues === undefined ? undefined : defaultFieldValues.lights
+          }
         />
       </Form.Item>
       <Form.Item
-        name='courtSurface'
+        name='surface'
         label='Court Surface'
         rules={[{ required: true, message: 'Please select a surface type.' }]}
+        initialValue={
+          defaultFieldValues === undefined ? undefined : defaultFieldValues.surface
+        }
       >
         <Select
           placeholder='Surface'
@@ -70,12 +82,17 @@ function SubmitNewCourtFormFields({
         </Select>
       </Form.Item>
       <Form.Item
-        name='courtCondition'
+        name='condition'
         label='Court Condition'
       >
         <Rate
           disabled={formDisabled}
           allowClear={false}
+          defaultValue={
+            defaultFieldValues === undefined || defaultFieldValues.condition === null ?
+            undefined :
+            defaultFieldValues.condition
+          }
         />
       </Form.Item>
       <Divider />
@@ -88,7 +105,7 @@ function SubmitNewCourtFormFields({
             cancelText='No'
           >
             <Button htmlType="button">
-              Clear
+              Reset
             </Button>
           </Popconfirm>
           <Button

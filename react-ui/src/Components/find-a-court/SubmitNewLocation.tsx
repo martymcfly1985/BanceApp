@@ -1,12 +1,14 @@
 import React from "react";
 import { ILocation } from "../../Models/Location";
 import { Button, Divider, Drawer, Form, FormInstance, Input, message, Popconfirm, Rate, Space, Table, TimePicker } from "antd";
+import { DeleteOutlined , EditOutlined} from '@ant-design/icons';
 import { Content } from "antd/lib/layout/layout";
 import "../../css/Shared.css";
 import { ICourt } from "../../Models/Court";
 import SubmitNewCourtFormFields from "./SubmitNewCourtFormFields";
 import { saveNewLocation } from "../../BusinessLogic/locationActions";
 import { courtNameIsUnique } from "../../BusinessLogic/sharedCourtFunctionality";
+import { ColumnsType } from "antd/lib/table";
 
 interface ISubmitNewLocationProps { }
 
@@ -19,6 +21,7 @@ interface ISubmitNewLocationState {
 	locationValidationText: string | undefined;
 	courtValidationStatus: "" | "success" | "warning" | "error" | "validating" | undefined;
 	courtValidationText: string | undefined;
+	selectedCourt: ICourt | undefined;
 }
 
 class SubmitNewLocation extends React.Component<ISubmitNewLocationProps, ISubmitNewLocationState> {
@@ -33,24 +36,26 @@ class SubmitNewLocation extends React.Component<ISubmitNewLocationProps, ISubmit
 			locationValidationStatus: undefined,
 			locationValidationText: undefined,
 			courtValidationStatus: undefined,
-			courtValidationText: undefined
+			courtValidationText: undefined,
+			selectedCourt: undefined
 		}
 	}
 	formRef = React.createRef<FormInstance>();
 
 	onCourtFinish = (values: any) => {
 		const newCourt: ICourt = {
-			name: values.courtName,
-			lights: values.courtLights,
-			surface: values.courtSurface,
-			condition: values.courtCondition,
+			name: values.name,
+			lights: values.lights,
+			surface: values.surface,
+			condition: values.condition,
 		}
 		if(courtNameIsUnique(newCourt.name,this.state.courtList)){
 			this.setState({
-				courtList: [...this.state.courtList, newCourt],
+				courtList: [...this.state.courtList, newCourt].sort((a,b) => {return a.name.localeCompare(b.name)}),
 				drawerOpen: false,
 				courtValidationStatus: undefined,
-				courtValidationText: undefined
+				courtValidationText: undefined,
+				selectedCourt: undefined
 			})
 			this.formRef.current!.resetFields();
 		} else{
@@ -97,9 +102,17 @@ class SubmitNewLocation extends React.Component<ISubmitNewLocationProps, ISubmit
 	}
 
 	onDrawerCancel = () => {
-		this.setState({
-			drawerOpen: false
-		})
+		if(this.state.selectedCourt === undefined) {
+			this.setState({
+				drawerOpen: false
+			})
+		}	else {
+			this.setState({
+				courtList: [...this.state.courtList, this.state.selectedCourt].sort((a,b) => {return a.name.localeCompare(b.name)}),
+				drawerOpen: false,
+				selectedCourt: undefined
+			})
+		}
 	}
 
 	onLocationNameChange = () => {
@@ -119,13 +132,33 @@ class SubmitNewLocation extends React.Component<ISubmitNewLocationProps, ISubmit
 		})
 	}
 
+	onEditRow = (record: ICourt) => {
+		const courtBeingEdited: ICourt = {
+			name: record.name,
+			lights: record.lights,
+			surface: record.surface,
+			condition: record.condition,
+		}
+		this.setState({
+			drawerOpen: true,
+			selectedCourt: courtBeingEdited,
+			courtList: this.state.courtList.filter((court) => {return court.name !== record.name})
+		})
+	}
+
+	onDeleteRow = (courtToDelete: string) => {
+		this.setState({
+			courtList: this.state.courtList.filter((court) => {return court.name !== courtToDelete})
+		})
+	}
+
 	render() {
-		const columns = [
+		const columns: ColumnsType<ICourt> = [
 			{
 				title: 'Name',
 				dataIndex: 'name',
 				key: 'courtName',
-				width: '40%'
+				width: '35%'
 			},
 			{
 				title: 'Surface',
@@ -138,7 +171,7 @@ class SubmitNewLocation extends React.Component<ISubmitNewLocationProps, ISubmit
 				dataIndex: 'lights',
 				key: 'lights',
 				width: '20%',
-				render: (lights: boolean) => String(lights).charAt(0).toUpperCase() + String(lights).slice(1)
+				render: (lights: boolean) => lights === true ? "Yes" : "No"
 			},
 			{
 				title: 'Condition',
@@ -150,6 +183,20 @@ class SubmitNewLocation extends React.Component<ISubmitNewLocationProps, ISubmit
 						return "No Rating";
 					}
 					return <Rate disabled defaultValue={condition} />;
+				}
+			},
+			{
+				title: 'Actions',
+				key: 'actions',
+				align: 'center',
+				width: '5%',
+				render: (value, record) => {
+					return (
+						<>
+							<Button icon={<EditOutlined/>} onClick={() => {this.onEditRow(record)}}/>
+							<Button icon={<DeleteOutlined/>} onClick={() => {this.onDeleteRow(record.name)}}/>
+						</>
+					)
 				}
 			}
 		];
@@ -231,7 +278,7 @@ class SubmitNewLocation extends React.Component<ISubmitNewLocationProps, ISubmit
 					</Space>
 				</Content>
 				<Drawer
-					title="Add a court to your location."
+					title={this.state.selectedCourt === undefined ? "Add a court to your location." : "Make changes to the selected court."}
 					width={'50%'}
 					open={this.state.drawerOpen}
 					closable={false}
@@ -255,6 +302,7 @@ class SubmitNewLocation extends React.Component<ISubmitNewLocationProps, ISubmit
 						onClearForm={this.onClearForm}
 						validationStatus={this.state.courtValidationStatus}
           	validationText={this.state.courtValidationText}
+						defaultFieldValues={this.state.selectedCourt}
 					/>
 				</Drawer>
 			</>

@@ -1,4 +1,4 @@
-import { message, Rate, Table } from "antd";
+import { message, Rate, Table , Input} from "antd";
 import { Content } from "antd/lib/layout/layout";
 import React from "react";
 import { fetchLocationData } from "../../BusinessLogic/courtActions";
@@ -6,10 +6,13 @@ import { ICourt } from "../../Models/Court";
 import { ILocation } from "../../Models/Location";
 import "../../css/Shared.css";
 
+const { Search } = Input;
+
 interface IFindACourtProps {}
 
 interface IFindACourtState {
   locationData: ILocation[];
+  filteredLocationData: ILocation[];
   loading: boolean;
 }
 
@@ -19,6 +22,7 @@ class FindACourt extends React.Component<IFindACourtProps, IFindACourtState> {
 
     this.state = {
       locationData: [],
+      filteredLocationData: [],
       loading: true
     }
   }
@@ -31,9 +35,24 @@ class FindACourt extends React.Component<IFindACourtProps, IFindACourtState> {
       message.error('Unable to retrieve location data. Please try again.');
     } 
     this.setState ({
+      filteredLocationData: locations,
       locationData: locations,
       loading: false
     });
+  }
+
+  onLocationSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value: inputValue } = e.target;
+    const filteredLocations = this.state.locationData.filter((location) => {
+      return location.name.toUpperCase().includes(inputValue.toUpperCase()) || location.address.toUpperCase().includes(inputValue.toUpperCase())
+    });
+    this.setState ({
+      filteredLocationData: filteredLocations
+    })
+  }
+
+  onLocationSearchClear = () => {
+
   }
 
   expandedRowRender = (courts: ICourt[]) => 
@@ -49,13 +68,39 @@ class FindACourt extends React.Component<IFindACourtProps, IFindACourtState> {
         title: 'Surface',
         dataIndex: 'surface',
         key: 'surface',
-        width: '20%'
+        width: '20%',
+        filters: [
+					{
+						text: 'Clay',
+        		value: 'Clay',
+					},
+					{
+						text: 'Grass',
+       	 		value: 'Grass',
+					},
+					{
+						text: 'Hard',
+						value: 'Hard',
+					}
+				],
+				onFilter: (value: any, record: ICourt) => record.surface === value,
       },
       {
         title: 'Lights',
         dataIndex: 'lights',
         key: 'lights',
         width: '20%',
+        filters: [
+					{
+						text: 'Yes',
+        		value: true,
+					},
+          {
+						text: 'No',
+        		value: false,
+					}
+        ],
+        onFilter: (value: any, record: ICourt) => record.lights === value,
         render : (lights: boolean) => lights === true ? "Yes" : "No"
       },
       {
@@ -63,6 +108,40 @@ class FindACourt extends React.Component<IFindACourtProps, IFindACourtState> {
         dataIndex: 'condition',
         key: 'condition',
         width: '20%',
+        filters: [
+          {
+						text: "No Rating",
+        		value: "No Rating",
+					},
+					{
+						text: <Rate disabled defaultValue={1}/>,
+        		value: 1,
+					},
+          {
+						text: <Rate disabled defaultValue={2}/>,
+        		value: 2,
+					},
+          {
+						text: <Rate disabled defaultValue={3}/>,
+        		value: 3,
+					},
+          {
+						text: <Rate disabled defaultValue={4}/>,
+        		value: 4,
+					},
+          {
+						text: <Rate disabled defaultValue={5}/>,
+        		value: 5,
+					}
+        ],
+        onFilter: (value: any, record: ICourt) => 
+        {
+          if(value === "No Rating")
+          {
+            return record.condition === null;
+          }
+          return record.condition === value
+        },
         render : (condition: number | null) => 
         {
           if(condition === null)
@@ -108,8 +187,9 @@ class FindACourt extends React.Component<IFindACourtProps, IFindACourtState> {
     return (
       <Content className="content">
         <Table
+          title={() => <Search placeholder="Search" onChange={this.onLocationSearch} allowClear/>}
           pagination={false}
-          dataSource={this.state.locationData} 
+          dataSource={this.state.filteredLocationData} 
           columns={this.columns} 
           expandable={{
             expandedRowRender: (record: ILocation) => {

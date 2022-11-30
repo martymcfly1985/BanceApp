@@ -42,10 +42,10 @@ class SubmitNewCourt extends React.Component<ISubmitNewCourtProps, ISubmitNewCou
 
   onFinish =  async (values: any) => {
     const newCourt: ICourt = {
-      name: values.courtName,
-      lights: values.courtLights,
-      surface: values.courtSurface,
-      condition: values.courtCondition,
+      name: values.name,
+      lights: values.lights,
+      surface: values.surface,
+      condition: values.condition,
       locationRecnum: this.state.selectedLocationRecnum
     }
     try {

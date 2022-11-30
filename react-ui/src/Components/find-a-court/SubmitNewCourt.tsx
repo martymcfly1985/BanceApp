@@ -86,10 +86,7 @@ class SubmitNewCourt extends React.Component<ISubmitNewCourtProps, ISubmitNewCou
       throw Error;
     }
     return courtNameIsUnique(newCourtName, currentLocation.courts);
-  }
-
-  onFinishFailed = () => {
-  }
+  };
 
   onFormChange = () => {
     this.setState ({
@@ -160,7 +157,6 @@ class SubmitNewCourt extends React.Component<ISubmitNewCourtProps, ISubmitNewCou
               onFinish={this.onFinish}
               formDisabled={this.state.formDisabled}
               onFormChange={this.onFormChange}
-              onFinishFailed={this.onFinishFailed}
               onClearForm={this.onClearForm}
               submitLoading={this.state.submitLoading}
               validationStatus={this.state.validationStatus}

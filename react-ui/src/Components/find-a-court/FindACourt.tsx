@@ -51,10 +51,6 @@ class FindACourt extends React.Component<IFindACourtProps, IFindACourtState> {
     })
   }
 
-  onLocationSearchClear = () => {
-
-  }
-
   expandedRowRender = (courts: ICourt[]) => 
   {
     const columns = [
@@ -181,7 +177,6 @@ class FindACourt extends React.Component<IFindACourtProps, IFindACourtState> {
       key: 'hours',
     }
   ];
-
 
   render() {
     return (

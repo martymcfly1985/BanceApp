@@ -1,10 +1,11 @@
-import { message, Rate, Table , Input} from "antd";
+import { message, Rate, Table , Input, Drawer} from "antd";
 import { Content } from "antd/lib/layout/layout";
 import React from "react";
 import { fetchLocationData } from "../../BusinessLogic/courtActions";
 import { ICourt } from "../../Models/Court";
 import { ILocation } from "../../Models/Location";
 import "../../css/Shared.css";
+import CourtInformation from "./CourtInformation";
 
 const { Search } = Input;
 
@@ -14,6 +15,7 @@ interface IFindACourtState {
   locationData: ILocation[];
   filteredLocationData: ILocation[];
   loading: boolean;
+  drawerOpen: boolean;
 }
 
 class FindACourt extends React.Component<IFindACourtProps, IFindACourtState> {
@@ -23,7 +25,8 @@ class FindACourt extends React.Component<IFindACourtProps, IFindACourtState> {
     this.state = {
       locationData: [],
       filteredLocationData: [],
-      loading: true
+      loading: true,
+      drawerOpen: false
     }
   }
   
@@ -51,8 +54,19 @@ class FindACourt extends React.Component<IFindACourtProps, IFindACourtState> {
     })
   }
 
-  expandedRowRender = (courts: ICourt[]) => 
-  {
+  onCourtRowSelection = () => {
+    this.setState ({
+      drawerOpen: true
+    })
+  }
+
+  onDrawerClose = () => {
+    this.setState ({
+      drawerOpen: false
+    })
+  }
+
+  expandedRowRender = (courts: ICourt[]) => {
     const columns = [
       {
         title: 'Name',
@@ -156,6 +170,11 @@ class FindACourt extends React.Component<IFindACourtProps, IFindACourtState> {
         size={'small'}
         bordered={true}
         rowKey={(record: ICourt) => String(record.recnum)}
+        onRow={(record, rowIndex) => {
+          return {
+            onClick: (event) => {this.onCourtRowSelection()}
+          };
+        }}
       />
     );
   }
@@ -180,21 +199,33 @@ class FindACourt extends React.Component<IFindACourtProps, IFindACourtState> {
 
   render() {
     return (
-      <Content className="content">
-        <Table
-          title={() => <Search placeholder="Search" onChange={this.onLocationSearch} allowClear/>}
-          pagination={false}
-          dataSource={this.state.filteredLocationData} 
-          columns={this.columns} 
-          expandable={{
-            expandedRowRender: (record: ILocation) => {
-              return this.expandedRowRender(record.courts);}
-          }}
-          loading={this.state.loading}
-          rowKey={(record: ILocation) => String(record.recnum)}
-          bordered={true}
-        />
-      </Content>
+      <>
+        <Content className="content">
+          <Table
+            title={() => <Search placeholder="Search" onChange={this.onLocationSearch} allowClear/>}
+            pagination={false}
+            dataSource={this.state.filteredLocationData} 
+            columns={this.columns} 
+            expandable={{
+              expandedRowRender: (record: ILocation) => {
+                return this.expandedRowRender(record.courts);}
+            }}
+            loading={this.state.loading}
+            rowKey={(record: ILocation) => String(record.recnum)}
+            bordered={true}
+          />
+        </Content>
+        <Drawer
+          title={"This is the court you clicked on"}
+          width={'70%'}
+          open={this.state.drawerOpen}
+          onClose={this.onDrawerClose}
+        >
+          <CourtInformation
+
+          />
+        </Drawer>
+      </>
     );
   }
 }

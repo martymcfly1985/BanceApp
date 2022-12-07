@@ -42,10 +42,10 @@ class SubmitNewCourt extends React.Component<ISubmitNewCourtProps, ISubmitNewCou
 
   onFinish =  async (values: any) => {
     const newCourt: ICourt = {
-      name: values.courtName,
-      lights: values.courtLights,
-      surface: values.courtSurface,
-      condition: values.courtCondition,
+      name: values.name,
+      lights: values.lights,
+      surface: values.surface,
+      condition: values.condition,
       locationRecnum: this.state.selectedLocationRecnum
     }
     try {
@@ -86,10 +86,7 @@ class SubmitNewCourt extends React.Component<ISubmitNewCourtProps, ISubmitNewCou
       throw Error;
     }
     return courtNameIsUnique(newCourtName, currentLocation.courts);
-  }
-
-  onFinishFailed = () => {
-  }
+  };
 
   onFormChange = () => {
     this.setState ({
@@ -160,7 +157,6 @@ class SubmitNewCourt extends React.Component<ISubmitNewCourtProps, ISubmitNewCou
               onFinish={this.onFinish}
               formDisabled={this.state.formDisabled}
               onFormChange={this.onFormChange}
-              onFinishFailed={this.onFinishFailed}
               onClearForm={this.onClearForm}
               submitLoading={this.state.submitLoading}
               validationStatus={this.state.validationStatus}

@@ -100,7 +100,7 @@ namespace API.Repositories.Tennis
                     {
                         locationRecnumInDb = reader.GetInt32("recnum");
                     }
-                }    
+                }
             }
             return locationRecnumInDb;
         }

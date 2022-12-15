@@ -39,6 +39,11 @@ namespace API.Repositories.Tennis
             }
         }
 
+        public void SaveRating(int rating)
+        {
+
+        }
+
         public void AddCourtToCourtConditionTable(int courtRecnum, int ratingTotal, int numberOfRatings)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))

@@ -17,6 +17,11 @@ namespace API.Services.Tennis
             AddCourtToCourtConditionTable(newCourtRecnum, court.Condition);
         }
 
+        public void SaveRating(int rating)
+        {
+            courtRepository.SaveRating(rating);
+        }
+
         private void AddCourtToCourtConditionTable(int courtRecnum, int? courtCondition)
         {
             var numberOfRatings = 0;

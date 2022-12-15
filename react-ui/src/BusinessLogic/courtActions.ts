@@ -27,3 +27,18 @@ export const saveNewCourt = async(newCourt: ICourt) => {
     throw error;
   }
 }
+
+export const saveNewRating = async(newRating: number, courtRecnum: number) => {
+  let response = await fetch('api/submitNewRating', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8'
+    },
+    body: JSON.stringify({newRating, courtRecnum})
+  });
+  if (!response.ok) {
+    const error = new Error;
+    error.message = response.statusText
+    throw error;
+  }
+}

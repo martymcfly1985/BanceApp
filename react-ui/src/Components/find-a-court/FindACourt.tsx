@@ -1,4 +1,4 @@
-import { message, Rate, Table , Input, Drawer} from "antd";
+import { message, Rate, Table, Input} from "antd";
 import { Content } from "antd/lib/layout/layout";
 import React from "react";
 import { fetchLocationData } from "../../BusinessLogic/courtActions";
@@ -16,6 +16,7 @@ interface IFindACourtState {
   filteredLocationData: ILocation[];
   loading: boolean;
   drawerOpen: boolean;
+  selectedCourt: ICourt;
 }
 
 class FindACourt extends React.Component<IFindACourtProps, IFindACourtState> {
@@ -26,7 +27,13 @@ class FindACourt extends React.Component<IFindACourtProps, IFindACourtState> {
       locationData: [],
       filteredLocationData: [],
       loading: true,
-      drawerOpen: false
+      drawerOpen: false,
+      selectedCourt: {
+        name: '',
+        lights: true,
+        condition: 0,
+        surface: '',
+      }
     }
   }
   
@@ -54,9 +61,10 @@ class FindACourt extends React.Component<IFindACourtProps, IFindACourtState> {
     })
   }
 
-  onCourtRowSelection = () => {
+  onCourtRowSelection = (clickedCourt: any) => {
     this.setState ({
-      drawerOpen: true
+      drawerOpen: true,
+      selectedCourt: clickedCourt
     })
   }
 
@@ -172,7 +180,7 @@ class FindACourt extends React.Component<IFindACourtProps, IFindACourtState> {
         rowKey={(record: ICourt) => String(record.recnum)}
         onRow={(record, rowIndex) => {
           return {
-            onClick: (event) => {this.onCourtRowSelection()}
+            onClick: (event) => {this.onCourtRowSelection(record)}
           };
         }}
       />
@@ -215,16 +223,11 @@ class FindACourt extends React.Component<IFindACourtProps, IFindACourtState> {
             bordered={true}
           />
         </Content>
-        <Drawer
-          title={"This is the court you clicked on"}
-          width={'70%'}
-          open={this.state.drawerOpen}
-          onClose={this.onDrawerClose}
-        >
-          <CourtInformation
-
-          />
-        </Drawer>
+        <CourtInformation
+          selectedCourt={this.state.selectedCourt}
+          drawerOpen={this.state.drawerOpen}
+          onDrawerClose={this.onDrawerClose}
+        />
       </>
     );
   }

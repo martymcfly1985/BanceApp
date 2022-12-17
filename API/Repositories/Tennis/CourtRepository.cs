@@ -39,9 +39,19 @@ namespace API.Repositories.Tennis
             }
         }
 
-        public void SaveRating(int rating)
+        public void SaveRating(NewRating rating)
         {
-
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                using (SqlCommand command = new SqlCommand("SaveRating", connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add("@Rating", SqlDbType.Int).Value = rating.Rating;
+                    command.Parameters.Add("@Recnum", SqlDbType.Int).Value = rating.Recnum;
+                    command.Connection.Open();
+                    command.ExecuteNonQuery();
+                }
+            }
         }
 
         public void AddCourtToCourtConditionTable(int courtRecnum, int ratingTotal, int numberOfRatings)

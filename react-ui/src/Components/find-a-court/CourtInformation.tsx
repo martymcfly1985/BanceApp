@@ -29,6 +29,7 @@ function CourtInformation({
       await saveNewRating(newRating, selectedCourt.recnum);
       setRatingVisiblity(false);
       setNewRating(0);
+      message.success('Thank you for rating this court!');
     } catch {
       message.error('Unable to submit new rating.');
     }

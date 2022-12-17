@@ -5,6 +5,6 @@ namespace API.Services.Tennis
     public interface ICourtService
     {
         void SaveCourt(Court court);
-        void SaveRating(int rating);
+        void SaveRating(NewRating rating);
     }
 }

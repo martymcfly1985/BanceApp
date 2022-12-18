@@ -47,7 +47,7 @@ namespace API.Repositories.Tennis
                 {
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.Add("@Rating", SqlDbType.Int).Value = rating.Rating;
-                    command.Parameters.Add("@Recnum", SqlDbType.Int).Value = rating.Recnum;
+                    command.Parameters.Add("@CourtRecnum", SqlDbType.Int).Value = rating.CourtRecnum;
                     command.Connection.Open();
                     command.ExecuteNonQuery();
                 }

@@ -3,6 +3,6 @@
     public class NewRating
     {
         public int Rating { get; set; }
-        public int Recnum { get; set; }
+        public int CourtRecnum { get; set; }
     }
 }

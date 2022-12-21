@@ -12,5 +12,7 @@ AS
 	WHERE CC_CourtRecnum = @CourtRecnum
 
 	UPDATE Court
-	SET C_Condition = @RatingTotal / @NumOfRatings
+	SET C_Condition = ROUND(@RatingTotal * 1.0 / @NumOfRatings, 0) --Multiplying by 1.0 to get result in decimal form so we can round up
 	WHERE C_Recnum = @CourtRecnum
+
+	SELECT C_Condition FROM Court WHERE C_Recnum = @CourtRecnum

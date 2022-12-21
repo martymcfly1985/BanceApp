@@ -17,5 +17,6 @@ AS
 	@Surface,
 	@Condition,
 	@LocationRecnum)
-SELECT CAST(SCOPE_IDENTITY() AS int) AS recnum
+
+	SELECT CAST(SCOPE_IDENTITY() AS int) AS recnum
 

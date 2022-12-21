@@ -74,6 +74,46 @@ class FindACourt extends React.Component<IFindACourtProps, IFindACourtState> {
     })
   }
 
+  updateCourtCondition = (newCondition: number, courtRecnum: number, locationRecnum: number) => {
+    const locationData = this.state.locationData.map((location) => {
+      if(location.recnum !== locationRecnum)
+      {
+        return location;
+      } else {
+        const courtList = location.courts.map((court) => {
+          if(court.recnum !== courtRecnum)
+          {
+            return court;
+          } else {
+            const newCourt: ICourt = {
+              name: court.name,
+              lights: court.lights,
+              surface: court.surface,
+              condition: newCondition,
+              recnum: courtRecnum,
+              locationRecnum: locationRecnum
+            }
+            this.setState ({
+              selectedCourt: newCourt
+            })
+            return newCourt;
+          }
+        })
+        const newLocation: ILocation = {
+          name: location.name,
+          address: location.address,
+          hours: location.hours,
+          courts: courtList,
+          recnum: location.recnum
+        }
+        return newLocation;
+      }
+    })
+    this.setState ({
+      filteredLocationData: locationData
+    })
+  }
+
   expandedRowRender = (courts: ICourt[]) => {
     const columns = [
       {
@@ -162,11 +202,12 @@ class FindACourt extends React.Component<IFindACourtProps, IFindACourtState> {
         },
         render : (condition: number | null) => 
         {
+          console.log(condition);
           if(condition === null)
           {
             return "No Rating";
           }
-          return <Rate disabled defaultValue={condition} />;
+          return <Rate disabled value={condition} />;
         }
       }
     ];
@@ -227,6 +268,7 @@ class FindACourt extends React.Component<IFindACourtProps, IFindACourtState> {
           selectedCourt={this.state.selectedCourt}
           drawerOpen={this.state.drawerOpen}
           onDrawerClose={this.onDrawerClose}
+          updateCourtCondition={this.updateCourtCondition}
         />
       </>
     );

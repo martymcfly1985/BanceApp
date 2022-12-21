@@ -26,8 +26,7 @@ Namespace Controllers
         <Route("api/submitNewRating")>
         <HttpPost()>
         Function SaveNewRating(newRating As NewRating) As HttpResponseMessage
-            CourtService.SaveRating(newRating)
-            Return Request.CreateResponse(HttpStatusCode.OK)
+            Return Request.CreateResponse(HttpStatusCode.OK, CourtService.SaveRating(newRating), Request.GetConfiguration())
         End Function
     End Class
 End Namespace

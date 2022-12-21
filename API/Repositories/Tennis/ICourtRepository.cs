@@ -6,7 +6,7 @@ namespace API.Repositories.Tennis
     public interface ICourtRepository
     {
         int SaveCourt(Court court);
-        void SaveRating(NewRating rating);
+        int SaveRating(NewRating rating);
         void AddCourtToCourtConditionTable(int courtRecnum, int ratingTotal, int numberOfRatings);
     }
 }

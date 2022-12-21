@@ -41,4 +41,6 @@ export const saveNewRating = async(rating: number, courtRecnum: number) => {
     error.message = response.statusText
     throw error;
   }
+  const updatedCourtCondition: number = await response.json();
+  return updatedCourtCondition;
 }

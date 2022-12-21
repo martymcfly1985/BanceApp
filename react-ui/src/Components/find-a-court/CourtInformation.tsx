@@ -9,12 +9,14 @@ interface CourtInformationProps {
   selectedCourt: ICourt;
   drawerOpen: boolean;
   onDrawerClose: any;
+  updateCourtCondition: any;
 }
 
 function CourtInformation({
   selectedCourt,
   drawerOpen,
-  onDrawerClose
+  onDrawerClose,
+  updateCourtCondition
 }: CourtInformationProps) {
   const [ratingVisibility, setRatingVisiblity] = useState(false);
   const [newRating, setNewRating] = useState(0);
@@ -26,7 +28,8 @@ function CourtInformation({
       {
         throw new Error();
       }
-      await saveNewRating(newRating, selectedCourt.recnum);
+      const newCondition = await saveNewRating(newRating, selectedCourt.recnum);
+      updateCourtCondition(newCondition, selectedCourt.recnum, selectedCourt.locationRecnum);
       setRatingVisiblity(false);
       setNewRating(0);
       message.success('Thank you for rating this court!');
@@ -45,7 +48,7 @@ function CourtInformation({
           >
             {selectedCourt.name}
           </Title>
-          {selectedCourt.condition === null ? undefined : <Rate disabled defaultValue={selectedCourt.condition} />}
+          {selectedCourt.condition === null ? undefined : <Rate disabled value={selectedCourt.condition} />}
         </Space>
       }
       width={'70%'}

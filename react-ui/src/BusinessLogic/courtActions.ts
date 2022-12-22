@@ -14,7 +14,7 @@ export const fetchLocationData = async() => {
 }
 
 export const saveNewCourt = async(newCourt: ICourt) => {
-  let response = await fetch('api/submitNewCourt', {
+  const response = await fetch('api/submitNewCourt', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json;charset=utf-8'
@@ -29,7 +29,7 @@ export const saveNewCourt = async(newCourt: ICourt) => {
 }
 
 export const saveNewRating = async(rating: number, courtRecnum: number) => {
-  let response = await fetch('api/submitNewRating', {
+  const response = await fetch('api/submitNewRating', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json;charset=utf-8'

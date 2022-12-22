@@ -52,7 +52,7 @@ class SubmitNewCourt extends React.Component<ISubmitNewCourtProps, ISubmitNewCou
       this.setState ({
         submitLoading: true
       })
-      if(this.courtNameIsUnique(newCourt.name)) {
+      if (this.courtNameIsUnique(newCourt.name)) {
         await saveNewCourt(newCourt); 
         this.formRef.current!.resetFields();
         message.success('The new court has been added!');
@@ -62,7 +62,7 @@ class SubmitNewCourt extends React.Component<ISubmitNewCourtProps, ISubmitNewCou
           validationStatus: undefined,
           validationText: undefined
         })
-      } else{
+      } else {
 				this.setState ({
 					validationStatus: "error",
 					validationText: "Please enter a unique court name.",
@@ -81,8 +81,7 @@ class SubmitNewCourt extends React.Component<ISubmitNewCourtProps, ISubmitNewCou
     const currentLocation = this.state.locationData.find((location) => {
       return location.recnum === this.state.selectedLocationRecnum;
     });
-    if(currentLocation === undefined)
-    {
+    if (currentLocation === undefined) {
       throw Error;
     }
     return courtNameIsUnique(newCourtName, currentLocation.courts);
@@ -95,7 +94,7 @@ class SubmitNewCourt extends React.Component<ISubmitNewCourtProps, ISubmitNewCou
   };
 
   onLocationSelected = (value: any) => {
-    if(value) {
+    if (value) {
       this.setState ({
         formDisabled: false,
         selectedLocationRecnum: value
@@ -127,7 +126,7 @@ class SubmitNewCourt extends React.Component<ISubmitNewCourtProps, ISubmitNewCou
       locationData: locations,
       loading: false
     });
-  };
+  }
 
   render() {
       return (
@@ -147,7 +146,7 @@ class SubmitNewCourt extends React.Component<ISubmitNewCourtProps, ISubmitNewCou
               >
                 {
                   this.state.locationData.map((location: ILocation) => {
-                    return <Option value={location.recnum}>{location.name}</Option>
+                    return <Option key={location.recnum} value={location.recnum}>{location.name}</Option>
                   })
                 }
               </Select>

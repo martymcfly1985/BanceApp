@@ -1,0 +1,40 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "overrides": [
+        {
+            "files":["*.ts", "*.tsx"],
+            "extends": [
+                "eslint:recommended",
+                "plugin:react/recommended",
+                "plugin:@typescript-eslint/recommended",
+                "plugin:react/jsx-runtime"
+            ],
+            "parserOptions": {
+                "ecmaVersion": "latest",
+                "sourceType": "module",
+                "project": ["./tsconfig.json"]
+            },
+            "rules": {
+                "@typescript-eslint/no-empty-interface": "off",
+                "@typescript-eslint/no-explicit-any": "off",
+                "no-console": "warn",
+                "@typescript-eslint/no-non-null-assertion": "off",
+                "no-mixed-spaces-and-tabs": "warn",
+                "brace-style": ["warn", "1tbs", { "allowSingleLine": true } ],
+                "curly": ["warn", "all"],
+                "space-before-blocks": ["warn", "always"],
+                "keyword-spacing": "warn"
+            }
+        }
+    ],
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+        "react",
+        "@typescript-eslint"
+    ],
+    "rules": {
+    }
+}

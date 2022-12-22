@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {Layout, Menu} from 'antd';
 import '../css/App.css';
 import FindACourt from './find-a-court/FindACourt';

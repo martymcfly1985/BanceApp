@@ -7,12 +7,12 @@ namespace API.Services.Tennis
     public class LocationService : ILocationService
     {
         private readonly ILocationRepository locationRepository;
-        private readonly ICourtRepository courtRepository;
+        private readonly ICourtService courtService;
 
-        public LocationService(ILocationRepository locationRepository, ICourtRepository courtRepository)
+        public LocationService(ILocationRepository locationRepository, ICourtService courtService)
         {
             this.locationRepository = locationRepository;
-            this.courtRepository = courtRepository;
+            this.courtService = courtService;
         }
 
         public bool SaveLocation(Location location)
@@ -24,7 +24,7 @@ namespace API.Services.Tennis
                 foreach(Court court in location.Courts)
                 {
                     court.LocationRecnum = savedLocationRecnum;
-                    courtRepository.SaveCourt(court);
+                    courtService.SaveCourt(court);
                 }
                 return true;
             }

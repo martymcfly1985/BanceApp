@@ -49,7 +49,6 @@ namespace API.Repositories.Tennis
                 command.Parameters.Add("@Rating", SqlDbType.Int).Value = rating.Rating;
                 command.Parameters.Add("@CourtRecnum", SqlDbType.Int).Value = rating.CourtRecnum;
                 command.Connection.Open();
-                command.ExecuteNonQuery();
                 using (EnhancedSqlDataReader reader = new EnhancedSqlDataReader(command.ExecuteReader()))
                 {    
                     while (reader.Read())

@@ -4,7 +4,7 @@ import { ILocation } from "../Models/Location";
 export const fetchLocationData = async() => {
   const response = await fetch('api/getLocationData');
   if (!response.ok) {
-    const error = new Error;
+    const error = new Error();
     error.message = response.statusText
     throw error;
   }
@@ -22,8 +22,25 @@ export const saveNewCourt = async(newCourt: ICourt) => {
     body: JSON.stringify(newCourt)
   });
   if (!response.ok) {
-    const error = new Error;
+    const error = new Error();
     error.message = response.statusText
     throw error;
   }
+}
+
+export const saveNewRating = async(rating: number, courtRecnum: number) => {
+  let response = await fetch('api/submitNewRating', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8'
+    },
+    body: JSON.stringify({rating, courtRecnum})
+  });
+  if (!response.ok) {
+    const error = new Error();
+    error.message = response.statusText
+    throw error;
+  }
+  const updatedCourtCondition: number = await response.json();
+  return updatedCourtCondition;
 }

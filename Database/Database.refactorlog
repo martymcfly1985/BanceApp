@@ -35,4 +35,25 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="L_Recnum" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="89fac437-53e4-4cd8-878d-7ec04175f851" ChangeDateTime="12/07/2022 01:18:18">
+    <Property Name="ElementName" Value="[dbo].[CourtCondition].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[CourtCondition]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CC_CourtRecnum" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="90e371f7-9555-45d3-81e4-e78c548978f0" ChangeDateTime="12/07/2022 01:24:03">
+    <Property Name="ElementName" Value="[dbo].[CourtCondition].[CC]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[CourtCondition]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CC_" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="d0ab070f-fe5a-406e-8957-db85e7a42bc7" ChangeDateTime="12/07/2022 01:24:20">
+    <Property Name="ElementName" Value="[dbo].[CourtCondition].[CC_]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[CourtCondition]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CC_NumberOfRatings" />
+  </Operation>
 </Operations>

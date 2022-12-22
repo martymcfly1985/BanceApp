@@ -1,10 +1,11 @@
-import { message, Rate, Table , Input} from "antd";
+import { message, Rate, Table, Input} from "antd";
 import { Content } from "antd/lib/layout/layout";
 import React from "react";
 import { fetchLocationData } from "../../BusinessLogic/courtActions";
 import { ICourt } from "../../Models/Court";
 import { ILocation } from "../../Models/Location";
 import "../../css/Shared.css";
+import CourtInformation from "./CourtInformation";
 
 const { Search } = Input;
 
@@ -14,6 +15,8 @@ interface IFindACourtState {
   locationData: ILocation[];
   filteredLocationData: ILocation[];
   loading: boolean;
+  drawerOpen: boolean;
+  selectedCourt: ICourt;
 }
 
 class FindACourt extends React.Component<IFindACourtProps, IFindACourtState> {
@@ -23,7 +26,14 @@ class FindACourt extends React.Component<IFindACourtProps, IFindACourtState> {
     this.state = {
       locationData: [],
       filteredLocationData: [],
-      loading: true
+      loading: true,
+      drawerOpen: false,
+      selectedCourt: {
+        name: '',
+        lights: true,
+        condition: 0,
+        surface: '',
+      }
     }
   }
   
@@ -51,8 +61,60 @@ class FindACourt extends React.Component<IFindACourtProps, IFindACourtState> {
     })
   }
 
-  expandedRowRender = (courts: ICourt[]) => 
-  {
+  onCourtRowSelection = (clickedCourt: any) => {
+    this.setState ({
+      drawerOpen: true,
+      selectedCourt: clickedCourt
+    })
+  }
+
+  onDrawerClose = () => {
+    this.setState ({
+      drawerOpen: false
+    })
+  }
+
+  updateCourtCondition = (newCondition: number, courtRecnum: number, locationRecnum: number) => {
+    const locationData = this.state.locationData.map((location) => {
+      if(location.recnum !== locationRecnum)
+      {
+        return location;
+      } else {
+        const courtList = location.courts.map((court) => {
+          if(court.recnum !== courtRecnum)
+          {
+            return court;
+          } else {
+            const newCourt: ICourt = {
+              name: court.name,
+              lights: court.lights,
+              surface: court.surface,
+              condition: newCondition,
+              recnum: courtRecnum,
+              locationRecnum: locationRecnum
+            }
+            this.setState ({
+              selectedCourt: newCourt
+            })
+            return newCourt;
+          }
+        })
+        const newLocation: ILocation = {
+          name: location.name,
+          address: location.address,
+          hours: location.hours,
+          courts: courtList,
+          recnum: location.recnum
+        }
+        return newLocation;
+      }
+    })
+    this.setState ({
+      filteredLocationData: locationData
+    })
+  }
+
+  expandedRowRender = (courts: ICourt[]) => {
     const columns = [
       {
         title: 'Name',
@@ -140,11 +202,12 @@ class FindACourt extends React.Component<IFindACourtProps, IFindACourtState> {
         },
         render : (condition: number | null) => 
         {
+          console.log(condition);
           if(condition === null)
           {
             return "No Rating";
           }
-          return <Rate disabled defaultValue={condition} />;
+          return <Rate disabled value={condition} />;
         }
       }
     ];
@@ -156,6 +219,11 @@ class FindACourt extends React.Component<IFindACourtProps, IFindACourtState> {
         size={'small'}
         bordered={true}
         rowKey={(record: ICourt) => String(record.recnum)}
+        onRow={(record, rowIndex) => {
+          return {
+            onClick: (event) => {this.onCourtRowSelection(record)}
+          };
+        }}
       />
     );
   }
@@ -180,21 +248,29 @@ class FindACourt extends React.Component<IFindACourtProps, IFindACourtState> {
 
   render() {
     return (
-      <Content className="content">
-        <Table
-          title={() => <Search placeholder="Search" onChange={this.onLocationSearch} allowClear/>}
-          pagination={false}
-          dataSource={this.state.filteredLocationData} 
-          columns={this.columns} 
-          expandable={{
-            expandedRowRender: (record: ILocation) => {
-              return this.expandedRowRender(record.courts);}
-          }}
-          loading={this.state.loading}
-          rowKey={(record: ILocation) => String(record.recnum)}
-          bordered={true}
+      <>
+        <Content className="content">
+          <Table
+            title={() => <Search placeholder="Search" onChange={this.onLocationSearch} allowClear/>}
+            pagination={false}
+            dataSource={this.state.filteredLocationData} 
+            columns={this.columns} 
+            expandable={{
+              expandedRowRender: (record: ILocation) => {
+                return this.expandedRowRender(record.courts);}
+            }}
+            loading={this.state.loading}
+            rowKey={(record: ILocation) => String(record.recnum)}
+            bordered={true}
+          />
+        </Content>
+        <CourtInformation
+          selectedCourt={this.state.selectedCourt}
+          drawerOpen={this.state.drawerOpen}
+          onDrawerClose={this.onDrawerClose}
+          updateCourtCondition={this.updateCourtCondition}
         />
-      </Content>
+      </>
     );
   }
 }

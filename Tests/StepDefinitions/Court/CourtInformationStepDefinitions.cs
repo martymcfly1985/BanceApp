@@ -36,7 +36,7 @@ namespace Tests.StepDefinitions
         [When(@"I view the Find a Court Page")]
         public void WhenIViewTheFindACourtPage()
         {
-            retrievedCourts = CourtDataManager.CourtService.GetCourtInformation();
+            //retrievedCourts = CourtDataManager.CourtService.GetCourtInformation();
         }
 
         [Then(@"I should see that information")]

@@ -13,7 +13,25 @@ namespace API.Services.Tennis
 
         public void SaveCourt(Court court)
         {
-            courtRepository.SaveCourt(court);
+            var newCourtRecnum = courtRepository.SaveCourt(court);
+            AddCourtToCourtConditionTable(newCourtRecnum, court.Condition);
+        }
+
+        public int SaveRating(NewRating rating)
+        {
+            return courtRepository.SaveRating(rating);
+        }
+
+        private void AddCourtToCourtConditionTable(int courtRecnum, int? courtCondition)
+        {
+            var numberOfRatings = 0;
+            var ratingTotal = 0;
+            if(courtCondition != null)
+            {
+                numberOfRatings = 1;
+                ratingTotal = (int)courtCondition;
+            }
+            courtRepository.AddCourtToCourtConditionTable(courtRecnum, ratingTotal, numberOfRatings);
         }
     }
 }

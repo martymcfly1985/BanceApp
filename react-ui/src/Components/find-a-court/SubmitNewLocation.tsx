@@ -50,6 +50,7 @@ class SubmitNewLocation extends React.Component<ISubmitNewLocationProps, ISubmit
 			condition: values.condition,
 		}
 		if (courtNameIsUnique(newCourt.name,this.state.courtList)) {
+      console.log(newCourt);
 			this.setState({
 				courtList: [...this.state.courtList, newCourt].sort((a,b) => {return a.name.localeCompare(b.name)}),
 				drawerOpen: false,
@@ -177,11 +178,11 @@ class SubmitNewLocation extends React.Component<ISubmitNewLocationProps, ISubmit
 				dataIndex: 'condition',
 				key: 'condition',
 				width: '20%',
-				render: (condition: number | null) => {
-					if (condition === null) {
+				render: (condition: number | undefined) => {
+					if (condition === undefined) {
 						return "No Rating";
 					}
-					return <Rate disabled defaultValue={condition} />;
+					return <Rate disabled value={condition} />;
 				}
 			},
 			{
@@ -255,14 +256,15 @@ class SubmitNewLocation extends React.Component<ISubmitNewLocationProps, ISubmit
 							<Divider />
 							{
 								this.state.courtList.length !== 0 ?
-									<><Table
-										pagination={false}
-										columns={columns}
-										dataSource={this.state.courtList}
-										size={'small'}
-										bordered={true}
-										rowKey={(record: ICourt) => String(record.recnum)}
-									/>
+									<>
+                    <Table
+                      pagination={false}
+                      columns={columns}
+                      dataSource={this.state.courtList}
+                      size={'small'}
+                      bordered={true}
+                      rowKey={(record: ICourt) => String(record.name)}
+                    />
 										<Divider />
 									</> : undefined
 							}

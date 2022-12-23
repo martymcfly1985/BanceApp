@@ -50,7 +50,6 @@ class SubmitNewLocation extends React.Component<ISubmitNewLocationProps, ISubmit
 			condition: values.condition,
 		}
 		if (courtNameIsUnique(newCourt.name,this.state.courtList)) {
-      console.log(newCourt);
 			this.setState({
 				courtList: [...this.state.courtList, newCourt].sort((a,b) => {return a.name.localeCompare(b.name)}),
 				drawerOpen: false,

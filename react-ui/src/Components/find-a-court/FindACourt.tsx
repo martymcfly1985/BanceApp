@@ -251,7 +251,7 @@ class FindACourt extends React.Component<IFindACourtProps, IFindACourtState> {
             expandable={{
               expandedRowRender: (record: ILocation) => {
                 return this.expandedRowRender(record.courts);
-}
+              }
             }}
             loading={this.state.loading}
             rowKey={(record: ILocation) => String(record.recnum)}

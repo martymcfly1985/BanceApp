@@ -128,6 +128,7 @@ Validation (UI)
 - Select the react-ui folder under the BanceApp folder
 - On the left-hand side, select the 3rd item from top (labeled Source Control when you hover over it)
 - Install what it suggests to install (Github for Windows)
+- In that same area, select the items labeled extensions, when hovering over it, and install EsLint. 
 - Restart Visual Studio Code
 - Hit Ctrl~ to open the command prompt at the bottom of the screen. 
 - Choose GitBash from the top right corner of the command prompt

@@ -212,9 +212,9 @@ class FindACourt extends React.Component<IFindACourtProps, IFindACourtState> {
         size={'small'}
         bordered={true}
         rowKey={(record: ICourt) => String(record.recnum)}
-        onRow={(record, rowIndex) => {
+        onRow={(record) => {
           return {
-            onClick: (event) => {this.onCourtRowSelection(record)}
+            onClick: () => {this.onCourtRowSelection(record)}
           };
         }}
       />

@@ -1,7 +1,7 @@
 import { ILocation } from "../Models/Location";
 
 export const saveNewLocation = async(newLocation: ILocation) => {
-  let response = await fetch('api/submitNewLocation', {
+  const response = await fetch('api/submitNewLocation', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json;charset=utf-8'

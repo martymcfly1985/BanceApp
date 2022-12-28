@@ -76,13 +76,11 @@ class FindACourt extends React.Component<IFindACourtProps, IFindACourtState> {
 
   updateCourtCondition = (newCondition: number, courtRecnum: number, locationRecnum: number) => {
     const locationData = this.state.locationData.map((location) => {
-      if(location.recnum !== locationRecnum)
-      {
+      if (location.recnum !== locationRecnum) {
         return location;
       } else {
         const courtList = location.courts.map((court) => {
-          if(court.recnum !== courtRecnum)
-          {
+          if (court.recnum !== courtRecnum) {
             return court;
           } else {
             const newCourt: ICourt = {
@@ -130,11 +128,11 @@ class FindACourt extends React.Component<IFindACourtProps, IFindACourtState> {
         filters: [
 					{
 						text: 'Clay',
-        		value: 'Clay',
+            value: 'Clay',
 					},
 					{
 						text: 'Grass',
-       	 		value: 'Grass',
+            value: 'Grass',
 					},
 					{
 						text: 'Hard',
@@ -151,11 +149,11 @@ class FindACourt extends React.Component<IFindACourtProps, IFindACourtState> {
         filters: [
 					{
 						text: 'Yes',
-        		value: true,
+            value: true,
 					},
           {
 						text: 'No',
-        		value: false,
+            value: false,
 					}
         ],
         onFilter: (value: any, record: ICourt) => record.lights === value,
@@ -169,42 +167,37 @@ class FindACourt extends React.Component<IFindACourtProps, IFindACourtState> {
         filters: [
           {
 						text: "No Rating",
-        		value: "No Rating",
+            value: "No Rating",
 					},
 					{
 						text: <Rate disabled defaultValue={1}/>,
-        		value: 1,
+            value: 1,
 					},
           {
 						text: <Rate disabled defaultValue={2}/>,
-        		value: 2,
+            value: 2,
 					},
           {
 						text: <Rate disabled defaultValue={3}/>,
-        		value: 3,
+            value: 3,
 					},
           {
 						text: <Rate disabled defaultValue={4}/>,
-        		value: 4,
+            value: 4,
 					},
           {
 						text: <Rate disabled defaultValue={5}/>,
-        		value: 5,
+            value: 5,
 					}
         ],
-        onFilter: (value: any, record: ICourt) => 
-        {
-          if(value === "No Rating")
-          {
+        onFilter: (value: any, record: ICourt) => {
+          if (value === "No Rating") {
             return record.condition === null;
           }
           return record.condition === value
         },
-        render : (condition: number | null) => 
-        {
-          console.log(condition);
-          if(condition === null)
-          {
+        render : (condition: number | null) => {
+          if (condition === null) {
             return "No Rating";
           }
           return <Rate disabled value={condition} />;
@@ -219,9 +212,9 @@ class FindACourt extends React.Component<IFindACourtProps, IFindACourtState> {
         size={'small'}
         bordered={true}
         rowKey={(record: ICourt) => String(record.recnum)}
-        onRow={(record, rowIndex) => {
+        onRow={(record) => {
           return {
-            onClick: (event) => {this.onCourtRowSelection(record)}
+            onClick: () => {this.onCourtRowSelection(record)}
           };
         }}
       />
@@ -257,7 +250,8 @@ class FindACourt extends React.Component<IFindACourtProps, IFindACourtState> {
             columns={this.columns} 
             expandable={{
               expandedRowRender: (record: ILocation) => {
-                return this.expandedRowRender(record.courts);}
+                return this.expandedRowRender(record.courts);
+              }
             }}
             loading={this.state.loading}
             rowKey={(record: ILocation) => String(record.recnum)}

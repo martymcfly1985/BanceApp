@@ -8,8 +8,8 @@ const { Title } = Typography;
 interface CourtInformationProps {
   selectedCourt: ICourt;
   drawerOpen: boolean;
-  onDrawerClose: any;
-  updateCourtCondition: any;
+  onDrawerClose(): void;
+  updateCourtCondition(newCondition: number, courtRecnum: number, locationRecnum: number): void;
 }
 
 function CourtInformation({
@@ -21,11 +21,9 @@ function CourtInformation({
   const [ratingVisibility, setRatingVisiblity] = useState(false);
   const [newRating, setNewRating] = useState(0);
 
-  const onNewRatingSubmit = async () =>
-  {
+  const onNewRatingSubmit = async () => {
     try {
-      if(selectedCourt.recnum === undefined)
-      {
+      if (selectedCourt.recnum === undefined || selectedCourt.locationRecnum === undefined) {
         throw new Error();
       }
       const newCondition = await saveNewRating(newRating, selectedCourt.recnum);

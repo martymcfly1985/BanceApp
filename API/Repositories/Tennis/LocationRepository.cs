@@ -59,8 +59,10 @@ namespace API.Repositories.Tennis
                 {
                     var currentLocationRecnum = 0;
                     Location location = new Location();
+                    var locationTableEmpty = true;
                     while (reader.Read())
                     {
+                        locationTableEmpty = false;
                         var locationRecnumInDb = reader.GetInt32("L_Recnum");
 
                         if (LocationHasChanged(currentLocationRecnum, locationRecnumInDb))
@@ -77,7 +79,10 @@ namespace API.Repositories.Tennis
 
                         AddCourtFromDbToLocation(location, reader); 
                     }
-                    locations.Add(location);
+                    if (!locationTableEmpty)
+                    {
+                        locations.Add(location);
+                    }
                 }
             }
             return locations;

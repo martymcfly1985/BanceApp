@@ -49,7 +49,7 @@ class SubmitNewLocation extends React.Component<ISubmitNewLocationProps, ISubmit
 			surface: values.surface,
 			condition: values.condition,
 		}
-		if(courtNameIsUnique(newCourt.name,this.state.courtList)){
+		if (courtNameIsUnique(newCourt.name,this.state.courtList)) {
 			this.setState({
 				courtList: [...this.state.courtList, newCourt].sort((a,b) => {return a.name.localeCompare(b.name)}),
 				drawerOpen: false,
@@ -58,7 +58,7 @@ class SubmitNewLocation extends React.Component<ISubmitNewLocationProps, ISubmit
 				selectedCourt: undefined
 			})
 			this.formRef.current!.resetFields();
-		} else{
+		} else {
 			this.setState ({
 				courtValidationStatus: "error",
 				courtValidationText: "Please enter a unique court name."
@@ -78,15 +78,14 @@ class SubmitNewLocation extends React.Component<ISubmitNewLocationProps, ISubmit
         submitLoading: true
       })
       const result = await saveNewLocation(newLocation); 
-      if(result===true)
-			{
+      if (result===true) {
 				this.formRef.current!.resetFields();
 				message.success('The new location has been added!');
 				this.setState ({
 					submitLoading: false,
 					courtList: []
 				})
-			} else{
+			} else {
 				this.setState ({
 					locationValidationStatus: "error",
 					locationValidationText: "Please enter a unique location name.",
@@ -102,7 +101,7 @@ class SubmitNewLocation extends React.Component<ISubmitNewLocationProps, ISubmit
 	}
 
 	onDrawerCancel = () => {
-		if(this.state.selectedCourt === undefined) {
+		if (this.state.selectedCourt === undefined) {
 			this.setState({
 				drawerOpen: false
 			})
@@ -178,11 +177,11 @@ class SubmitNewLocation extends React.Component<ISubmitNewLocationProps, ISubmit
 				dataIndex: 'condition',
 				key: 'condition',
 				width: '20%',
-				render: (condition: number | null) => {
-					if (condition === null) {
+				render: (condition: number | undefined) => {
+					if (condition === undefined) {
 						return "No Rating";
 					}
-					return <Rate disabled defaultValue={condition} />;
+					return <Rate disabled value={condition} />;
 				}
 			},
 			{
@@ -256,14 +255,15 @@ class SubmitNewLocation extends React.Component<ISubmitNewLocationProps, ISubmit
 							<Divider />
 							{
 								this.state.courtList.length !== 0 ?
-									<><Table
-										pagination={false}
-										columns={columns}
-										dataSource={this.state.courtList}
-										size={'small'}
-										bordered={true}
-										rowKey={(record: ICourt) => String(record.recnum)}
-									/>
+									<>
+                    <Table
+                      pagination={false}
+                      columns={columns}
+                      dataSource={this.state.courtList}
+                      size={'small'}
+                      bordered={true}
+                      rowKey={(record: ICourt) => String(record.name)}
+                    />
 										<Divider />
 									</> : undefined
 							}
@@ -301,7 +301,7 @@ class SubmitNewLocation extends React.Component<ISubmitNewLocationProps, ISubmit
 						onFinish={this.onCourtFinish}
 						onClearForm={this.onClearForm}
 						validationStatus={this.state.courtValidationStatus}
-          	validationText={this.state.courtValidationText}
+            validationText={this.state.courtValidationText}
 						defaultFieldValues={this.state.selectedCourt}
 					/>
 				</Drawer>

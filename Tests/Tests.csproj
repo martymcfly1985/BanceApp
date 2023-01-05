@@ -167,12 +167,14 @@
     <Compile Include="IntegrationTest.cs" />
     <Compile Include="StepDefinitions\Court\CourtInformationStepDefinitions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StepDefinitions\Court\RatingStepDefinitions.cs" />
     <Compile Include="TestDataManagers\BaseDataManager.cs" />
     <Compile Include="TestDataManagers\CourtDataManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="Features\Court\CourtInformation.feature" />
+    <None Include="Features\Court\Rating.feature" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

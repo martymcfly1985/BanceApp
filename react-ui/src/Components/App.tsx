@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import {Layout, Menu} from 'antd';
+import {Layout, Menu, MenuProps} from 'antd';
 import '../css/App.css';
 import FindACourt from './find-a-court/FindACourt';
 import FindALeague from './find-a-league/FindALeague';
@@ -9,10 +9,10 @@ import SubmitNewLocation from './find-a-court/SubmitNewLocation';
 const { Header} = Layout;
 
 function App() {
-  const [currentMenuKey, setcurrentMenuKey] = useState('1');
+  const [currentMenuKey, setCurrentMenuKey] = useState('1');
 
   const menuClicked = async(event: any) => {
-    setcurrentMenuKey(event.key);
+    setCurrentMenuKey(event.key);
   }
 
   const componentsSwtich = (currentMenuKey: string) => {
@@ -30,18 +30,45 @@ function App() {
      }
   };
 
+  const items: MenuProps['items'] = [
+    {
+      label: 'Find a Court',
+      key: 'FindACourt',
+      children: [
+        {
+          label: 'View Locations',
+          key: 'ViewLocations'
+        },
+        {
+          label: 'Submit New Location',
+          key: 'SubmitNewLocation'
+        },
+        {
+          label: 'Submit New Court',
+          key: 'SubmitNewCourt'
+        }
+      ]
+    },
+    {
+      label: 'Find a League',
+      key: 'FindALeague' 
+    },
+    {
+      label: (
+        <a href="signin">
+          Sign In
+        </a>
+      ),
+      key: 'SignIn',
+      style: {float: 'right'}
+    }
+  ]
+
   return (
     <Layout className='header'>
       <Header>
         <div className="logo"/>
-        <Menu theme="dark" mode="horizontal" selectedKeys={[currentMenuKey]} onClick={menuClicked}>
-          <Menu.SubMenu key={'FindACourt'} title="Find a Court">
-            <Menu.Item key={'ViewLocations'}>View Locations</Menu.Item>
-            <Menu.Item key={'SubmitNewLocation'}>Submit New Location</Menu.Item>
-            <Menu.Item key={'SubmitNewCourt'}>Submit New Court</Menu.Item>
-          </Menu.SubMenu>
-          <Menu.Item key={'FindALeague'}>Find a League</Menu.Item>
-        </Menu>
+        <Menu style={{ display: 'block' }} theme="dark" mode="horizontal" selectedKeys={[currentMenuKey]} onClick={menuClicked} items={items}/>
       </Header>
       {componentsSwtich(currentMenuKey)}   
     </Layout>

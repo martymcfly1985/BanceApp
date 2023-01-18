@@ -10,7 +10,7 @@
     "@types/node": "^16.11.26",
     "@types/react": "^17.0.44",
     "@types/react-dom": "^17.0.15",
-    "antd": "^4.21.0",
+    "antd": "^5.1.4np",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "^6.6.2",

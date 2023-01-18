@@ -1,5 +1,6 @@
 import { Button, Card, Checkbox, Col, Form, Input, Row } from "antd";
 import React from 'react';
+import { LockOutlined, UserOutlined } from '@ant-design/icons';
 
 const SignIn: React.FC = () => {
   const onFinish = () => {
@@ -11,58 +12,80 @@ const SignIn: React.FC = () => {
       itemType="flex"
       justify='center'
       style={{
-        minHeight: '100vh'
+        minHeight: '100vh',
+        backgroundColor: 'aliceblue'
       }}
     >
       <Col>
         <Card
           title='Sign In'
           style={{
-            width: 350,
+            width: 400,
+            borderColor: "gray"
           }}
+          type='inner'
         >
           <Form
             name='signInForm'
             initialValues={{ remember: true }}
             onFinish={onFinish}
             autoComplete='off'
-            labelCol={{span: 8}}
-            wrapperCol={{span: 16}}
           >
             <Form.Item
-              label='Username'
               name='username'
               rules={[{ required: true, message: 'Please enter a username.' }]}
             >
-              <Input />
+              <Input 
+                prefix={<UserOutlined/>} 
+                placeholder="Username"
+              />
             </Form.Item>
             <Form.Item
-              label='Password'
               name='password'
               rules={[{ required: true, message: 'Please enter a password.' }]}
             >
-              <Input.Password />
+              <Input.Password 
+                prefix={<LockOutlined/>} 
+                placeholder="Password"
+              />
             </Form.Item>
             <Form.Item
               name='rememberMe'
               valuePropName='checked'
-              wrapperCol={{offset: 8, span:16}}
             >
               <Checkbox>
                 Remember Me
               </Checkbox>
+              <a 
+                href=""
+                style={{float: 'right'}}
+              >
+                Forgot password?
+              </a>
             </Form.Item>
-            <Form.Item
-              wrapperCol={{offset: 8, span:16}}
-            >
+            <Form.Item>
               <Button
                 type='primary'
                 htmlType='submit'
+                style={{width: '100%'}}
               >
                 Submit
               </Button>
             </Form.Item>
           </Form>
+        </Card>
+        <Card
+          style={{
+            width: 400,
+            borderColor: "gray"
+          }}
+        >
+          <div style={{alignItems: 'center'}}>
+            New to BanceApp? &nbsp;
+            <a href="signup">
+              Sign Up
+            </a>
+          </div>
         </Card>
       </Col>
     </Row>

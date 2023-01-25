@@ -1,7 +1,7 @@
 import React from "react";
 import { fetchLocationData, saveNewCourt } from "../../BusinessLogic/courtActions";
 import { ILocation } from "../../Models/Location";
-import { Divider, FormInstance, message, Select, Space, Tooltip } from "antd";
+import { Card, Divider, FormInstance, message, Select, Space, Tooltip } from "antd";
 import { Content } from "antd/lib/layout/layout";
 import "../../css/Shared.css";
 import { ICourt } from "../../Models/Court";
@@ -131,37 +131,39 @@ class SubmitNewCourt extends React.Component<ISubmitNewCourtProps, ISubmitNewCou
   render() {
       return (
         <Content className="content">
-          <Space direction="vertical" style={{display:'flex'}} split={<Divider/>}>
-            <Tooltip 
-              title={this.state.selectDisabled ? 'Please clear the form to select a new location.' : undefined}
-              placement='rightBottom'
-            > 
-              <Select 
-                placeholder='Select Location' 
-                style={{ width: '20%' }} 
-                allowClear={true}
-                loading={this.state.loading}
-                disabled={this.state.loading || this.state.selectDisabled}
-                onChange={this.onLocationSelected}
-              >
-                {
-                  this.state.locationData.map((location: ILocation) => {
-                    return <Option key={location.recnum} value={location.recnum}>{location.name}</Option>
-                  })
-                }
-              </Select>
-            </Tooltip>
-            <SubmitNewCourtFormFields
-              formRef={this.formRef}
-              onFinish={this.onFinish}
-              formDisabled={this.state.formDisabled}
-              onFormChange={this.onFormChange}
-              onClearForm={this.onClearForm}
-              submitLoading={this.state.submitLoading}
-              validationStatus={this.state.validationStatus}
-              validationText={this.state.validationText}
-            />
-          </Space>
+          <Card>
+            <Space direction="vertical" style={{display:'flex'}} split={<Divider/>}>
+              <Tooltip 
+                title={this.state.selectDisabled ? 'Please clear the form to select a new location.' : undefined}
+                placement='rightBottom'
+              > 
+                <Select 
+                  placeholder='Select Location' 
+                  style={{ width: '20%' }} 
+                  allowClear={true}
+                  loading={this.state.loading}
+                  disabled={this.state.loading || this.state.selectDisabled}
+                  onChange={this.onLocationSelected}
+                >
+                  {
+                    this.state.locationData.map((location: ILocation) => {
+                      return <Option key={location.recnum} value={location.recnum}>{location.name}</Option>
+                    })
+                  }
+                </Select>
+              </Tooltip>
+              <SubmitNewCourtFormFields
+                formRef={this.formRef}
+                onFinish={this.onFinish}
+                formDisabled={this.state.formDisabled}
+                onFormChange={this.onFormChange}
+                onClearForm={this.onClearForm}
+                submitLoading={this.state.submitLoading}
+                validationStatus={this.state.validationStatus}
+                validationText={this.state.validationText}
+              />
+            </Space>
+          </Card>
         </Content>
       );
   }

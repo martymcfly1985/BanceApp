@@ -13,7 +13,7 @@ const SignIn: React.FC = () => {
       justify='center'
       style={{
         minHeight: '100vh',
-        backgroundColor: 'aliceblue'
+        backgroundColor: '#efefef'
       }}
     >
       <Col>

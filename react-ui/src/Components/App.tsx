@@ -65,8 +65,8 @@ function App() {
   ]
 
   return (
-    <Layout className='header'>
-      <Header>
+    <Layout className='layout'>
+      <Header style={{ position: 'sticky', top: 0, zIndex: 1, width: '100%' }}>
         <div className="logo"/>
         <Menu style={{ display: 'block' }} theme="dark" mode="horizontal" selectedKeys={[currentMenuKey]} onClick={menuClicked} items={items}/>
       </Header>

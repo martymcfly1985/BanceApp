@@ -1,6 +1,13 @@
 .content
 {
     padding: 50px; 
-    height: 92vh; 
-    background-color: white;
+    /* height: calc(100vh - 64px); */
+}
+
+.layout
+{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    overflow: auto;
 }

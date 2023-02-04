@@ -178,6 +178,7 @@
     <Compile Include="App_Start\RouteConfig.vb" />
     <Compile Include="Controllers\CourtController.vb" />
     <Compile Include="Controllers\LocationController.vb" />
+    <Compile Include="Controllers\UserController.vb" />
     <Compile Include="Global.asax.vb">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

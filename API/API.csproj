@@ -105,6 +105,7 @@
     <Compile Include="Models\Tennis\CourtSurface.cs" />
     <Compile Include="Models\Tennis\Location.cs" />
     <Compile Include="Models\Tennis\NewRating.cs" />
+    <Compile Include="Models\User\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\Campground\CampgroundRepository.cs" />
     <Compile Include="Repositories\Campground\ICampgroundRepository.cs" />
@@ -114,6 +115,8 @@
     <Compile Include="Repositories\Tennis\ICourtRepository.cs" />
     <Compile Include="Repositories\Tennis\ILocationRepository.cs" />
     <Compile Include="Repositories\Tennis\LocationRepository.cs" />
+    <Compile Include="Repositories\User\IUserRepository.cs" />
+    <Compile Include="Repositories\User\UserRepository.cs" />
     <Compile Include="Services\Campground\CampgroundService.cs" />
     <Compile Include="Services\Campground\ICampgroundService.cs" />
     <Compile Include="Services\Configuration\ApplicationConfiguration.cs" />
@@ -124,6 +127,8 @@
     <Compile Include="Services\Tennis\ICourtService.cs" />
     <Compile Include="Services\Tennis\ILocationService.cs" />
     <Compile Include="Services\Tennis\LocationService.cs" />
+    <Compile Include="Services\Account\IUserService.cs" />
+    <Compile Include="Services\Account\UserService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

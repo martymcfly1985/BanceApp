@@ -1,7 +1,8 @@
 ﻿Imports System.Net
 Imports System.Net.Http
 Imports System.Web.Http
-Imports API.Services.User
+Imports API.Models.Account
+Imports API.Services.Account
 Imports UI.Plumbing
 
 Namespace Controllers
@@ -19,5 +20,17 @@ Namespace Controllers
             Return Request.CreateResponse(HttpStatusCode.OK, UserService.IsUsernameUnique(newUsername), Request.GetConfiguration)
         End Function
 
+        <Route("api/isEmailUnique")>
+        <HttpPost()>
+        Function IsEmailUnique(newEmail) As HttpResponseMessage
+            Return Request.CreateResponse(HttpStatusCode.OK, UserService.IsEmailUnique(newEmail), Request.GetConfiguration)
+        End Function
+
+        <Route("api/saveNewUser")>
+        <HttpPost()>
+        Function SaveNewUser(newUser As User) As HttpResponseMessage
+            UserService.SaveNewUser(newUser)
+            Return Request.CreateResponse(HttpStatusCode.OK)
+        End Function
     End Class
 End Namespace

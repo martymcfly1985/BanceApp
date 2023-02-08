@@ -3,13 +3,16 @@ import React, { useState } from 'react';
 import { City }  from 'country-state-city';
 import { IUser, RoleEnum } from '../../Models/User';
 import { post } from '../../CommonFunctions/HttpMethods';
+import { saveNewUser } from '../../BusinessLogic/userActions';
 
 const SignUp: React.FC = () => {
   const intialCityList: any[] = [] 
   const [citiesList, setCitiesList] = useState(intialCityList);
   const [validatingUsername, setValidatingUsername] = useState(false);
+  const [validatingEmail, setValidatingEmail] = useState(false);
+  const [submitLoading, setSubmitLoading] = useState(false);
   
-  const onFinish = async(values:any) => {
+  const onFinish = async(values: any) => {
     const newUser: IUser = {
       username: values.username,
       password: values.password,
@@ -20,11 +23,15 @@ const SignUp: React.FC = () => {
       state: values.state,
       role: RoleEnum.User,
       verified: false,
-      public: false
+      public: false,
+      leagues: undefined,
+      skillLevel: undefined
     }
-    try{
-      console.log('r');
+    try {
+      setSubmitLoading(true);
+      await saveNewUser(newUser);
     } catch {
+      setSubmitLoading(false);
       message.error('Unable to create new user.');
     }
   };
@@ -39,6 +46,10 @@ const SignUp: React.FC = () => {
 
   const usernameIsUnique = async (newUsername: string) => {
     return post<boolean>('api/isUsernameUnique', newUsername)
+  }
+
+  const emailIsUnique = async (newEmail: string) => {
+    return post<boolean>('api/isEmailUnique', newEmail)
   }
 
   return (
@@ -58,6 +69,7 @@ const SignUp: React.FC = () => {
             width: 500,
             borderColor: "gray"
           }}
+          loading={submitLoading}
         >
           <Form
             name='signUpForm'
@@ -66,9 +78,26 @@ const SignUp: React.FC = () => {
           >
             <Form.Item
               name='email'
+              validateTrigger='onBlur'
+              validateFirst={true}
               rules={[
                 {required: true, message: 'Please enter a valid email address.'},
-                {type: 'email',message: 'Please input a valid email.'}
+                {type: 'email',message: 'Please input a valid email.'},
+                () => ({
+                  async validator(_, email) {
+                    setValidatingEmail(true);
+                    try { 
+                      if (await emailIsUnique(email)) {
+                      setValidatingEmail(false);
+                      return Promise.resolve();
+                      }
+                      setValidatingEmail(false);
+                      return Promise.reject(new Error('Email is already in use.'));
+                    } catch {
+                      return Promise.reject(new Error('Unable to validate email address.'));
+                    }
+                  },
+                })
               ]}
             >
               <Input
@@ -80,16 +109,23 @@ const SignUp: React.FC = () => {
               validateTrigger='onBlur'
               validateFirst={true}
               rules={[
+                // eslint-disable-next-line no-useless-escape
+                {pattern: /^\S*$/, message: 'Username cannot contain spaces.'},
                 {required: true, message: 'Please enter a username.'},
+                {whitespace: true, message: 'Please enter a username.'},
                 () => ({
                   async validator(_, username) {
                     setValidatingUsername(true);
-                    if (await usernameIsUnique(username)) {
+                    try { 
+                      if (await usernameIsUnique(username)) {
+                        setValidatingUsername(false);
+                        return Promise.resolve();
+                      }
                       setValidatingUsername(false);
-                      return Promise.resolve();
+                      return Promise.reject(new Error('Username is already in use.'));
+                    } catch {
+                      return Promise.reject(new Error('Unable to validate username.'));
                     }
-                    setValidatingUsername(false);
-                    return Promise.reject(new Error('Username is already in use.'));
                   },
                 })
               ]}
@@ -102,6 +138,7 @@ const SignUp: React.FC = () => {
               name='password'
               rules={[
                 {required: true, message: 'Please enter a password.'},
+                {whitespace: true, message: 'Passwords cannot contain only white space.'},
                 {min: 8, message: "Password must be at least ${min} characters in length."}
               ]}
             >
@@ -132,6 +169,9 @@ const SignUp: React.FC = () => {
             <Form.Item
               name='firstName'
               rules={[
+                // eslint-disable-next-line no-useless-escape
+                {pattern: /^\S*$/, message: 'First name cannot contain spaces.'},
+                {whitespace: true, message: 'Please enter your first name.'},
                 {required: true, message: 'Please enter your first name.'}
               ]}
             >
@@ -142,6 +182,9 @@ const SignUp: React.FC = () => {
             <Form.Item
               name='lastName'
               rules={[
+                // eslint-disable-next-line no-useless-escape
+                {pattern: /^\S*$/, message: 'Last name cannot contain spaces.'},
+                {whitespace: true, message: 'Please enter your last name.'},
                 {required: true, message: 'Please enter your last name.'}
               ]}
             >
@@ -233,7 +276,7 @@ const SignUp: React.FC = () => {
                 type='primary'
                 htmlType='submit'
                 style={{width: '100%'}}
-                disabled={validatingUsername}
+                disabled={validatingUsername || validatingEmail}
               >
                 Submit
               </Button>

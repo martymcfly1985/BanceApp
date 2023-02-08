@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace API.Models.User
+﻿namespace API.Models.Account
 {
     public class User
     {

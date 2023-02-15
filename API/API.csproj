@@ -97,6 +97,7 @@
     <Compile Include="DataAccess\EnhancedSqlDataReader.cs" />
     <Compile Include="DataAccess\Models\Connection.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Models\Account\SignInInfo.cs" />
     <Compile Include="Models\Campground\Campground.cs" />
     <Compile Include="Models\Factory\IGenericFactory.cs" />
     <Compile Include="Models\Person\Person.cs" />

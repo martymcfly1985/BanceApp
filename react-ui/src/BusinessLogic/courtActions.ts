@@ -7,7 +7,7 @@ export const fetchLocationData = async() => {
 }
 
 export const saveNewCourt = async(newCourt: ICourt) => {
-  post<any>('api/submitNewCourt', newCourt);
+  await post<any>('api/submitNewCourt', newCourt);
 }
 
 export const saveNewRating = async(rating: number, courtRecnum: number) => {

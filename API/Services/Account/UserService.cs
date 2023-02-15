@@ -5,7 +5,6 @@ using System.Text;
 
 namespace API.Services.Account
 {
-
     public class UserService : IUserService
     {
         private readonly IUserRepository userRepository;
@@ -33,10 +32,23 @@ namespace API.Services.Account
 
         public void SaveNewUser(User user)
         {
-
             string hashedPassword = HashPassword(user.Password);
             user.Password = hashedPassword;
             userRepository.SaveNewUser(user);
+        }
+
+        public User GetUserInformation(SignInInfo signInInfo)
+        {
+            User userData = userRepository.GetUserByUsername(signInInfo.Username);
+            if (userData == null || userData.Password != HashPassword(signInInfo.Password))
+            {
+                return null;
+            } 
+            else 
+            {
+                userData.Password = "";
+                return userData;
+            }
         }
 
         private string HashPassword(string password)

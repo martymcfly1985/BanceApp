@@ -1,10 +1,27 @@
-import { Button, Card, Checkbox, Col, Form, Input, Row } from "antd";
-import React from 'react';
+import { Button, Card, Checkbox, Col, Form, Input, message, Row } from "antd";
+import React, { useState } from 'react';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
+import { getUserInformation } from '../../BusinessLogic/userActions';
 
 const SignIn: React.FC = () => {
-  const onFinish = () => {
-    console.log('r');
+  const [submitLoading, setSubmitLoading] = useState(false);
+
+  const onFinish = async(values: any) => {
+    try {
+      setSubmitLoading(true);
+      const userStatus = await getUserInformation(values);
+      console.log(userStatus);
+      if (userStatus !== undefined && userStatus !== null)
+      {
+        message.success('User was logged in.');
+      } else {
+        message.error('User was not logged in.');
+      }
+      setSubmitLoading(false);
+    } catch {
+      setSubmitLoading(false);
+      message.error('Unable to create new user.');
+    }
   }
   return (
     <Row 
@@ -18,6 +35,7 @@ const SignIn: React.FC = () => {
     >
       <Col>
         <Card
+          loading={submitLoading}
           title='Sign In'
           style={{
             width: 400,

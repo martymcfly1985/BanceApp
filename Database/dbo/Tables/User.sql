@@ -2,7 +2,7 @@
 (
 	[U_Recnum] INT IDENTITY (1,1) NOT NULL, 
     [U_Username] VARCHAR(50) NOT NULL, 
-    [U_Password] VARCHAR(50) NOT NULL, 
+    [U_Password] VARCHAR(MAX) NOT NULL, 
     [U_Email] VARCHAR(50) NOT NULL, 
     [U_FirstName] VARCHAR(50) NOT NULL, 
     [U_LastName] VARCHAR(50) NOT NULL, 

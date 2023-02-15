@@ -1,7 +1,7 @@
 ﻿CREATE PROCEDURE [dbo].[SaveUser]
 	@Username VARCHAR(50),
 	@Email VARCHAR(50),
-	@Password VARCHAR(50),
+	@Password VARCHAR(100),
 	@FirstName VARCHAR(50),
 	@LastName VARCHAR(50),
 	@Verified BIT,

@@ -32,5 +32,11 @@ Namespace Controllers
             UserService.SaveNewUser(newUser)
             Return Request.CreateResponse(HttpStatusCode.OK)
         End Function
+
+        <Route("api/getUserInformation")>
+        <HttpPost>
+        Function GetUserInformation(signInInfo As SignInInfo) As HttpResponseMessage
+            Return Request.CreateResponse(HttpStatusCode.OK, UserService.GetUserInformation(signInInfo), Request.GetConfiguration())
+        End Function
     End Class
 End Namespace

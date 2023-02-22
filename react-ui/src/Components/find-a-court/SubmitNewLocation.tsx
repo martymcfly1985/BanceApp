@@ -1,6 +1,6 @@
 import React from "react";
 import { ILocation } from "../../Models/Location";
-import { Button, Divider, Drawer, Form, FormInstance, Input, message, Popconfirm, Rate, Space, Table, TimePicker } from "antd";
+import { Button, Card, Divider, Drawer, Form, FormInstance, Input, message, Popconfirm, Rate, Space, Table, TimePicker } from "antd";
 import { DeleteOutlined , EditOutlined} from '@ant-design/icons';
 import { Content } from "antd/lib/layout/layout";
 import "../../css/Shared.css";
@@ -202,80 +202,82 @@ class SubmitNewLocation extends React.Component<ISubmitNewLocationProps, ISubmit
 		return (
 			<>
 				<Content className="content">
-					<Space direction="vertical" style={{ display: 'flex' }} split={<Divider />}>
-						<Form
-							layout={'vertical'}
-							ref={this.formRef}
-							name='locationForm'
-							onFinish={this.onLocationFinish}
-						>
-							<Form.Item
-								name='locationName'
-								label='Location Name'
-								rules={[{ required: true, message: 'Please enter a location name.' }]}
-								validateStatus={this.state.locationValidationStatus}
-								help={this.state.locationValidationText}
+					<Card>
+						<Space direction="vertical" style={{ display: 'flex' }} split={<Divider />}>
+							<Form
+								layout={'vertical'}
+								ref={this.formRef}
+								name='locationForm'
+								onFinish={this.onLocationFinish}
 							>
-								<Input
-									style={{ width: '20%' }}
-									maxLength={50}
-									onChange={this.onLocationNameChange}
-								/>
-							</Form.Item>
-							<Form.Item
-								name='locationAddress'
-								label='Location Address'
-								rules={[{ required: true, message: 'Please enter a location address.' }]}
-							>
-								<Input
-									style={{ width: '20%' }}
-									maxLength={50}
-								/>
-							</Form.Item>
-							<Form.Item
-								name='locationHours'
-								label='Location Hours'
-								rules={[{ required: true, message: 'Please enter location hours.' }]}
-							>
-								<TimePicker.RangePicker
-									style={{ width: '20%' }}
-									use12Hours
-									format="h:mm a"
-									minuteStep={15}
-									allowClear
-								/>
-							</Form.Item>
-							<Divider />
-							<Button
-								htmlType="button"
-								onClick={this.onAddCourtClick}
-							>
-								Add a Court
-							</Button>
-							<Divider />
-							{
-								this.state.courtList.length !== 0 ?
-									<>
-                    <Table
-                      pagination={false}
-                      columns={columns}
-                      dataSource={this.state.courtList}
-                      size={'small'}
-                      bordered={true}
-                      rowKey={(record: ICourt) => String(record.name)}
-                    />
-										<Divider />
-									</> : undefined
-							}
-							<Button
-								htmlType="submit"
-								loading={this.state.submitLoading}
-								disabled={this.state.courtList.length === 0}
-							>
-								Submit Location
-							</Button>
-						</Form>
-					</Space>
+								<Form.Item
+									name='locationName'
+									label='Location Name'
+									rules={[{ required: true, message: 'Please enter a location name.' }]}
+									validateStatus={this.state.locationValidationStatus}
+									help={this.state.locationValidationText}
+								>
+									<Input
+										style={{ width: '20%' }}
+										maxLength={50}
+										onChange={this.onLocationNameChange}
+									/>
+								</Form.Item>
+								<Form.Item
+									name='locationAddress'
+									label='Location Address'
+									rules={[{ required: true, message: 'Please enter a location address.' }]}
+								>
+									<Input
+										style={{ width: '20%' }}
+										maxLength={50}
+									/>
+								</Form.Item>
+								<Form.Item
+									name='locationHours'
+									label='Location Hours'
+									rules={[{ required: true, message: 'Please enter location hours.' }]}
+								>
+									<TimePicker.RangePicker
+										style={{ width: '20%' }}
+										use12Hours
+										format="h:mm a"
+										minuteStep={15}
+										allowClear
+									/>
+								</Form.Item>
+								<Divider />
+								<Button
+									htmlType="button"
+									onClick={this.onAddCourtClick}
+								>
+									Add a Court
+								</Button>
+								<Divider />
+								{
+									this.state.courtList.length !== 0 ?
+										<>
+											<Table
+												pagination={false}
+												columns={columns}
+												dataSource={this.state.courtList}
+												size={'small'}
+												bordered={true}
+												rowKey={(record: ICourt) => String(record.name)}
+											/>
+											<Divider />
+										</> : undefined
+								}
+								<Button
+									htmlType="submit"
+									loading={this.state.submitLoading}
+									disabled={this.state.courtList.length === 0}
+								>
+									Submit Location
+								</Button>
+							</Form>
+						</Space>
+					</Card>
 				</Content>
 				<Drawer
 					title={this.state.selectedCourt === undefined ? "Add a court to your location." : "Make changes to the selected court."}

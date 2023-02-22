@@ -1,0 +1,40 @@
+﻿CREATE PROCEDURE [dbo].[SaveUser]
+	@Username VARCHAR(50),
+	@Email VARCHAR(50),
+	@Password VARCHAR(100),
+	@FirstName VARCHAR(50),
+	@LastName VARCHAR(50),
+	@Verified BIT,
+	@Leagues VARCHAR(50) = NULL,
+	@Role INT,
+	@Public BIT,
+	@City VARCHAR(50),
+	@State VARCHAR(50),
+	@SkillLevel DECIMAL = NULL
+AS
+	INSERT INTO [dbo].[User]
+	(U_Username,
+	U_Password,
+	U_Email,
+	U_FirstName,
+	U_LastName,
+	U_City,
+	U_State,
+	U_Role,
+	U_Leagues,
+	U_Verified,
+	U_Public,
+	U_SkillLevel)
+     VALUES
+    (@Username, 
+    @Password, 
+    @Email,
+    @FirstName,
+    @LastName, 
+    @City,
+    @State,
+    @Role,
+    @Leagues,
+    @Verified, 
+    @Public,
+    @SkillLevel)

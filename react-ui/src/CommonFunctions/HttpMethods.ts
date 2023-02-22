@@ -10,7 +10,7 @@ export async function get<T>(route: string): Promise<T> {
   return data;
 }
 
-export async function post<T>(route: string, parameters: Record<string, any>): Promise<T> {
+export async function post<T>(route: string, parameters: Record<string, any> | any): Promise<T> {
   const response = await fetch(route, {
     method: 'POST',
     headers: {

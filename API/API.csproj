@@ -97,6 +97,7 @@
     <Compile Include="DataAccess\EnhancedSqlDataReader.cs" />
     <Compile Include="DataAccess\Models\Connection.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Models\Account\SignInInfo.cs" />
     <Compile Include="Models\Campground\Campground.cs" />
     <Compile Include="Models\Factory\IGenericFactory.cs" />
     <Compile Include="Models\Person\Person.cs" />
@@ -105,6 +106,7 @@
     <Compile Include="Models\Tennis\CourtSurface.cs" />
     <Compile Include="Models\Tennis\Location.cs" />
     <Compile Include="Models\Tennis\NewRating.cs" />
+    <Compile Include="Models\Account\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\Campground\CampgroundRepository.cs" />
     <Compile Include="Repositories\Campground\ICampgroundRepository.cs" />
@@ -114,6 +116,8 @@
     <Compile Include="Repositories\Tennis\ICourtRepository.cs" />
     <Compile Include="Repositories\Tennis\ILocationRepository.cs" />
     <Compile Include="Repositories\Tennis\LocationRepository.cs" />
+    <Compile Include="Repositories\Account\IUserRepository.cs" />
+    <Compile Include="Repositories\Account\UserRepository.cs" />
     <Compile Include="Services\Campground\CampgroundService.cs" />
     <Compile Include="Services\Campground\ICampgroundService.cs" />
     <Compile Include="Services\Configuration\ApplicationConfiguration.cs" />
@@ -124,6 +128,8 @@
     <Compile Include="Services\Tennis\ICourtService.cs" />
     <Compile Include="Services\Tennis\ILocationService.cs" />
     <Compile Include="Services\Tennis\LocationService.cs" />
+    <Compile Include="Services\Account\IUserService.cs" />
+    <Compile Include="Services\Account\UserService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

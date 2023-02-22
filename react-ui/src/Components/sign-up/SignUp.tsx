@@ -1,4 +1,4 @@
-import { message} from 'antd';
+import { message } from 'antd';
 import React, { useState } from 'react';
 import { IUser, RoleEnum } from '../../Models/User';
 import { saveNewUser } from '../../BusinessLogic/userActions';
@@ -8,8 +8,8 @@ import SignUpForm from './SignUpForm';
 const SignUp: React.FC = () => {
   const [submitLoading, setSubmitLoading] = useState(false);
   const [signUpCompleted, setSignUpCompleted] = useState(false);
-  
-  const onFinish = async(values: any) => {
+
+  const onFinish = async (values: any) => {
     const newUser: IUser = {
       username: values.username,
       password: values.password,
@@ -35,12 +35,12 @@ const SignUp: React.FC = () => {
   };
 
   return (
-    signUpCompleted ? 
-    <SuccessfulSignUp/> : 
-    <SignUpForm 
-      submitLoading={submitLoading} 
-      onFinish={onFinish}
-    />
+    signUpCompleted ?
+      <SuccessfulSignUp /> :
+      <SignUpForm
+        submitLoading={submitLoading}
+        onFinish={onFinish}
+      />
   );
 }
 

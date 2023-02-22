@@ -8,7 +8,7 @@ const SignIn: React.FC = () => {
   const [submitLoading, setSubmitLoading] = useState(false);
   const [incorrectLoginError, setIncorrectLoginError] = useState(false);
 
-  const onFinish = async(values: any) => {
+  const onFinish = async (values: any) => {
     try {
       setIncorrectLoginError(false);
       setSubmitLoading(true);
@@ -17,8 +17,8 @@ const SignIn: React.FC = () => {
         const userPropertyNames = ["username", "firstName", "lastName", "city", "state", "email", "leagues", "public", "skillLevel", "role"]
         userPropertyNames.forEach(userPropertyName => {
           sessionStorage.setItem(userPropertyName, String(userData[userPropertyName as keyof IUser]));
-        }); 
-      window.location.replace("/");
+        });
+        window.location.replace("/");
       } else {
         setIncorrectLoginError(true);
       }
@@ -29,7 +29,7 @@ const SignIn: React.FC = () => {
     }
   }
   return (
-    <Row 
+    <Row
       align='middle'
       itemType="flex"
       justify='center'
@@ -43,11 +43,11 @@ const SignIn: React.FC = () => {
           {
             incorrectLoginError === true ?
               <Alert
-                message='Username and/or password was incorrect.' 
-                type="error" 
-                showIcon 
+                message='Username and/or password was incorrect.'
+                type="error"
+                showIcon
                 closable={true}
-              /> : 
+              /> :
               undefined
           }
           <Card
@@ -68,8 +68,8 @@ const SignIn: React.FC = () => {
                 name='username'
                 rules={[{ required: true, message: 'Please enter a username.' }]}
               >
-                <Input 
-                  prefix={<UserOutlined/>} 
+                <Input
+                  prefix={<UserOutlined />}
                   placeholder="Username"
                 />
               </Form.Item>
@@ -77,8 +77,8 @@ const SignIn: React.FC = () => {
                 name='password'
                 rules={[{ required: true, message: 'Please enter a password.' }]}
               >
-                <Input.Password 
-                  prefix={<LockOutlined/>} 
+                <Input.Password
+                  prefix={<LockOutlined />}
                   placeholder="Password"
                 />
               </Form.Item>
@@ -89,9 +89,9 @@ const SignIn: React.FC = () => {
                 <Checkbox>
                   Remember Me
                 </Checkbox>
-                <a 
+                <a
                   href=""
-                  style={{float: 'right'}}
+                  style={{ float: 'right' }}
                 >
                   Forgot password?
                 </a>
@@ -101,7 +101,7 @@ const SignIn: React.FC = () => {
                   loading={submitLoading}
                   type='primary'
                   htmlType='submit'
-                  style={{width: '100%'}}
+                  style={{ width: '100%' }}
                 >
                   Submit
                 </Button>
@@ -115,7 +115,7 @@ const SignIn: React.FC = () => {
             borderColor: "gray"
           }}
         >
-          <div style={{alignItems: 'center'}}>
+          <div style={{ alignItems: 'center' }}>
             New to BanceApp? &nbsp;
             <a href="signup">
               Sign Up

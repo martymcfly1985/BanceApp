@@ -28,8 +28,7 @@ const SignUp: React.FC = () => {
       setSubmitLoading(true);
       await saveNewUser(newUser);
       setSignUpCompleted(true);
-    } catch(error: any) {
-      console.log(error);
+    } catch (error: any) {
       setSubmitLoading(false);
       message.error('Unable to create new user.');
     }

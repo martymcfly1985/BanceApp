@@ -1,26 +1,31 @@
-import { Button, Card, Checkbox, Col, Form, Input, message, Row } from "antd";
+import { Alert, Button, Card, Checkbox, Col, Form, Input, message, Row, Space } from "antd";
 import React, { useState } from 'react';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { getUserInformation } from '../../BusinessLogic/userActions';
+import { IUser } from "../../Models/User";
 
 const SignIn: React.FC = () => {
   const [submitLoading, setSubmitLoading] = useState(false);
+  const [incorrectLoginError, setIncorrectLoginError] = useState(false);
 
   const onFinish = async(values: any) => {
     try {
+      setIncorrectLoginError(false);
       setSubmitLoading(true);
-      const userStatus = await getUserInformation(values);
-      console.log(userStatus);
-      if (userStatus !== undefined && userStatus !== null)
-      {
-        message.success('User was logged in.');
+      const userData: IUser = await getUserInformation(values);
+      if (userData !== undefined && userData !== null) {
+        const userPropertyNames = ["username", "firstName", "lastName", "city", "state", "email", "leagues", "public", "skillLevel", "role"]
+        userPropertyNames.forEach(userPropertyName => {
+          sessionStorage.setItem(userPropertyName, String(userData[userPropertyName as keyof IUser]));
+        }); 
+      window.location.replace("/");
       } else {
-        message.error('User was not logged in.');
+        setIncorrectLoginError(true);
       }
       setSubmitLoading(false);
     } catch {
       setSubmitLoading(false);
-      message.error('Unable to create new user.');
+      message.error('Unable to log in. Please try again later.');
     }
   }
   return (
@@ -34,64 +39,76 @@ const SignIn: React.FC = () => {
       }}
     >
       <Col>
-        <Card
-          loading={submitLoading}
-          title='Sign In'
-          style={{
-            width: 400,
-            borderColor: "gray"
-          }}
-          type='inner'
-        >
-          <Form
-            name='signInForm'
-            initialValues={{ remember: true }}
-            onFinish={onFinish}
-            autoComplete='off'
+        <Space direction="vertical" size={"small"}>
+          {
+            incorrectLoginError === true ?
+              <Alert
+                message='Username and/or password was incorrect.' 
+                type="error" 
+                showIcon 
+                closable={true}
+              /> : 
+              undefined
+          }
+          <Card
+            title='Sign In'
+            style={{
+              width: 400,
+              borderColor: "gray"
+            }}
+            type='inner'
           >
-            <Form.Item
-              name='username'
-              rules={[{ required: true, message: 'Please enter a username.' }]}
+            <Form
+              name='signInForm'
+              initialValues={{ remember: true }}
+              onFinish={onFinish}
+              autoComplete='off'
             >
-              <Input 
-                prefix={<UserOutlined/>} 
-                placeholder="Username"
-              />
-            </Form.Item>
-            <Form.Item
-              name='password'
-              rules={[{ required: true, message: 'Please enter a password.' }]}
-            >
-              <Input.Password 
-                prefix={<LockOutlined/>} 
-                placeholder="Password"
-              />
-            </Form.Item>
-            <Form.Item
-              name='rememberMe'
-              valuePropName='checked'
-            >
-              <Checkbox>
-                Remember Me
-              </Checkbox>
-              <a 
-                href=""
-                style={{float: 'right'}}
+              <Form.Item
+                name='username'
+                rules={[{ required: true, message: 'Please enter a username.' }]}
               >
-                Forgot password?
-              </a>
-            </Form.Item>
-            <Form.Item>
-              <Button
-                type='primary'
-                htmlType='submit'
-                style={{width: '100%'}}
+                <Input 
+                  prefix={<UserOutlined/>} 
+                  placeholder="Username"
+                />
+              </Form.Item>
+              <Form.Item
+                name='password'
+                rules={[{ required: true, message: 'Please enter a password.' }]}
               >
-                Submit
-              </Button>
-            </Form.Item>
-          </Form>
-        </Card>
+                <Input.Password 
+                  prefix={<LockOutlined/>} 
+                  placeholder="Password"
+                />
+              </Form.Item>
+              <Form.Item
+                name='rememberMe'
+                valuePropName='checked'
+              >
+                <Checkbox>
+                  Remember Me
+                </Checkbox>
+                <a 
+                  href=""
+                  style={{float: 'right'}}
+                >
+                  Forgot password?
+                </a>
+              </Form.Item>
+              <Form.Item>
+                <Button
+                  loading={submitLoading}
+                  type='primary'
+                  htmlType='submit'
+                  style={{width: '100%'}}
+                >
+                  Submit
+                </Button>
+              </Form.Item>
+            </Form>
+          </Card>
+        </Space>
         <Card
           style={{
             width: 400,

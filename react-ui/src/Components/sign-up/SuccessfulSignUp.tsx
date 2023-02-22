@@ -1,6 +1,22 @@
+import { Card, Col, Row } from "antd";
+
 const SuccessfulSignUp: React.FC = () => {
   return (
-    <div>Successful Sign Up!</div>
+    <Row 
+      align='middle'
+      itemType="flex"
+      justify='center'
+      style={{
+        minHeight: '100vh',
+        backgroundColor: '#efefef'
+      }}
+    >
+      <Col>
+        <Card>
+          <h2>Thank you for signing up!</h2>
+        </Card>
+      </Col>
+    </Row>
   );
 } 
 

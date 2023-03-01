@@ -15,6 +15,65 @@ function App() {
     setCurrentMenuKey(event.key);
   }
 
+  const getMenuItems = () => {
+    const items: MenuProps['items'] = [
+      {
+        label: 'Find a Court',
+        key: 'FindACourt',
+        children: [
+          {
+            label: 'View Locations',
+            key: 'ViewLocations'
+          },
+          {
+            label: 'Submit New Location',
+            key: 'SubmitNewLocation'
+          },
+          {
+            label: 'Submit New Court',
+            key: 'SubmitNewCourt'
+          }
+        ]
+      },
+      {
+        label: 'Find a League',
+        key: 'FindALeague' 
+      }
+    ]
+    if (sessionStorage.getItem("username") === null) {
+      items.push({
+        label: (
+          <a href="signin">
+            Sign In
+          </a>
+        ),
+        key: 'SignIn',
+        style: {float: 'right'}
+      })
+    } else {
+      items.push({
+        label: sessionStorage.getItem("username"),
+        key: 'Profile',
+        children: [
+          {
+            label: 'Profile',
+            key: 'Profile'
+          },
+          {
+            label: 'Your Leagues',
+            key: 'YourLeagues'
+          },
+          {
+            label: 'Sign Out',
+            key: 'SignOut'
+          },
+        ],
+        style: {float: 'right'}
+      })
+    }
+    return items;
+  };
+
   const componentsSwtich = (currentMenuKey: string) => {
     switch (currentMenuKey) {
       case 'ViewLocations':
@@ -30,45 +89,11 @@ function App() {
      }
   };
 
-  const items: MenuProps['items'] = [
-    {
-      label: 'Find a Court',
-      key: 'FindACourt',
-      children: [
-        {
-          label: 'View Locations',
-          key: 'ViewLocations'
-        },
-        {
-          label: 'Submit New Location',
-          key: 'SubmitNewLocation'
-        },
-        {
-          label: 'Submit New Court',
-          key: 'SubmitNewCourt'
-        }
-      ]
-    },
-    {
-      label: 'Find a League',
-      key: 'FindALeague' 
-    },
-    {
-      label: (
-        <a href="signin">
-          Sign In
-        </a>
-      ),
-      key: 'SignIn',
-      style: {float: 'right'}
-    }
-  ]
-
   return (
     <Layout className='layout'>
       <Header style={{ position: 'sticky', top: 0, zIndex: 1, width: '100%' }}>
         <div className="logo"/>
-        <Menu style={{ display: 'block' }} theme="dark" mode="horizontal" selectedKeys={[currentMenuKey]} onClick={menuClicked} items={items}/>
+        <Menu style={{ display: 'block' }} theme="dark" mode="horizontal" triggerSubMenuAction='click' selectedKeys={[currentMenuKey]} onClick={menuClicked} items={getMenuItems()}/>  
       </Header>
       {componentsSwtich(currentMenuKey)}   
     </Layout>

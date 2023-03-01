@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import {Layout, Menu, MenuProps} from 'antd';
+import { Avatar, Button, Card, Col, Layout, Menu, MenuProps, Row } from 'antd';
 import '../css/App.css';
 import FindACourt from './find-a-court/FindACourt';
 import FindALeague from './find-a-league/FindALeague';
 import SubmitNewCourt from './find-a-court/SubmitNewCourt';
 import SubmitNewLocation from './find-a-court/SubmitNewLocation';
+import { Divider } from 'rc-menu';
 
 const { Header} = Layout;
 
@@ -13,6 +14,11 @@ function App() {
 
   const menuClicked = async(event: any) => {
     setCurrentMenuKey(event.key);
+  }
+
+  const onSignOutClicked = () => {
+    sessionStorage.clear();
+    window.location.replace("/");
   }
 
   const getMenuItems = () => {
@@ -56,16 +62,32 @@ function App() {
         key: 'Profile',
         children: [
           {
-            label: 'Profile',
-            key: 'Profile'
-          },
-          {
-            label: 'Your Leagues',
-            key: 'YourLeagues'
-          },
-          {
-            label: 'Sign Out',
-            key: 'SignOut'
+            label: 
+              <Card style={{justifyContent:'left', height:'100%', width:'100%'}}>
+                <Col>
+                  <Row>
+                    <Avatar style={{marginBottom:6}} size={48} gap={8}>USER</Avatar>
+                  </Row>
+                  <Divider/>
+                  <Row>
+                    <Button type='text'>
+                      Profile
+                    </Button>
+                  </Row>
+                  <Row>
+                    <Button type='text'>
+                      Your Leagues
+                    </Button>
+                  </Row>
+                  <Row>
+                    <Button type='text' onClick={onSignOutClicked}>
+                      Sign Out
+                    </Button>
+                  </Row>
+                </Col>
+              </Card>,
+            key: 'ProfileCard',
+            style: {height:250, width:250, padding:0, backgroundColor: 'white'}
           },
         ],
         style: {float: 'right'}

@@ -12,11 +12,8 @@
   margin: 16px 24px 16px 0;
   background: rgb(226, 196, 28);
 }
-/* 
-.logo1 {
-  float: right;
-  width: 120px;
-  height: 31px;
-  margin: 16px 24px 16px 0;
-  background: rgb(226, 196, 28);
-} */
+
+.avatar-style {
+  background-color:#efefef; 
+  color:#001529;
+}

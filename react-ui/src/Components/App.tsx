@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { Avatar, Button, Card, Col, Layout, Menu, MenuProps, Row } from 'antd';
+import { Avatar, Button, Card, Layout, Menu, MenuProps, Space } from 'antd';
 import '../css/App.css';
 import FindACourt from './find-a-court/FindACourt';
 import FindALeague from './find-a-league/FindALeague';
 import SubmitNewCourt from './find-a-court/SubmitNewCourt';
 import SubmitNewLocation from './find-a-court/SubmitNewLocation';
+import { SolutionOutlined, ScheduleOutlined, LogoutOutlined } from '@ant-design/icons'
 import { Divider } from 'rc-menu';
 
 const { Header} = Layout;
@@ -58,33 +59,25 @@ function App() {
       })
     } else {
       items.push({
-        label: sessionStorage.getItem("username"),
+        label: <Avatar className='avatar-style' size={50} gap={8}>{`${sessionStorage.getItem("firstName")?.substring(0, 1)}${sessionStorage.getItem("lastName")?.substring(0, 1)}`}</Avatar>,
         key: 'Profile',
         children: [
           {
             label: 
-              <Card style={{justifyContent:'left', height:'100%', width:'100%'}}>
-                <Col>
-                  <Row>
-                    <Avatar style={{marginBottom:6}} size={48} gap={8}>USER</Avatar>
-                  </Row>
-                  <Divider/>
-                  <Row>
-                    <Button type='text'>
-                      Profile
-                    </Button>
-                  </Row>
-                  <Row>
-                    <Button type='text'>
-                      Your Leagues
-                    </Button>
-                  </Row>
-                  <Row>
-                    <Button type='text' onClick={onSignOutClicked}>
-                      Sign Out
-                    </Button>
-                  </Row>
-                </Col>
+              <Card style={{height: '100%', width: '100%' }}>
+                <Space direction={'vertical'} size={'small'}>
+                  <div> Welcome {sessionStorage.getItem("firstName")}! </div>
+                  <Divider />
+                  <Button type='text' icon={<SolutionOutlined/>}>
+                    Your Profile
+                  </Button>
+                  <Button type='text' icon={<ScheduleOutlined/>}>
+                    Your Leagues
+                  </Button>
+                  <Button type='text' onClick={onSignOutClicked} icon={<LogoutOutlined/>}>
+                    Sign Out
+                  </Button>
+                </Space>
               </Card>,
             key: 'ProfileCard',
             style: {height:250, width:250, padding:0, backgroundColor: 'white'}

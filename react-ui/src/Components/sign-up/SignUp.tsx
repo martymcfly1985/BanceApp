@@ -24,6 +24,8 @@ const SignUp: React.FC = () => {
       leagues: undefined,
       skillLevel: undefined
     }
+    sessionStorage.setItem("email",newUser.email);
+    sessionStorage.setItem("firstName", newUser.firstName);
     try {
       setSubmitLoading(true);
       await saveNewUser(newUser);
@@ -36,7 +38,7 @@ const SignUp: React.FC = () => {
 
   return (
     signUpCompleted ?
-      <SuccessfulSignUp /> :
+      <SuccessfulSignUp/> :
       <SignUpForm
         submitLoading={submitLoading}
         onFinish={onFinish}

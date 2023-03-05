@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Avatar, Button, Card, Layout, Menu, MenuProps, Space } from 'antd';
+import { Avatar, Button, Card, Col, Dropdown, Layout, Menu, MenuProps, Popover, Row, Space, Typography} from 'antd';
 import '../css/App.css';
 import FindACourt from './find-a-court/FindACourt';
 import FindALeague from './find-a-league/FindALeague';
@@ -7,6 +7,7 @@ import SubmitNewCourt from './find-a-court/SubmitNewCourt';
 import SubmitNewLocation from './find-a-court/SubmitNewLocation';
 import { SolutionOutlined, ScheduleOutlined, LogoutOutlined } from '@ant-design/icons'
 import { Divider } from 'rc-menu';
+import { UserOutlined } from '@ant-design/icons';
 
 const { Header} = Layout;
 
@@ -14,12 +15,9 @@ function App() {
   const [currentMenuKey, setCurrentMenuKey] = useState('1');
 
   const menuClicked = async(event: any) => {
-    setCurrentMenuKey(event.key);
-  }
-
-  const onSignOutClicked = () => {
-    sessionStorage.clear();
-    window.location.replace("/");
+    if (event.key !== 'Profile') {
+      setCurrentMenuKey(event.key);
+    }
   }
 
   const getMenuItems = () => {
@@ -59,7 +57,38 @@ function App() {
       })
     } else {
       items.push({
-        label: <Avatar className='avatar-style' size={50} gap={8}>{`${sessionStorage.getItem("firstName")?.substring(0, 1)}${sessionStorage.getItem("lastName")?.substring(0, 1)}`}</Avatar>,
+        label: <Popover
+        placement='bottom'
+        trigger='click'
+        showArrow={false}
+        content={
+          <Card style={{width: 300}}>
+            <Col>
+              <Row>
+                <Avatar style={{marginBottom:6}} size={48} gap={8}>USER</Avatar>
+              </Row>
+              <Divider/>
+              <Row>
+                <Button type='text'>
+                  Profile
+                </Button>
+              </Row>
+              <Row>
+                <Button type='text'>
+                  Your Leagues
+                </Button>
+              </Row>
+              <Row>
+                <Button type='text'>
+                  Sign Out
+                </Button>
+              </Row>
+            </Col>
+          </Card>
+        }
+      >
+          <Avatar className='avatar-style' size={50} gap={8}>{`${sessionStorage.getItem("firstName")?.substring(0, 1)}${sessionStorage.getItem("lastName")?.substring(0, 1)}`}</Avatar>
+      </Popover>,
         key: 'Profile',
         children: [
           {
@@ -108,7 +137,7 @@ function App() {
     <Layout className='layout'>
       <Header style={{ position: 'sticky', top: 0, zIndex: 1, width: '100%' }}>
         <div className="logo"/>
-        <Menu style={{ display: 'block' }} theme="dark" mode="horizontal" triggerSubMenuAction='click' selectedKeys={[currentMenuKey]} onClick={menuClicked} items={getMenuItems()}/>  
+        <Menu style={{ display: 'block' }} theme="dark" mode="horizontal" triggerSubMenuAction='click' selectedKeys={[currentMenuKey]} onClick={menuClicked} items={getMenuItems()}/>
       </Header>
       {componentsSwtich(currentMenuKey)}   
     </Layout>

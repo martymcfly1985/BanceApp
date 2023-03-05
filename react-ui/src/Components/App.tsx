@@ -1,12 +1,11 @@
 import { useState } from 'react';
-import { Avatar, Button, Card, Col, Dropdown, Layout, Menu, MenuProps, Popover, Row, Space, Typography} from 'antd';
+import { Avatar, Button, Card, Divider, Layout, Menu, MenuProps, Popover, Space } from 'antd';
 import '../css/App.css';
 import FindACourt from './find-a-court/FindACourt';
 import FindALeague from './find-a-league/FindALeague';
 import SubmitNewCourt from './find-a-court/SubmitNewCourt';
 import SubmitNewLocation from './find-a-court/SubmitNewLocation';
 import { SolutionOutlined, ScheduleOutlined, LogoutOutlined } from '@ant-design/icons'
-import { Divider } from 'rc-menu';
 import { UserOutlined } from '@ant-design/icons';
 
 const { Header} = Layout;
@@ -18,6 +17,11 @@ function App() {
     if (event.key !== 'Profile') {
       setCurrentMenuKey(event.key);
     }
+  }
+
+  const onSignOutClicked = () => {
+    sessionStorage.clear();
+    window.location.replace("/");
   }
 
   const getMenuItems = () => {
@@ -57,46 +61,16 @@ function App() {
       })
     } else {
       items.push({
-        label: <Popover
-        placement='bottom'
-        trigger='click'
-        showArrow={false}
-        content={
-          <Card style={{width: 300}}>
-            <Col>
-              <Row>
-                <Avatar style={{marginBottom:6}} size={48} gap={8}>USER</Avatar>
-              </Row>
-              <Divider/>
-              <Row>
-                <Button type='text'>
-                  Profile
-                </Button>
-              </Row>
-              <Row>
-                <Button type='text'>
-                  Your Leagues
-                </Button>
-              </Row>
-              <Row>
-                <Button type='text'>
-                  Sign Out
-                </Button>
-              </Row>
-            </Col>
-          </Card>
-        }
-      >
-          <Avatar className='avatar-style' size={50} gap={8}>{`${sessionStorage.getItem("firstName")?.substring(0, 1)}${sessionStorage.getItem("lastName")?.substring(0, 1)}`}</Avatar>
-      </Popover>,
-        key: 'Profile',
-        children: [
-          {
-            label: 
-              <Card style={{height: '100%', width: '100%' }}>
+        label: 
+          <Popover
+            placement='bottom'
+            trigger='click'
+            showArrow={false}
+            content={
+              <Card style={{width: 300}}>
+                Welcome {sessionStorage.getItem("firstName")}!
+                <Divider />
                 <Space direction={'vertical'} size={'small'}>
-                  <div> Welcome {sessionStorage.getItem("firstName")}! </div>
-                  <Divider />
                   <Button type='text' icon={<SolutionOutlined/>}>
                     Your Profile
                   </Button>
@@ -107,11 +81,17 @@ function App() {
                     Sign Out
                   </Button>
                 </Space>
-              </Card>,
-            key: 'ProfileCard',
-            style: {height:250, width:250, padding:0, backgroundColor: 'white'}
-          },
-        ],
+              </Card>
+            }
+          >
+            <Avatar
+              className='avatar-style'
+              size={50} gap={8}
+            >
+              {`${sessionStorage.getItem("firstName")?.substring(0, 1)}${sessionStorage.getItem("lastName")?.substring(0, 1)}`}
+            </Avatar>
+          </Popover>,
+        key: 'Profile',
         style: {float: 'right'}
       })
     }

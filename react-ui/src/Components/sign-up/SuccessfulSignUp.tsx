@@ -1,6 +1,19 @@
-import { Card, Col, Row } from "antd";
+import { Button, Card, Result, Row } from "antd";
 
-const SuccessfulSignUp: React.FC = () => {
+interface SuccessfulSignUpProps {
+  newUserEmail: string | undefined;
+  newUserFirstName: string | undefined;
+}
+
+function SuccessfulSignUp({
+  newUserEmail,
+  newUserFirstName
+}: SuccessfulSignUpProps) {
+
+  const onPageLeave = () => {
+    window.location.replace("/SignIn");
+  }
+
   return (
     <Row 
       align='middle'
@@ -11,11 +24,18 @@ const SuccessfulSignUp: React.FC = () => {
         backgroundColor: '#efefef'
       }}
     >
-      <Col>
-        <Card>
-          <h2>Thank you for signing up!</h2>
-        </Card>
-      </Col>
+      <Card>
+        <Result
+          status="success"
+          title={`Thank you for signing up for BanceApp ${newUserFirstName}!`}
+          subTitle={`We will send you a verification link to your ${newUserEmail} email address`}
+          extra={[
+            <Button size="large" key="signin" type="primary" onClick={onPageLeave}>
+              Return to Sign In
+            </Button>
+          ]}
+        />
+      </Card>
     </Row>
   );
 } 

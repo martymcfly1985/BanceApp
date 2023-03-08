@@ -184,6 +184,12 @@ function SignUpForm({
                 onChange={(value) => {
                   populateCitySelect(value);
                 }}
+                filterOption={(input, option) => {
+                  return (
+                    option !== undefined && option !== null && (option.value.toLowerCase().includes(input.toLowerCase()) ||
+                    option.label.toLowerCase().includes(input.toLowerCase()))
+                  );
+                }}
                 options={[
                   { value: 'AL', label: 'Alabama' },
                   { value: 'AK', label: 'Alaska' },

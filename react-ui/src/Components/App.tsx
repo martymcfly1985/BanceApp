@@ -6,7 +6,6 @@ import FindALeague from './find-a-league/FindALeague';
 import SubmitNewCourt from './find-a-court/SubmitNewCourt';
 import SubmitNewLocation from './find-a-court/SubmitNewLocation';
 import { SolutionOutlined, ScheduleOutlined, LogoutOutlined } from '@ant-design/icons'
-import { UserOutlined } from '@ant-design/icons';
 
 const { Header} = Layout;
 
@@ -98,7 +97,7 @@ function App() {
     return items;
   };
 
-  const componentsSwtich = (currentMenuKey: string) => {
+  const componentsSwitch = (currentMenuKey: string) => {
     switch (currentMenuKey) {
       case 'ViewLocations':
         return (<FindACourt/>);
@@ -119,7 +118,7 @@ function App() {
         <div className="logo"/>
         <Menu style={{ display: 'block' }} theme="dark" mode="horizontal" triggerSubMenuAction='click' selectedKeys={[currentMenuKey]} onClick={menuClicked} items={getMenuItems()}/>
       </Header>
-      {componentsSwtich(currentMenuKey)}   
+      {componentsSwitch(currentMenuKey)}   
     </Layout>
   );
 }

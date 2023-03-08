@@ -1,9 +1,16 @@
-import { Button, Card, Row, Space } from "antd";
+import { Button, Card, Result, Row } from "antd";
 
-const SuccessfulSignUp: React.FC = () => {
+interface SuccessfulSignUpProps {
+  newUserEmail: string | undefined;
+  newUserFirstName: string | undefined;
+}
+
+function SuccessfulSignUp({
+  newUserEmail,
+  newUserFirstName
+}: SuccessfulSignUpProps) {
 
   const onPageLeave = () => {
-    sessionStorage.clear();
     window.location.replace("/SignIn");
   }
 
@@ -17,14 +24,17 @@ const SuccessfulSignUp: React.FC = () => {
         backgroundColor: '#efefef'
       }}
     >
-      <Card >
-        <Space style={{fontSize:20, alignContent: 'center', alignItems: 'center', justifyContent: 'center' }} direction="vertical" size={'middle'}>
-          <h1 >Thank you for signing up for BanceApp {sessionStorage.getItem("firstName")} !</h1>
-          <h2>We will send you a verification link to your {sessionStorage.getItem("email")} email address</h2>
-          <Button size="large" type="primary" onClick={onPageLeave}>
-            Return to Sign In
-          </Button>
-        </Space>
+      <Card>
+        <Result
+          status="success"
+          title={`Thank you for signing up for BanceApp ${newUserFirstName}!`}
+          subTitle={`We will send you a verification link to your ${newUserEmail} email address`}
+          extra={[
+            <Button size="large" key="signin" type="primary" onClick={onPageLeave}>
+              Return to Sign In
+            </Button>
+          ]}
+        />
       </Card>
     </Row>
   );

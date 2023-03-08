@@ -8,6 +8,7 @@ import SignUpForm from './SignUpForm';
 const SignUp: React.FC = () => {
   const [submitLoading, setSubmitLoading] = useState(false);
   const [signUpCompleted, setSignUpCompleted] = useState(false);
+  const [newUserData, setNewUserData] = useState<IUser | undefined>(undefined);
 
   const onFinish = async (values: any) => {
     const newUser: IUser = {
@@ -24,8 +25,7 @@ const SignUp: React.FC = () => {
       leagues: undefined,
       skillLevel: undefined
     }
-    sessionStorage.setItem("email",newUser.email);
-    sessionStorage.setItem("firstName", newUser.firstName);
+    setNewUserData(newUser);
     try {
       setSubmitLoading(true);
       await saveNewUser(newUser);
@@ -38,7 +38,10 @@ const SignUp: React.FC = () => {
 
   return (
     signUpCompleted ?
-      <SuccessfulSignUp/> :
+      <SuccessfulSignUp
+        newUserEmail={newUserData?.email}
+        newUserFirstName={newUserData?.firstName}
+      /> :
       <SignUpForm
         submitLoading={submitLoading}
         onFinish={onFinish}

@@ -22,5 +22,18 @@ namespace Tests
                 return (CourtDataManager)ScenarioContext.Current["CourtDataManager"];
             }
         }
+
+        public AccountDataManager AccountDataManager
+        {
+            get
+            {
+                if (!ScenarioContext.Current.ContainsKey("AccountDataManager"))
+                {
+                    ScenarioContext.Current["AccountDataManager"] = new AccountDataManager();
+                }
+
+                return (AccountDataManager)ScenarioContext.Current["AccountDataManager"];
+            }
+        }
     }
 }

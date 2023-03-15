@@ -108,14 +108,14 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-                TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
                             "Rating"});
-                table3.AddRow(new string[] {
+                table4.AddRow(new string[] {
                             "1"});
-                table3.AddRow(new string[] {
+                table4.AddRow(new string[] {
                             "1"});
 #line 4
- testRunner.Given("a court has the following ratings", ((string)(null)), table3, "Given ");
+ testRunner.Given("a court has the following ratings", ((string)(null)), table4, "Given ");
 #line hidden
 #line 8
  testRunner.When(string.Format("I give it a new rating of \'{0}\'", rating), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");

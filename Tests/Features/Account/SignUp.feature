@@ -9,15 +9,10 @@ Scenario: Signing up with valid information
 
 Scenario: Signing up with an email address that is in use by another user
 	Given the email testemail@gmail.com is already in use 
-	And the user enters testemail@gmail.com on the signup page
-	When the user selects the submit button
+	When the user enters testemail@gmail.com on the signup page
 	Then the user will be notified that the email testemail@gmail.com is already in use 
-	And the user will not be created
 
 Scenario: Signing up with a username that is in use by another user
 	Given the username TestUser is already in use 
-	And the user enters TestUser on the signup page
-	When the user selects the submit button
+	When the user enters TestUser on the signup page
 	Then the user will be notified that the username TestUser is already in use 
-	And the user will not be created
-	

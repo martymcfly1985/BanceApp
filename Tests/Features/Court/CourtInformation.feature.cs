@@ -109,23 +109,23 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-                TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
                             "Name",
                             "Surface",
                             "Lights",
                             "Condition"});
-                table2.AddRow(new string[] {
+                table3.AddRow(new string[] {
                             "Court 1",
                             "Concrete",
                             "true",
                             "Fair"});
-                table2.AddRow(new string[] {
+                table3.AddRow(new string[] {
                             "Court 2",
                             "Grass",
                             "false",
                             "Poor"});
 #line 4
- testRunner.Given("the following information is stored in the court table", ((string)(null)), table2, "Given ");
+ testRunner.Given("the following information is stored in the court table", ((string)(null)), table3, "Given ");
 #line hidden
 #line 8
  testRunner.When("I view the Find a Court Page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");

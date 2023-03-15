@@ -1,15 +1,16 @@
 using API.Models.Account;
 using FluentAssertions;
-using System;
-using System.Collections.Generic;
 using TechTalk.SpecFlow;
 
-namespace Tests.StepDefinitions
+namespace Tests.StepDefinitions.Account
 {
     [Binding]
     public class SignUpStepDefinitions : IntegrationTest
     {
         User user = new User();
+        bool isEmailUnique;
+        bool isUsernameUnique;
+
         [Given(@"the following user input from the sign up page")]
         public void GivenTheFollowingUserInputFromTheSignUpPage(Table table)
         {
@@ -55,43 +56,63 @@ namespace Tests.StepDefinitions
         [Given(@"the email testemail@gmail\.com is already in use")]
         public void GivenTheEmailTestemailGmail_ComIsAlreadyInUse()
         {
-            throw new PendingStepException();
+            user.Email = "testemail@gmail.com";
+            user.Username = "TestUser";
+            user.FirstName = "Test";
+            user.LastName = "User";
+            user.State = "OH";
+            user.City = "Columbus";
+            user.Password = "testpassword";
+            user.Verified = false;
+            user.Public = false;
+            user.Leagues = "";
+            user.SkillLevel = 0;
+            user.Role = 0;
+
+            AccountDataManager.UserService.SaveNewUser(user);
         }
 
-        [Given(@"the user enters testemail@gmail\.com on the signup page")]
-        public void GivenTheUserEntersTestemailGmail_ComOnTheSignupPage()
+        [When(@"the user enters testemail@gmail\.com on the signup page")]
+        public void WhenTheUserEntersTestemailGmail_ComOnTheSignupPage()
         {
-            throw new PendingStepException();
+            isEmailUnique = AccountDataManager.UserService.IsEmailUnique(user.Email);
         }
 
         [Then(@"the user will be notified that the email testemail@gmail\.com is already in use")]
         public void ThenTheUserWillBeNotifiedThatTheEmailTestemailGmail_ComIsAlreadyInUse()
         {
-            throw new PendingStepException();
-        }
-
-        [Then(@"the user will not be created")]
-        public void ThenTheUserWillNotBeCreated()
-        {
-            throw new PendingStepException();
+            isEmailUnique.Should().BeFalse();
         }
 
         [Given(@"the username TestUser is already in use")]
         public void GivenTheUsernameTestUserIsAlreadyInUse()
         {
-            throw new PendingStepException();
-        }
+            user.Email = "testemail@gmail.com";
+            user.Username = "TestUser";
+            user.FirstName = "Test";
+            user.LastName = "User";
+            user.State = "OH";
+            user.City = "Columbus";
+            user.Password = "testpassword";
+            user.Verified = false;
+            user.Public = false;
+            user.Leagues = "";
+            user.SkillLevel = 0;
+            user.Role = 0;
 
-        [Given(@"the user enters TestUser on the signup page")]
-        public void GivenTheUserEntersTestUserOnTheSignupPage()
+            AccountDataManager.UserService.SaveNewUser(user);
+        }
+        
+        [When(@"the user enters TestUser on the signup page")]
+        public void WhenTheUserEntersTestUserOnTheSignupPage()
         {
-            throw new PendingStepException();
+            isUsernameUnique = AccountDataManager.UserService.IsUsernameUnique(user.Username);
         }
 
         [Then(@"the user will be notified that the username TestUser is already in use")]
         public void ThenTheUserWillBeNotifiedThatTheUsernameTestUserIsAlreadyInUse()
         {
-            throw new PendingStepException();
+            isUsernameUnique.Should().BeFalse();
         }
     }
 }

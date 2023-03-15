@@ -109,7 +109,7 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-                TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
                             "Email",
                             "Username",
                             "First Name",
@@ -117,7 +117,7 @@ this.ScenarioInitialize(scenarioInfo);
                             "Password",
                             "State",
                             "City"});
-                table1.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "testemail@gmail.com",
                             "TestUser",
                             "Test",
@@ -126,7 +126,7 @@ this.ScenarioInitialize(scenarioInfo);
                             "OH",
                             "Columbus"});
 #line 4
- testRunner.Given("the following user input from the sign up page", ((string)(null)), table1, "Given ");
+ testRunner.Given("the following user input from the sign up page", ((string)(null)), table2, "Given ");
 #line hidden
 #line 7
  testRunner.When("the user selects the submit button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
@@ -160,16 +160,10 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Given("the email testemail@gmail.com is already in use", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 12
- testRunner.And("the user enters testemail@gmail.com on the signup page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.When("the user enters testemail@gmail.com on the signup page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 13
- testRunner.When("the user selects the submit button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
-#line 14
  testRunner.Then("the user will be notified that the email testemail@gmail.com is already in use", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-#line 15
- testRunner.And("the user will not be created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -183,7 +177,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Signing up with a username that is in use by another user", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 17
+#line 15
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
@@ -193,20 +187,14 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 18
+#line 16
  testRunner.Given("the username TestUser is already in use", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 19
- testRunner.And("the user enters TestUser on the signup page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 17
+ testRunner.When("the user enters TestUser on the signup page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 20
- testRunner.When("the user selects the submit button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
-#line 21
+#line 18
  testRunner.Then("the user will be notified that the username TestUser is already in use", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-#line 22
- testRunner.And("the user will not be created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();

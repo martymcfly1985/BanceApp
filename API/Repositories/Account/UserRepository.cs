@@ -78,6 +78,21 @@ namespace API.Repositories.Account
             return null;
         }
 
+        public void SaveVerificationCode(string email, int verificationCode)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                using (SqlCommand command = new SqlCommand("SaveVerificationCode", connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add("@Email", SqlDbType.VarChar).Value = email;
+                    command.Parameters.Add("@VerificationCode", SqlDbType.Int).Value = verificationCode;
+                    command.Connection.Open();
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
         private User GetUserDataFromDb(EnhancedSqlDataReader reader)
         {
             var user = new User();

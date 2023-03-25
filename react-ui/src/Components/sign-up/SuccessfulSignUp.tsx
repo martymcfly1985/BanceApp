@@ -1,4 +1,5 @@
 import { Button, Card, Result, Row } from "antd";
+import { post } from "../../CommonFunctions/HttpMethods";
 
 interface SuccessfulSignUpProps {
   newUserEmail: string | undefined;
@@ -11,7 +12,8 @@ function SuccessfulSignUp({
 }: SuccessfulSignUpProps) {
 
   const onPageLeave = () => {
-    window.location.replace("/SignIn");
+    //window.location.replace("/SignIn");
+    post('api/sendVerificationEmail', newUserEmail)
   }
 
   return (

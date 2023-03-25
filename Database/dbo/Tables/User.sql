@@ -10,7 +10,7 @@
     [U_State] VARCHAR(50) NOT NULL, 
     [U_Role] INT NOT NULL, 
     [U_Leagues] VARCHAR(50) NULL, 
-    [U_Verified] BIT NOT NULL, 
+    [U_Verified] BIT NOT NULL,
     [U_Public] BIT NOT NULL, 
     [U_SkillLevel] DECIMAL(2, 1) NULL,
     CONSTRAINT [PK_User]  PRIMARY KEY CLUSTERED ([U_Recnum] ASC)

@@ -12,8 +12,8 @@ function SuccessfulSignUp({
 }: SuccessfulSignUpProps) {
 
   const onPageLeave = () => {
-    //window.location.replace("/SignIn");
-    post('api/sendVerificationEmail', newUserEmail)
+    post('api/sendVerificationEmail', newUserEmail);
+    window.location.replace('/verify'); 
   }
 
   return (

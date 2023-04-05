@@ -1,30 +1,38 @@
-import { Button, Form, Input, InputNumber } from "antd"
-import React, { useState, useRef } from 'react';
-import type { InputNumberProps } from "antd";
+import { Button, Card, Col, message, Row, Space, Typography } from 'antd';
+import React from 'react';
+import VerificationInput from "react-verification-input";
+
+const {Title} = Typography;
 
 const Verify: React.FC = () => {
-  // return (
-  //   sessionStorage.getItem("verified") === "True" ?
 
-  // );
-  const [inputValueSix, setInputValueSix] = useState<number | null>(null);
-  const inputRef1 = useRef<HTMLInputElement>(null);
-  const inputRef2 = useRef<HTMLInputElement>(null);
-  const inputRef3 = useRef<HTMLInputElement>(null);
-  const inputRef4 = useRef<HTMLInputElement>(null);
-  const inputRef5 = useRef<HTMLInputElement>(null);
-  const inputRef6 = useRef<HTMLInputElement>(null);
-  
   return (
-    <>
-      <InputNumber autoFocus={true} controls={false} max={9} min={0} onChange={()=>{inputRef1.current!.focus()}}></InputNumber>
-      <InputNumber ref={inputRef1} controls={false} max={9} min={0} onChange={()=>{inputRef2.current!.focus()}}></InputNumber>
-      <InputNumber ref={inputRef2} controls={false} max={9} min={0} onChange={()=>{inputRef3.current!.focus()}}></InputNumber>
-      <InputNumber ref={inputRef3} controls={false} max={9} min={0} onChange={()=>{inputRef4.current!.focus()}}></InputNumber>
-      <InputNumber ref={inputRef4} controls={false} max={9} min={0} onChange={()=>{inputRef5.current!.focus()}}></InputNumber>
-      <InputNumber value={inputValueSix} ref={inputRef5} controls={false} max={9} min={0} onChange={()=>{console.log('inOnChange');setInputValueSix(2)}}></InputNumber>
-      <Button ref={inputRef6} type="primary" htmlType="submit">Submit</Button>
-    </>
+    <Row
+      align='middle'
+      itemType="flex"
+      justify='center'
+      style={{
+        minHeight: '100vh',
+        backgroundColor: '#efefef'
+      }}
+    >
+      <Col>
+        <Card>
+          <Space direction="vertical" size={"middle"} style={{alignItems:'center'}}>
+            <Title>Welcome to BanceApp!</Title>
+            <Title level={3}>Please enter your verfication code below.</Title>
+            <VerificationInput
+              placeholder=""
+              validChars="0-9"
+              inputProps={{ inputMode: "numeric" }}
+              length={6}
+              onComplete={(value) => {console.log(value)}}
+            />
+            <Button type='primary' onClick={() => {message.success('New Verification Code Sent!')}}>Re-Send Code</Button>
+          </Space>
+        </Card>w
+      </Col>
+    </Row>
   )
 }
 

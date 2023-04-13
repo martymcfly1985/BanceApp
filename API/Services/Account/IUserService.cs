@@ -9,5 +9,6 @@ namespace API.Services.Account
         User GetUserInformation(SignInInfo signInInfo);
         void SaveNewUser(User user);
         void SendVerificationEmail(string email);
+        bool VerifyAccount(VerificationInformation verificationInformation);
     }
 }

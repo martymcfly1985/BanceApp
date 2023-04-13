@@ -88,6 +88,15 @@ namespace API.Services.Account
                 return userData;
             }
         }
+        /// <summary>
+        /// Return true if the account was verified using the verification code and returns false if the verification code was incorrect or there was an issue with the email address.
+        /// </summary>
+        /// <param name="verificationInformation"></param>
+        /// <returns></returns>
+        public bool VerifyAccount(VerificationInformation verificationInformation)
+        {
+            return userRepository.VerifyAccount(verificationInformation);
+        }
 
         private string HashPassword(string password)
         {

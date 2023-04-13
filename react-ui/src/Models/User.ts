@@ -19,3 +19,8 @@ export enum RoleEnum {
   Moderator,
   Admin
 }
+
+export interface VerificationInformation {
+  email: string;
+  verificationCode: number
+}

@@ -1,10 +1,26 @@
 import { Button, Card, Col, message, Row, Space, Typography } from 'antd';
-import React from 'react';
+import { useParams } from 'react-router-dom';
 import VerificationInput from "react-verification-input";
+import { post } from '../../CommonFunctions/HttpMethods';
+import { VerificationInformation } from '../../Models/User';
 
 const {Title} = Typography;
 
-const Verify: React.FC = () => {
+function Verify() {
+  const params = useParams();
+  const onVerifyAccountCode = async(value: string) => {
+    const verificationInformation: VerificationInformation = {
+      email: params.userEmail ?? "",
+      verificationCode: Number(value)
+    }
+    const isVerificationCodeCorrect = await post('api/verifyAccount', verificationInformation);
+    if (isVerificationCodeCorrect) {
+      console.log("Account Verified");
+      window.location.replace("/"); 
+    } else {
+      console.log("Account NOT Verified");
+    }
+  }
 
   return (
     <Row
@@ -26,11 +42,11 @@ const Verify: React.FC = () => {
               validChars="0-9"
               inputProps={{ inputMode: "numeric" }}
               length={6}
-              onComplete={(value) => {console.log(value)}}
+              onComplete={(value) => onVerifyAccountCode(value)}
             />
             <Button type='primary' onClick={() => {message.success('New Verification Code Sent!')}}>Re-Send Code</Button>
           </Space>
-        </Card>w
+        </Card>
       </Col>
     </Row>
   )

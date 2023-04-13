@@ -9,6 +9,6 @@ namespace API.Repositories.Account
         User GetUserByEmail(string email);
         void SaveNewUser(User newUser);
         void SaveVerificationCode(string email, int verificationCode);
-
+        bool VerifyAccount(VerificationInformation verificationInformation);
     }
 }

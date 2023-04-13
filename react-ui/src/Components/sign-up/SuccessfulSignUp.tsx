@@ -13,7 +13,7 @@ function SuccessfulSignUp({
 
   const onPageLeave = () => {
     post('api/sendVerificationEmail', newUserEmail);
-    window.location.replace('/verify'); 
+    window.location.replace(`/verify/${newUserEmail}`); 
   }
 
   return (

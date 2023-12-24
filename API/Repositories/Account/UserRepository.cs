@@ -3,7 +3,7 @@ using System.Data;
 using System.Data.SqlClient;
 using API.Models.Account;
 using API.Services.Configuration;
-
+using System;
 
 namespace API.Repositories.Account
 {
@@ -76,6 +76,42 @@ namespace API.Repositories.Account
                 }
             }
             return null;
+        }
+
+        public void SaveVerificationCode(string email, int verificationCode)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                using (SqlCommand command = new SqlCommand("SaveVerificationCode", connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add("@Email", SqlDbType.VarChar).Value = email;
+                    command.Parameters.Add("@VerificationCode", SqlDbType.Int).Value = verificationCode;
+                    command.Connection.Open();
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public bool VerifyAccount(VerificationInformation verificationInformation)
+        {
+            var accountVerified = false;
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand("VerifyAccount", connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add("@Email", SqlDbType.VarChar).Value = verificationInformation.Email;
+                command.Parameters.Add("@VerificationCode", SqlDbType.VarChar).Value = verificationInformation.VerificationCode;
+                command.Connection.Open();
+                using (EnhancedSqlDataReader reader = new EnhancedSqlDataReader(command.ExecuteReader()))
+                {
+                    while (reader.Read())
+                    {
+                        accountVerified = reader.GetBoolean("AccountVerified");
+                    }
+                }
+            }
+            return accountVerified;
         }
 
         private User GetUserDataFromDb(EnhancedSqlDataReader reader)

@@ -8,5 +8,7 @@ namespace API.Services.Account
         bool IsEmailUnique(string email);
         User GetUserInformation(SignInInfo signInInfo);
         void SaveNewUser(User user);
+        void SendVerificationEmail(string email);
+        bool VerifyAccount(VerificationInformation verificationInformation);
     }
 }

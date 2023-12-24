@@ -22,4 +22,10 @@
         Moderator,
         Admin
     }
+
+    public class VerificationInformation
+    {
+        public string Email { get; set; }
+        public int VerificationCode { get; set; }
+    }
 }

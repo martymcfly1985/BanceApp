@@ -18,11 +18,18 @@ export async function post<T>(route: string, parameters: Record<string, any> | a
     },
     body: JSON.stringify(parameters)
   });
+
   if (!response.ok) {
     const error = new Error();
     error.message = response.statusText
     throw error;
   }
-  const returnedData: T = await response.json();
-  return returnedData;
+
+  if (response.headers.get('content-length') !== "0") {
+    const returnedData: T = await response.json();
+    return returnedData;
+  }
+
+  return undefined as any;
+  
 }

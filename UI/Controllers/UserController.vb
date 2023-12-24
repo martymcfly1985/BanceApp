@@ -38,5 +38,18 @@ Namespace Controllers
         Function GetUserInformation(signInInfo As SignInInfo) As HttpResponseMessage
             Return Request.CreateResponse(HttpStatusCode.OK, UserService.GetUserInformation(signInInfo), Request.GetConfiguration())
         End Function
+
+        <Route("api/sendVerificationEmail")>
+        <HttpPost>
+        Function SendVerificationEmail(email) As HttpResponseMessage
+            UserService.SendVerificationEmail(email)
+            Return Request.CreateResponse(HttpStatusCode.OK)
+        End Function
+
+        <Route("verify/api/verifyAccount")>
+        <HttpPost>
+        Function VerifyAccount(verificationInformation As VerificationInformation) As HttpResponseMessage
+            Return Request.CreateResponse(HttpStatusCode.OK, UserService.VerifyAccount(verificationInformation), Request.GetConfiguration())
+        End Function
     End Class
 End Namespace

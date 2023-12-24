@@ -15,10 +15,9 @@ function Verify() {
     }
     const isVerificationCodeCorrect = await post('api/verifyAccount', verificationInformation);
     if (isVerificationCodeCorrect) {
-      console.log("Account Verified");
       window.location.replace("/"); 
     } else {
-      console.log("Account NOT Verified");
+      message.error('Invalid code. Please try again.')
     }
   }
 

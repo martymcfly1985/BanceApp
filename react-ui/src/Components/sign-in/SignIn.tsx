@@ -1,9 +1,7 @@
 import { Alert, Button, Card, Checkbox, Col, Form, Input, message, Row, Space } from "antd";
 import React, { useState } from 'react';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { getUserInformation } from '../../BusinessLogic/userActions';
-import { IUser } from "../../Models/User";
-
+import { signIn } from '../../BusinessLogic/userActions';
 const SignIn: React.FC = () => {
   const [submitLoading, setSubmitLoading] = useState(false);
   const [incorrectLoginError, setIncorrectLoginError] = useState(false);
@@ -12,12 +10,9 @@ const SignIn: React.FC = () => {
     try {
       setIncorrectLoginError(false);
       setSubmitLoading(true);
-      const userData: IUser = await getUserInformation(values);
-      if (userData !== undefined && userData !== null) {
-        const userPropertyNames = ["username", "firstName", "lastName", "city", "state", "email", "leagues", "public", "skillLevel", "role"]
-        userPropertyNames.forEach(userPropertyName => {
-          sessionStorage.setItem(userPropertyName, String(userData[userPropertyName as keyof IUser]));
-        });
+      const sessionRecnum: string = await signIn(values);
+      if (sessionRecnum !== undefined && sessionRecnum !== null) {
+        localStorage.setItem("sessionRecnum", sessionRecnum)
         window.location.replace("/");
       } else {
         setIncorrectLoginError(true);

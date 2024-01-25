@@ -5,6 +5,6 @@ export const saveNewUser = async(newUser: IUser) => {
   post<any>('api/saveNewUser', newUser);
 }
 
-export const getUserInformation = async(values: any) => {
-  return post<any>('api/getUserInformation', values);
+export const signIn = async(values: any) => {
+  return post<any>('api/signIn', values);
 }

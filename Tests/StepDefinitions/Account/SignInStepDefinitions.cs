@@ -35,7 +35,7 @@ namespace Tests.StepDefinitions.Account
             SignInInfo signInInfo = new SignInInfo();
             signInInfo.Username = username;
             signInInfo.Password = password;
-            signedInUser = AccountDataManager.UserService.GetUserInformation(signInInfo);
+            signedInUser = AccountDataManager.UserService.SignIn(signInInfo);
         }
 
         [Then(@"I should be '([^']*)'")]

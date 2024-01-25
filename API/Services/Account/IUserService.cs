@@ -6,7 +6,7 @@ namespace API.Services.Account
     {
         bool IsUsernameUnique(string username);
         bool IsEmailUnique(string email);
-        User GetUserInformation(SignInInfo signInInfo);
+        string SignIn(SignInInfo signInInfo);
         void SaveNewUser(User user);
         void SendVerificationEmail(string email);
         bool VerifyAccount(VerificationInformation verificationInformation);

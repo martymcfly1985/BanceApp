@@ -114,6 +114,26 @@ namespace API.Repositories.Account
             return accountVerified;
         }
 
+        public string CreateSessionRecnum(int userRecnum)
+        {
+            string sessionRecnum = null;
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand("CreateSessionRecnum", connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add("@UserRecnum", SqlDbType.VarChar).Value = userRecnum;
+                command.Connection.Open();
+                using (EnhancedSqlDataReader reader = new EnhancedSqlDataReader(command.ExecuteReader()))
+                {
+                    while (reader.Read())
+                    {
+                         sessionRecnum = reader.GetString("S_SessionRecnum");
+                    }
+                }
+            }
+            return sessionRecnum;
+        }
+
         private User GetUserDataFromDb(EnhancedSqlDataReader reader)
         {
             var user = new User();

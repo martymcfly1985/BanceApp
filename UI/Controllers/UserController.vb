@@ -33,10 +33,10 @@ Namespace Controllers
             Return Request.CreateResponse(HttpStatusCode.OK)
         End Function
 
-        <Route("api/getUserInformation")>
+        <Route("api/signIn")>
         <HttpPost>
-        Function GetUserInformation(signInInfo As SignInInfo) As HttpResponseMessage
-            Return Request.CreateResponse(HttpStatusCode.OK, UserService.GetUserInformation(signInInfo), Request.GetConfiguration())
+        Function SignIn(signInInfo As SignInInfo) As HttpResponseMessage
+            Return Request.CreateResponse(HttpStatusCode.OK, UserService.SignIn(signInInfo), Request.GetConfiguration())
         End Function
 
         <Route("api/sendVerificationEmail")>

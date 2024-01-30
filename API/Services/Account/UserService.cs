@@ -75,6 +75,16 @@ namespace API.Services.Account
             userRepository.SaveVerificationCode(email, verificationCode);
         }
 
+        public User GetUser(string sessionRecnum)
+        {
+            User userData = userRepository.GetUserBySessionRecnum(sessionRecnum);
+            if (userData != null)
+            {
+                userData.Password = "";
+            }
+            return userData;
+        }
+
         public string SignIn(SignInInfo signInInfo)
         {
             User userData = userRepository.GetUserByUsername(signInInfo.Username);

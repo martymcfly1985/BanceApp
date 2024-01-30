@@ -11,15 +11,15 @@ export const router = createBrowserRouter([
     element: <ConfigProvider theme={{token: { colorBgContainer: "white", colorBgLayout: "#efefef"}}}><App/></ConfigProvider>
   },
   {
-    path: "signin",
+    path: "/signin",
     element: <SignIn/>
   },
   {
-    path: "signup",
+    path: "/signup",
     element: <SignUp/>
   },
   {
-    path: "verify/:userEmail",
+    path: "/verify/:userEmail",
     element: <Verify/>
   }
 ]);

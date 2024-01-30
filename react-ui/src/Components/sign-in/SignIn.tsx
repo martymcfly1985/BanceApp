@@ -112,7 +112,7 @@ const SignIn: React.FC = () => {
         >
           <div style={{ alignItems: 'center' }}>
             New to BanceApp? &nbsp;
-            <a href="signup">
+            <a href="/signup">
               Sign Up
             </a>
           </div>

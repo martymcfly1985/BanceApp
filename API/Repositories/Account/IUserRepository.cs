@@ -11,5 +11,6 @@ namespace API.Repositories.Account
         void SaveVerificationCode(string email, int verificationCode);
         bool VerifyAccount(VerificationInformation verificationInformation);
         string CreateSessionRecnum(int recnum);
+        User GetUserBySessionRecnum(string sessionRecnum);
     }
 }

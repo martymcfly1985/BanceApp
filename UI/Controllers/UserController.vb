@@ -39,6 +39,12 @@ Namespace Controllers
             Return Request.CreateResponse(HttpStatusCode.OK, UserService.SignIn(signInInfo), Request.GetConfiguration())
         End Function
 
+        <Route("api/getUser/{sessionRecnum}")>
+        <HttpGet>
+        Function GetUser(sessionRecnum As String) As HttpResponseMessage
+            Return Request.CreateResponse(HttpStatusCode.OK, UserService.GetUser(sessionRecnum), Request.GetConfiguration())
+        End Function
+
         <Route("api/sendVerificationEmail")>
         <HttpPost>
         Function SendVerificationEmail(email) As HttpResponseMessage

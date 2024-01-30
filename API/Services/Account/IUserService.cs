@@ -10,5 +10,6 @@ namespace API.Services.Account
         void SaveNewUser(User user);
         void SendVerificationEmail(string email);
         bool VerifyAccount(VerificationInformation verificationInformation);
+        User GetUser(string sessionRecnum);
     }
 }

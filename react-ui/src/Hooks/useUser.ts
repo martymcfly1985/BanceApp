@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { get, post } from "../CommonFunctions/HttpMethods";
+import { get } from "../CommonFunctions/HttpMethods";
 import { IUser } from "../Models/User";
 
 export function useUser() {

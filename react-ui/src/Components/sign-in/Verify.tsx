@@ -1,5 +1,5 @@
 import { Button, Card, Col, message, Row, Space, Typography } from 'antd';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import VerificationInput from "react-verification-input";
 import { post } from '../../CommonFunctions/HttpMethods';
 import { VerificationInformation } from '../../Models/User';
@@ -8,6 +8,7 @@ const {Title} = Typography;
 
 function Verify() {
   const params = useParams();
+  const navigate = useNavigate();
   const onVerifyAccountCode = async(value: string) => {
     const verificationInformation: VerificationInformation = {
       email: params.userEmail ?? "",
@@ -15,7 +16,7 @@ function Verify() {
     }
     const isVerificationCodeCorrect = await post('api/verifyAccount', verificationInformation);
     if (isVerificationCodeCorrect) {
-      window.location.replace("/"); 
+      navigate("/signIn"); 
     } else {
       message.error('Invalid code. Please try again.')
     }

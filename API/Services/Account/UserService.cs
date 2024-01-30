@@ -75,7 +75,17 @@ namespace API.Services.Account
             userRepository.SaveVerificationCode(email, verificationCode);
         }
 
-        public User GetUserInformation(SignInInfo signInInfo)
+        public User GetUser(string sessionRecnum)
+        {
+            User userData = userRepository.GetUserBySessionRecnum(sessionRecnum);
+            if (userData != null)
+            {
+                userData.Password = "";
+            }
+            return userData;
+        }
+
+        public string SignIn(SignInInfo signInInfo)
         {
             User userData = userRepository.GetUserByUsername(signInInfo.Username);
             if (userData == null || userData.Password != HashPassword(signInInfo.Password))
@@ -84,8 +94,7 @@ namespace API.Services.Account
             } 
             else 
             {
-                userData.Password = "";
-                return userData;
+                return userRepository.CreateSessionRecnum(userData.Recnum);
             }
         }
         /// <summary>

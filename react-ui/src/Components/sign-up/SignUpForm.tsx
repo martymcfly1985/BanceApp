@@ -272,7 +272,7 @@ function SignUpForm({
                 type='link'
                 htmlType='button'
                 style={{ width: '100%' }}
-                href="signin"
+                href="/signin"
               >
                 Return to Sign In
               </Button>

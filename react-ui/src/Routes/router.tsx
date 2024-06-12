@@ -2,6 +2,7 @@ import { ConfigProvider } from "antd";
 import { createBrowserRouter } from "react-router-dom";
 import App from "../Components/App";
 import SignIn from "../Components/sign-in/SignIn";
+import Verify from "../Components/sign-in/Verify";
 import SignUp from "../Components/sign-up/SignUp";
 
 export const router = createBrowserRouter([
@@ -10,12 +11,16 @@ export const router = createBrowserRouter([
     element: <ConfigProvider theme={{token: { colorBgContainer: "white", colorBgLayout: "#efefef"}}}><App/></ConfigProvider>
   },
   {
-    path: "signin",
+    path: "/signin",
     element: <SignIn/>
   },
   {
-    path: "signup",
+    path: "/signup",
     element: <SignUp/>
+  },
+  {
+    path: "/verify/:userEmail",
+    element: <Verify/>
   }
 ]);
 

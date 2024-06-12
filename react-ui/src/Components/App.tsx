@@ -6,12 +6,14 @@ import FindALeague from './find-a-league/FindALeague';
 import SubmitNewCourt from './find-a-court/SubmitNewCourt';
 import SubmitNewLocation from './find-a-court/SubmitNewLocation';
 import { SolutionOutlined, ScheduleOutlined, LogoutOutlined } from '@ant-design/icons'
+import { useUser } from '../Hooks/useUser';
 import Profile from './profile/Profile';
 
 const { Header} = Layout;
 
 function App() {
   const [currentMenuKey, setCurrentMenuKey] = useState('1');
+  const userInfo = useUser()
 
   const menuClicked = (event: any) => {
     if (event.key !== 'Profile') {
@@ -24,7 +26,7 @@ function App() {
   }
 
   const onSignOutClicked = () => {
-    sessionStorage.clear();
+    localStorage.clear();
     window.location.replace("/");
   }
 
@@ -53,10 +55,10 @@ function App() {
         key: 'FindALeague' 
       }
     ]
-    if (sessionStorage.getItem("username") === null) {
+    if (userInfo === null) {
       items.push({
         label: (
-          <a href="signin">
+          <a href="/signin">
             Sign In
           </a>
         ),
@@ -72,7 +74,7 @@ function App() {
             showArrow={false}
             content={
               <Card style={{width: 300}}>
-                Welcome {sessionStorage.getItem("firstName")}!
+                Welcome {userInfo.firstName}!
                 <Divider />
                 <Space direction={'vertical'} size={'small'}>
                   <Button onClick={onProfileButtonClick} type='text' icon={<SolutionOutlined/>}>
@@ -92,7 +94,7 @@ function App() {
               className='avatar-style'
               size={50} gap={8}
             >
-              {`${sessionStorage.getItem("firstName")?.substring(0, 1)}${sessionStorage.getItem("lastName")?.substring(0, 1)}`}
+              {`${userInfo.firstName.substring(0, 1)}${userInfo.lastName.substring(0, 1)}`}
             </Avatar>
           </Popover>,
         key: 'Profile',

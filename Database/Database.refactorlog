@@ -63,4 +63,46 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="U_Recnum" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="b8036c84-cc59-4e40-9468-a95d7e3d72d9" ChangeDateTime="03/25/2023 01:06:13">
+    <Property Name="ElementName" Value="[dbo].[UserVerification].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[UserVerification]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Recnum" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="016e0b39-f4cc-439d-85d8-902a340a69aa" ChangeDateTime="03/25/2023 01:06:43">
+    <Property Name="ElementName" Value="[dbo].[UserVerification].[Recnum]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[UserVerification]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="V_Recnum" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="3d3eca43-e4f2-4d5a-a0e9-a76a39c0034f" ChangeDateTime="03/25/2023 01:07:11">
+    <Property Name="ElementName" Value="[dbo].[UserVerification].[V_Recnum]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[UserVerification]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="V_UserRecnum" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="9b6e413c-270e-45aa-861a-344fab1bb7cb" ChangeDateTime="03/25/2023 01:07:23">
+    <Property Name="ElementName" Value="[dbo].[UserVerification].[V_]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[UserVerification]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="V_VerificationCode" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="971cf038-6e41-488a-a073-be58ba5e950d" ChangeDateTime="03/25/2023 01:09:26">
+    <Property Name="ElementName" Value="[dbo].[UserVerification].[V_UserRecnum]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[UserVerification]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="UV_UserRecnum" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="59ebf3a0-8c60-45a1-bec5-1c84dca35fc2" ChangeDateTime="03/25/2023 01:09:30">
+    <Property Name="ElementName" Value="[dbo].[UserVerification].[V_VerificationCode]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[UserVerification]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="UV_VerificationCode" />
+  </Operation>
 </Operations>

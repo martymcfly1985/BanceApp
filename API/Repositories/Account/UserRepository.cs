@@ -3,7 +3,7 @@ using System.Data;
 using System.Data.SqlClient;
 using API.Models.Account;
 using API.Services.Configuration;
-
+using System;
 
 namespace API.Repositories.Account
 {
@@ -66,6 +66,81 @@ namespace API.Repositories.Account
                 SqlCommand command = new SqlCommand("GetUserByEmail", connection);
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.Add("@Email", SqlDbType.VarChar).Value = email;
+                command.Connection.Open();
+                using (EnhancedSqlDataReader reader = new EnhancedSqlDataReader(command.ExecuteReader()))
+                {
+                    while (reader.Read())
+                    {
+                        return GetUserDataFromDb(reader);
+                    }
+                }
+            }
+            return null;
+        }
+
+        public void SaveVerificationCode(string email, int verificationCode)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                using (SqlCommand command = new SqlCommand("SaveVerificationCode", connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add("@Email", SqlDbType.VarChar).Value = email;
+                    command.Parameters.Add("@VerificationCode", SqlDbType.Int).Value = verificationCode;
+                    command.Connection.Open();
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public bool VerifyAccount(VerificationInformation verificationInformation)
+        {
+            var accountVerified = false;
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand("VerifyAccount", connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add("@Email", SqlDbType.VarChar).Value = verificationInformation.Email;
+                command.Parameters.Add("@VerificationCode", SqlDbType.VarChar).Value = verificationInformation.VerificationCode;
+                command.Connection.Open();
+                using (EnhancedSqlDataReader reader = new EnhancedSqlDataReader(command.ExecuteReader()))
+                {
+                    while (reader.Read())
+                    {
+                        accountVerified = reader.GetBoolean("AccountVerified");
+                    }
+                }
+            }
+            return accountVerified;
+        }
+
+        public string CreateSessionRecnum(int userRecnum)
+        {
+            string sessionRecnum = null;
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand("CreateSessionRecnum", connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add("@UserRecnum", SqlDbType.VarChar).Value = userRecnum;
+                command.Connection.Open();
+                using (EnhancedSqlDataReader reader = new EnhancedSqlDataReader(command.ExecuteReader()))
+                {
+                    while (reader.Read())
+                    {
+                         sessionRecnum = reader.GetString("S_SessionRecnum");
+                    }
+                }
+            }
+            return sessionRecnum;
+        }
+
+        public User GetUserBySessionRecnum(string sessionRecnum)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand("GetUserBySessionRecnum", connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add("@SessionRecnum", SqlDbType.VarChar).Value = sessionRecnum;
                 command.Connection.Open();
                 using (EnhancedSqlDataReader reader = new EnhancedSqlDataReader(command.ExecuteReader()))
                 {

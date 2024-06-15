@@ -3,13 +3,18 @@ import { post } from "../../CommonFunctions/HttpMethods"
 
 interface UsernameFormItemProps {
   onUsernameValidating(validating: boolean): void;
+  currentUsername?: string | undefined;
 }
 
 function UsernameFormItem({
   onUsernameValidating,
+  currentUsername,
   ...props
 }: UsernameFormItemProps & React.ComponentProps<typeof Form.Item>) {
   const usernameIsUnique = async (newUsername: string) => {
+    if(newUsername === currentUsername) {
+      return true;
+    }
     return post<boolean>('api/isUsernameUnique', newUsername)
   }
   return (

@@ -1,6 +1,6 @@
 import { Form, Select } from "antd";
 import { City } from "country-state-city";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface CityStateFormItemProps {
   cityLabel?: string | undefined,
@@ -21,6 +21,12 @@ function CityStateFormItem({
     })
     setCitiesList(citiesList)
   }
+  const stateValue = Form.useWatch('state')
+  useEffect(() => {
+    if(stateValue) {
+      populateCitySelect(stateValue)
+    }
+  }, [stateValue])
   return(
     <>
       <Form.Item
@@ -34,9 +40,6 @@ function CityStateFormItem({
         <Select
           placeholder='State'
           showSearch={true}
-          onChange={(value) => {
-            populateCitySelect(value);
-          }}
           filterOption={(input, option) => {
             return (
               option !== undefined && option !== null && (option.value.toLowerCase().includes(input.toLowerCase()) ||

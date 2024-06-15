@@ -3,13 +3,18 @@ import { post } from "../../CommonFunctions/HttpMethods";
 
 interface EmailFormItemProps {
   onEmailValidating(validating: boolean): void;
+  currentEmail?: string | undefined;
 }
 
 function EmailFormItem({
   onEmailValidating,
+  currentEmail,
   ...props
 }: EmailFormItemProps & React.ComponentProps<typeof Form.Item>) {
   const emailIsUnique = async (newEmail: string) => {
+    if(newEmail === currentEmail) {
+      return true;
+    }
     return post<boolean>('api/isEmailUnique', newEmail)
   }
   return (

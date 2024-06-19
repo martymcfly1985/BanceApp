@@ -85,6 +85,12 @@ namespace API.Services.Account
             return userData;
         }
 
+        public void UpdateUser(User userInformation)
+        {
+            userInformation.Password = HashPassword(userInformation.Password);
+            userRepository.UpdateUser(userInformation);
+        }
+
         public string SignIn(SignInInfo signInInfo)
         {
             User userData = userRepository.GetUserByUsername(signInInfo.Username);
@@ -105,6 +111,16 @@ namespace API.Services.Account
         public bool VerifyAccount(VerificationInformation verificationInformation)
         {
             return userRepository.VerifyAccount(verificationInformation);
+        }
+
+        public bool ValidatePassword(SignInInfo userInformation)
+        {
+            User userData = userRepository.GetUserByUsername(userInformation.Username);
+            if (userData == null || userData.Password != HashPassword(userInformation.Password))
+            {
+                return false;
+            }
+            return true;
         }
 
         private string HashPassword(string password)

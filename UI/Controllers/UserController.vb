@@ -57,5 +57,19 @@ Namespace Controllers
         Function VerifyAccount(verificationInformation As VerificationInformation) As HttpResponseMessage
             Return Request.CreateResponse(HttpStatusCode.OK, UserService.VerifyAccount(verificationInformation), Request.GetConfiguration())
         End Function
+
+        <Route("api/validatePassword")>
+        <HttpPost()>
+        Function ValidatePassword(userInformation As SignInInfo) As HttpResponseMessage
+            Return Request.CreateResponse(HttpStatusCode.OK, UserService.ValidatePassword(userInformation), Request.GetConfiguration)
+        End Function
+
+        <Route("api/updateUser")>
+        <HttpPost()>
+        Function UpdateUser(userInformation As User) As HttpResponseMessage
+            UserService.UpdateUser(userInformation)
+            Return Request.CreateResponse(HttpStatusCode.OK)
+        End Function
+
     End Class
 End Namespace

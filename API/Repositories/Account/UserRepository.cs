@@ -59,6 +59,29 @@ namespace API.Repositories.Account
             }
         }
 
+        public void UpdateUser(User userInformation)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                using (SqlCommand command = new SqlCommand("UpdateUser", connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add("@Recnum", SqlDbType.Int).Value = userInformation.Recnum;
+                    command.Parameters.Add("@Username", SqlDbType.VarChar).Value = userInformation.Username;
+                    command.Parameters.Add("@Email", SqlDbType.VarChar).Value = userInformation.Email;
+                    command.Parameters.Add("@Password", SqlDbType.VarChar).Value = userInformation.Password;
+                    command.Parameters.Add("@FirstName", SqlDbType.VarChar).Value = userInformation.FirstName;
+                    command.Parameters.Add("@LastName", SqlDbType.VarChar).Value = userInformation.LastName;
+                    command.Parameters.Add("@Public", SqlDbType.Bit).Value = userInformation.Public;
+                    command.Parameters.Add("@City", SqlDbType.VarChar).Value = userInformation.City;
+                    command.Parameters.Add("@State", SqlDbType.VarChar).Value = userInformation.State;
+                    command.Parameters.Add("@SkillLevel", SqlDbType.Decimal).Value = userInformation.SkillLevel;
+                    command.Connection.Open();
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
         public User GetUserByEmail(string email)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))

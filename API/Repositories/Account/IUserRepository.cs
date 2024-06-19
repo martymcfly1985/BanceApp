@@ -8,6 +8,7 @@ namespace API.Repositories.Account
         User GetUserByUsername(string username);
         User GetUserByEmail(string email);
         void SaveNewUser(User newUser);
+        void UpdateUser(User userInformation);
         void SaveVerificationCode(string email, int verificationCode);
         bool VerifyAccount(VerificationInformation verificationInformation);
         string CreateSessionRecnum(int recnum);

@@ -7,6 +7,7 @@ import SubmitNewCourt from './find-a-court/SubmitNewCourt';
 import SubmitNewLocation from './find-a-court/SubmitNewLocation';
 import { SolutionOutlined, ScheduleOutlined, LogoutOutlined } from '@ant-design/icons'
 import { useUser } from '../Hooks/useUser';
+import Profile from './profile/Profile';
 
 const { Header} = Layout;
 
@@ -14,10 +15,14 @@ function App() {
   const [currentMenuKey, setCurrentMenuKey] = useState('1');
   const userInfo = useUser()
 
-  const menuClicked = async(event: any) => {
+  const menuClicked = (event: any) => {
     if (event.key !== 'Profile') {
       setCurrentMenuKey(event.key);
     }
+  }
+
+  const onProfileButtonClick = () => {
+    setCurrentMenuKey('ProfilePage')
   }
 
   const onSignOutClicked = () => {
@@ -72,7 +77,7 @@ function App() {
                 Welcome {userInfo.firstName}!
                 <Divider />
                 <Space direction={'vertical'} size={'small'}>
-                  <Button type='text' icon={<SolutionOutlined/>}>
+                  <Button onClick={onProfileButtonClick} type='text' icon={<SolutionOutlined/>}>
                     Your Profile
                   </Button>
                   <Button type='text' icon={<ScheduleOutlined/>}>
@@ -109,6 +114,8 @@ function App() {
         return (<SubmitNewCourt/>);
       case 'FindALeague':
         return (<FindALeague/>);
+      case 'ProfilePage':
+        return (<Profile/>);
       default:
         break;
      }

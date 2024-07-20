@@ -1,6 +1,7 @@
 import { Button, Card, Drawer, message, Rate, Space, Typography } from "antd";
 import { useState } from "react";
 import { saveNewRating } from "../../BusinessLogic/courtActions";
+import { useUser } from "../../Hooks/useUser";
 import { ICourt } from "../../Models/Court";
 
 const { Title } = Typography;
@@ -18,8 +19,9 @@ function CourtInformation({
   onDrawerClose,
   updateCourtCondition
 }: CourtInformationProps) {
-  const [ratingVisibility, setRatingVisiblity] = useState(false);
+  const [ratingVisible, setRatingVisible] = useState(false);
   const [newRating, setNewRating] = useState(0);
+  const userInfo = useUser();
 
   const onNewRatingSubmit = async () => {
     try {
@@ -28,7 +30,7 @@ function CourtInformation({
       }
       const newCondition = await saveNewRating(newRating, selectedCourt.recnum);
       updateCourtCondition(newCondition, selectedCourt.recnum, selectedCourt.locationRecnum);
-      setRatingVisiblity(false);
+      setRatingVisible(false);
       setNewRating(0);
       message.success('Thank you for rating this court!');
     } catch {
@@ -53,7 +55,7 @@ function CourtInformation({
       open={drawerOpen}
       onClose={() => {
         onDrawerClose();
-        setRatingVisiblity(false);
+        setRatingVisible(false);
       }}
     >
       <Card>
@@ -62,26 +64,29 @@ function CourtInformation({
         <h1>Surface</h1>
         <p>{selectedCourt.surface}</p>
       </Card>
-      <Card>
-        {ratingVisibility === false ? 
-          <Button 
-            onClick={() => { setRatingVisiblity(true) }}
-            type='primary'
-          >
-            Rate {selectedCourt.name}
-          </Button> : 
-          <Space direction='horizontal' size='large'>
-            <Rate onChange={setNewRating}/>
+      {userInfo != null ?
+        <Card>
+          {ratingVisible === false ? 
             <Button 
+              onClick={() => { setRatingVisible(true) }}
               type='primary'
-              onClick={() => { onNewRatingSubmit() }}
-              disabled={newRating === 0}
             >
-              Submit Rating
-            </Button>
-          </Space>
-        }
-      </Card>
+              Rate {selectedCourt.name}
+            </Button> : 
+            <Space direction='horizontal' size='large'>
+              <Rate onChange={setNewRating}/>
+              <Button 
+                type='primary'
+                onClick={() => { onNewRatingSubmit() }}
+                disabled={newRating === 0}
+              >
+                Submit Rating
+              </Button>
+            </Space>
+          }
+        </Card> : 
+        <></>
+      }
     </Drawer>
   );
 }

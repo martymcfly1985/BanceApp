@@ -4,5 +4,7 @@
     {
         public int Rating { get; set; }
         public int CourtRecnum { get; set; }
+
+        public string SessionRecnum { get; set; }
     }
 }

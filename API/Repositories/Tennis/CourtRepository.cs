@@ -39,7 +39,7 @@ namespace API.Repositories.Tennis
             }
         }
 
-        public int SaveRating(NewRating rating)
+        public int SaveRating(NewRating rating, int userRecnum)
         {  
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -48,6 +48,7 @@ namespace API.Repositories.Tennis
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.Add("@Rating", SqlDbType.Int).Value = rating.Rating;
                 command.Parameters.Add("@CourtRecnum", SqlDbType.Int).Value = rating.CourtRecnum;
+                command.Parameters.Add("@UserRecnum", SqlDbType.Int).Value = userRecnum;
                 command.Connection.Open();
                 using (EnhancedSqlDataReader reader = new EnhancedSqlDataReader(command.ExecuteReader()))
                 {    

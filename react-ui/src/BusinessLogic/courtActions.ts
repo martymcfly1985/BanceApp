@@ -11,5 +11,6 @@ export const saveNewCourt = async(newCourt: ICourt) => {
 }
 
 export const saveNewRating = async(rating: number, courtRecnum: number) => {
-  return post<number>('api/submitNewRating', {rating, courtRecnum})
+  const sessionRecnum = localStorage.getItem('sessionRecnum');
+  return post<number>('api/submitNewRating', {rating, courtRecnum, sessionRecnum})
 }

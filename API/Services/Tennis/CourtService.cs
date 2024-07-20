@@ -1,16 +1,20 @@
 ﻿using API.Models.Tennis;
 using API.Repositories.Tennis;
+using API.Services.Account;
+using System;
 
 namespace API.Services.Tennis
 {
     public class CourtService : ICourtService
     {
         private readonly ICourtRepository courtRepository;
-        public CourtService(ICourtRepository courtRepository)
+        private readonly IUserService userService;
+        public CourtService(ICourtRepository courtRepository, IUserService userService)
         {
             this.courtRepository = courtRepository;
+            this.userService = userService;
         }
-
+        
         public void SaveCourt(Court court)
         {
             var newCourtRecnum = courtRepository.SaveCourt(court);
@@ -19,7 +23,12 @@ namespace API.Services.Tennis
 
         public int SaveRating(NewRating rating)
         {
-            return courtRepository.SaveRating(rating);
+            var userInfo = userService.GetUser(rating.SessionRecnum);
+            if(userInfo != null)
+            {
+                return courtRepository.SaveRating(rating, userInfo.Recnum);
+            }
+            throw new ArgumentException("Invalid User.");
         }
 
         private void AddCourtToCourtConditionTable(int courtRecnum, int? courtCondition)

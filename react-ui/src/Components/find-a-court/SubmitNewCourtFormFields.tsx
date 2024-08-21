@@ -75,11 +75,12 @@ function SubmitNewCourtFormFields({
         <Select
           placeholder='Surface'
           style={{ width: '20%' }}
-        >
-          <Option value='Clay'>Clay</Option>
-          <Option value='Grass'>Grass</Option>
-          <Option value='Hard'>Hard</Option>
-        </Select>
+          options={[
+            {value:'Clay', label:'Clay'},
+            {value:'Grass', label:'Grass'},
+            {value:'Hard', label:'Hard'}
+          ]}
+        />
       </Form.Item>
       <Form.Item
         name='condition'

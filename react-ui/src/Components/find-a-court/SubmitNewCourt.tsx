@@ -144,12 +144,13 @@ class SubmitNewCourt extends React.Component<ISubmitNewCourtProps, ISubmitNewCou
                   loading={this.state.loading}
                   disabled={this.state.loading || this.state.selectDisabled}
                   onChange={this.onLocationSelected}
-                >
-                  {
+                  options={
                     this.state.locationData.map((location: ILocation) => {
-                      return <Option key={location.recnum} value={location.recnum}>{location.name}</Option>
+                      return {value:location.recnum, label:location.name}
                     })
                   }
+                >
+                  
                 </Select>
               </Tooltip>
               <SubmitNewCourtFormFields

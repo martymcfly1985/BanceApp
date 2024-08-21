@@ -1,0 +1,8 @@
+﻿CREATE TABLE [dbo].[LeagueMember]
+(
+	LM_Recnum INT IDENTITY (1,1) NOT NULL,
+	LM_LGRecnum INT NOT NULL,
+	LM_URecnum INT NOT NULL,
+	LM_Role VARCHAR(50) NOT NULL,
+	LM_Sub BIT NOT NULL
+)

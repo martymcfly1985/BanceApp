@@ -2,12 +2,13 @@ import { useState } from 'react';
 import { Avatar, Button, Card, Divider, Layout, Menu, MenuProps, Popover, Space } from 'antd';
 import '../css/App.css';
 import FindACourt from './find-a-court/FindACourt';
-import FindALeague from './find-a-league/FindALeague';
+import FindALeague from './league/find-a-league/FindALeague';
 import SubmitNewCourt from './find-a-court/SubmitNewCourt';
 import SubmitNewLocation from './find-a-court/SubmitNewLocation';
 import { SolutionOutlined, ScheduleOutlined, LogoutOutlined } from '@ant-design/icons'
 import { useUser } from '../Hooks/useUser';
 import Profile from './profile/Profile';
+import MyLeagues from './league/MyLeagues';
 
 const { Header} = Layout;
 
@@ -23,6 +24,10 @@ function App() {
 
   const onProfileButtonClick = () => {
     setCurrentMenuKey('ProfilePage')
+  }
+
+  const onYourLeaguesButtonClick = () => {
+    setCurrentMenuKey('MyLeagues')
   }
 
   const onSignOutClicked = () => {
@@ -80,7 +85,7 @@ function App() {
                   <Button onClick={onProfileButtonClick} type='text' icon={<SolutionOutlined/>}>
                     Your Profile
                   </Button>
-                  <Button type='text' icon={<ScheduleOutlined/>}>
+                  <Button onClick={onYourLeaguesButtonClick} type='text' icon={<ScheduleOutlined/>}>
                     Your Leagues
                   </Button>
                   <Button type='text' onClick={onSignOutClicked} icon={<LogoutOutlined/>}>
@@ -116,6 +121,8 @@ function App() {
         return (<FindALeague/>);
       case 'ProfilePage':
         return (<Profile/>);
+      case 'MyLeagues':
+        return (<MyLeagues/>);
       default:
         break;
      }

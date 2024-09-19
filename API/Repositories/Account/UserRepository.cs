@@ -3,7 +3,6 @@ using System.Data;
 using System.Data.SqlClient;
 using API.Models.Account;
 using API.Services.Configuration;
-using System;
 
 namespace API.Repositories.Account
 {

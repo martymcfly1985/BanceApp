@@ -1,4 +1,6 @@
-﻿using API.Repositories.Tennis.League;
+﻿using API.Models.Tennis;
+using API.Repositories.Tennis.League;
+using System.Collections.Generic;
 
 namespace API.Services.Tennis.League
 {
@@ -9,7 +11,7 @@ namespace API.Services.Tennis.League
         {
             this.leagueRepository = leagueRepository;
         }
-        public API.Models.Tennis.League GetUserLeagueData(int userRecnum)
+        public List<UserLeagueData> GetUserLeagueData(int userRecnum)
         {
             return leagueRepository.GetUserLeagueData(userRecnum);
         }

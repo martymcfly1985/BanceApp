@@ -105,9 +105,11 @@
     <Compile Include="Models\Tennis\CourtCondition.cs" />
     <Compile Include="Models\Tennis\CourtSurface.cs" />
     <Compile Include="Models\Tennis\League.cs" />
+    <Compile Include="Models\Tennis\LeagueMember.cs" />
     <Compile Include="Models\Tennis\Location.cs" />
     <Compile Include="Models\Tennis\NewRating.cs" />
     <Compile Include="Models\Account\User.cs" />
+    <Compile Include="Models\Tennis\UserLeagueData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\Campground\CampgroundRepository.cs" />
     <Compile Include="Repositories\Campground\ICampgroundRepository.cs" />

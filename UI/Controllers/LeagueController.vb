@@ -1,6 +1,7 @@
 ﻿Imports System.Net
 Imports System.Net.Http
 Imports System.Web.Http
+Imports API.Services.Tennis.League
 Imports UI.Plumbing
 Imports RouteAttribute = System.Web.Http.RouteAttribute
 
@@ -15,7 +16,7 @@ Namespace Controllers
         End Property
 
         <Route("api/getUserLeagueData/{userRecnum}")>
-        <HttpPost()>
+        <HttpGet()>
         Function GetUserLeagueData(userRecnum As Int32) As HttpResponseMessage
             LeagueService.GetUserLeagueData(userRecnum)
             Return Request.CreateResponse(HttpStatusCode.OK, LeagueService.GetUserLeagueData(userRecnum), Request.GetConfiguration())

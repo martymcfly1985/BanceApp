@@ -1,6 +1,6 @@
 import { get } from "../CommonFunctions/HttpMethods"
-import { ILeague } from "../Models/League"
+import { IUserLeagueData } from "../Models/UserLeagueData"
 
 export const fetchUserLeagueData = async(userRecnum: number) => {
-  return get<ILeague[]>(`api/getUserLeagueData/${userRecnum}`)
+  return await get<IUserLeagueData[]>(`api/getUserLeagueData/${userRecnum}`);
 }

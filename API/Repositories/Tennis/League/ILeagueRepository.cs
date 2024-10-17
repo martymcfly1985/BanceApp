@@ -7,5 +7,6 @@ namespace API.Repositories.Tennis.League
     public interface ILeagueRepository
     {
         List<UserLeagueData> GetUserLeagueData(int userRecnum);
+        void UpdateLeague(API.Models.Tennis.League newLeagueValues);
     }
 }

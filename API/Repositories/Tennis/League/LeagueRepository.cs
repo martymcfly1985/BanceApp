@@ -53,5 +53,25 @@ namespace API.Repositories.Tennis.League
             }
             return userLeagueDataList;
         }
+
+        public void UpdateLeague(API.Models.Tennis.League newLeagueValues)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                using (SqlCommand command = new SqlCommand("UpdateLeague", connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add("@Recnum", SqlDbType.Int).Value = newLeagueValues.Recnum;
+                    command.Parameters.Add("@Name", SqlDbType.VarChar).Value = newLeagueValues.Name;
+                    command.Parameters.Add("@Public", SqlDbType.Bit).Value = newLeagueValues.Public;
+                    command.Parameters.Add("@Joinable", SqlDbType.Bit).Value = newLeagueValues.Joinable;
+                    command.Parameters.Add("@City", SqlDbType.VarChar).Value = newLeagueValues.City;
+                    command.Parameters.Add("@State", SqlDbType.VarChar).Value = newLeagueValues.State;
+                    command.Parameters.Add("@Playtime", SqlDbType.VarChar).Value = newLeagueValues.Playtime;
+                    command.Connection.Open();
+                    command.ExecuteNonQuery();
+                } 
+            }
+        }
     }
 }

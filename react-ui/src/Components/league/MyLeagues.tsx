@@ -75,13 +75,21 @@ function MyLeagues() {
           disabled={readOnly()}
           onFinish={async (values: ILeague) => {
               try {
-                const updatedLeague: ILeague = {
-                  ...values,
-                  recnum: selectedLeague?.league.recnum
-                }
-                await updateLeague(updatedLeague);
-                message.success('League information updated successfully!');            }
-              catch {
+                  const updatedLeague: ILeague = {
+                    ...values,
+                    recnum: selectedLeague?.league.recnum
+                  }
+                  await updateLeague(updatedLeague);
+                  message.success('League information updated successfully!');  
+                  leagueInformation.map((league) => {
+                    if (league.league.recnum == updatedLeague?.recnum) {
+                      league.league = updatedLeague;
+                      return league
+                    }
+                    return league
+                  }
+                )
+              } catch {
                 message.error('Unable to update league information. Please try again later.');
               }
             }

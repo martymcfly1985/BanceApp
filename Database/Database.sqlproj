@@ -112,6 +112,7 @@
     <Build Include="dbo\Tables\LeagueLocation.sql" />
     <Build Include="dbo\Stored Procedures\GetUserLeagueData.sql" />
     <Build Include="dbo\Stored Procedures\UpdateLeague.sql" />
+    <Build Include="dbo\Stored Procedures\GetLeagueMembers.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Database.refactorlog" />

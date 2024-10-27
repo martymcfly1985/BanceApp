@@ -15,6 +15,10 @@ namespace API.Services.Tennis.League
         {
             return leagueRepository.GetUserLeagueData(userRecnum);
         }
+        public List<LeagueMember> GetLeagueMembers(int leagueRecnum)
+        {
+            return leagueRepository.GetLeagueMembers(leagueRecnum);
+        }
         public void UpdateLeague(API.Models.Tennis.League newLeagueValues)
         {
             leagueRepository.UpdateLeague(newLeagueValues);

@@ -19,7 +19,6 @@ Namespace Controllers
         <Route("api/getUserLeagueData/{userRecnum}")>
         <HttpGet()>
         Function GetUserLeagueData(userRecnum As Int32) As HttpResponseMessage
-            LeagueService.GetUserLeagueData(userRecnum)
             Return Request.CreateResponse(HttpStatusCode.OK, LeagueService.GetUserLeagueData(userRecnum), Request.GetConfiguration())
         End Function
 
@@ -28,6 +27,12 @@ Namespace Controllers
         Function UpdateLeague(newLeagueValues As League) As HttpResponseMessage
             LeagueService.UpdateLeague(newLeagueValues)
             Return Request.CreateResponse(HttpStatusCode.OK)
+        End Function
+
+        <Route("api/getLeagueMembers/{leagueRecnum}")>
+        <HttpGet()>
+        Function GetLeagueMembers(leagueRecnum As Int32) As HttpResponseMessage
+            Return Request.CreateResponse(HttpStatusCode.OK, LeagueService.GetLeagueMembers(leagueRecnum), Request.GetConfiguration())
         End Function
 
     End Class

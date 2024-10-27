@@ -4,4 +4,7 @@ export interface ILeagueMember {
   userRecnum: number;
   role: string;
   sub: boolean;
+  firstName: string;
+  lastName: string;
+  email: string;
 }

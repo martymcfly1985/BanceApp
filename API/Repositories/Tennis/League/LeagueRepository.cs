@@ -32,7 +32,6 @@ namespace API.Repositories.Tennis.League
                     {
                         UserLeagueData userLeagueData = new UserLeagueData();
                         var league = new API.Models.Tennis.League();
-                        var leagueMember = new LeagueMember();
                         league.Recnum = reader.GetInt32("LG_Recnum");
                         league.Name = reader.GetString("LG_Name");
                         league.Public = reader.GetBoolean("LG_Public");
@@ -40,18 +39,33 @@ namespace API.Repositories.Tennis.League
                         league.City = reader.GetString("LG_City");
                         league.State = reader.GetString("LG_State");
                         league.Playtime = reader.GetString("LG_Playtime");
-                        leagueMember.Recnum = reader.GetInt32("LM_Recnum");
-                        leagueMember.LeagueRecnum = reader.GetInt32("LM_LGRecnum");
-                        leagueMember.UserRecnum = reader.GetInt32("LM_URecnum");
-                        leagueMember.Role = reader.GetString("LM_Role");
-                        leagueMember.Sub = reader.GetBoolean("LM_Sub");
                         userLeagueData.League = league;
-                        userLeagueData.LeagueMember = leagueMember;
+                        userLeagueData.LeagueMember = GetLeagueMemberFromReader(reader);
                         userLeagueDataList.Add(userLeagueData);
                     }
                 }
             }
             return userLeagueDataList;
+        }
+
+        public List<LeagueMember> GetLeagueMembers(int leagueRecnum)
+        {
+            List<LeagueMember> leagueMembersList = new List<LeagueMember>();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand("GetLeagueMembers", connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add("@LeagueRecnum", SqlDbType.Int).Value = leagueRecnum;
+                command.Connection.Open();
+                using (EnhancedSqlDataReader reader = new EnhancedSqlDataReader(command.ExecuteReader()))
+                {
+                    while (reader.Read())
+                    {
+                        leagueMembersList.Add(GetLeagueMemberFromReader(reader));
+                    }
+                }
+            }
+            return leagueMembersList;
         }
 
         public void UpdateLeague(API.Models.Tennis.League newLeagueValues)
@@ -72,6 +86,20 @@ namespace API.Repositories.Tennis.League
                     command.ExecuteNonQuery();
                 } 
             }
+        }
+
+        private LeagueMember GetLeagueMemberFromReader(EnhancedSqlDataReader reader)
+        {
+            var leagueMember = new LeagueMember();
+            leagueMember.Recnum = reader.GetInt32("LM_Recnum");
+            leagueMember.LeagueRecnum = reader.GetInt32("LM_LGRecnum");
+            leagueMember.UserRecnum = reader.GetInt32("U_Recnum");
+            leagueMember.Role = reader.GetString("LM_Role");
+            leagueMember.Sub = reader.GetBoolean("LM_Sub");
+            leagueMember.Email = reader.GetString("U_Email");
+            leagueMember.FirstName = reader.GetString("U_FirstName");
+            leagueMember.LastName = reader.GetString("U_LastName");
+            return leagueMember;
         }
     }
 }

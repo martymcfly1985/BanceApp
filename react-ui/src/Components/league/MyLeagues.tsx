@@ -1,4 +1,4 @@
-import { Button, Collapse, CollapseProps, Drawer, Form, Input, message, Space, Switch, Table } from "antd";
+import { AutoComplete, Button, Collapse, CollapseProps, Drawer, Form, Input, message, Modal, Select, SelectProps, Space, Switch, Table } from "antd";
 import { Content } from "antd/lib/layout/layout";
 import { useEffect, useState } from "react";
 import { fetchMembersList, fetchUserLeagueData, updateLeague } from "../../BusinessLogic/leagueActions";
@@ -9,6 +9,7 @@ import { IUserLeagueData } from "../../Models/UserLeagueData";
 import { ILeague } from "../../Models/League";
 import { ILeagueMember } from "../../Models/LeagueMember";
 import { AlignType } from 'rc-table/lib/interface'
+import { fetchUsersByName } from "../../BusinessLogic/userActions";
 
 function MyLeagues() {
   const userInfo = useUser();
@@ -16,10 +17,16 @@ function MyLeagues() {
   const [membersList, setMembersList] = useState<ILeagueMember[]>([]);
   const [leagueTableLoading, setLeagueTableLoading] = useState(true);
   const [memberTableLoading, setMemberTableLoading] = useState(false);
+  const [memberTableModalVisible, setMemberTableModalVisible] = useState(false);
+  const [data, setData] = useState<SelectProps['options']>([]);
+  const [value, setValue] = useState<string>();
   const [selectedLeague, setSelectedLeague] = useState<IUserLeagueData>();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const canEditLeague = () => {return selectedLeague?.leagueMember.role === 'Owner';}
   const canEditMemberList = () => {return selectedLeague?.leagueMember.role === 'Owner' || selectedLeague?.leagueMember.role === 'Moderator';}
+  let timeout: ReturnType<typeof setTimeout> | null;
+  let currentValue: string;
+
   useEffect(() => {
     async function fetch() {
       try {
@@ -35,6 +42,45 @@ function MyLeagues() {
       fetch();
     }
   }, [userInfo]);
+
+  const onAddMemberClick = () => {
+    setMemberTableModalVisible(true);
+  }
+
+
+const fetch = (value: string, callback: (data: { value: number; text: string }[]) => void) => {
+  if (timeout) {
+    clearTimeout(timeout);
+    timeout = null;
+  }
+  currentValue = value;
+
+  const fake = async () => {
+    await fetchUsersByName(value)
+      .then((d) => {
+        if (currentValue === value) {
+          const data = d.map((item) => ({
+            value: item.recnum!,
+            text: `${item.firstName} ${item.lastName}`,
+          }));
+          callback(data);
+        }
+      });
+  };
+  if (value) {
+    timeout = setTimeout(fake, 300);
+  } else {
+    callback([]);
+  }
+};
+
+const handleSearch = (newValue: string) => {
+  fetch(newValue, setData);
+};
+
+const handleChange = (newValue: string) => {
+  setValue(newValue);
+};
 
   const columns = [
     {
@@ -235,13 +281,47 @@ function MyLeagues() {
       label: 'Members List',
       key: 'members',
       children: (
-        <Table
-          loading={memberTableLoading}
-          pagination={false}
-          dataSource={membersList}
-          columns={canEditMemberList() ? memberColumnsWithActions : memberColumns}
-          bordered={true}
-        />
+      <>
+          <Button
+            style={{marginBottom:'20px'}}
+            type='primary'
+            onClick={() => {
+              onAddMemberClick()
+            }}
+          >
+            Add a Member
+          </Button>
+          <Modal
+            open={memberTableModalVisible}
+          >
+            <Form>
+              <Form.Item>
+                <Select
+                  showSearch
+                  value={value}
+                  placeholder={'Whatever'}
+                  defaultActiveFirstOption={false}
+                  suffixIcon={null}
+                  filterOption={false}
+                  onSearch={handleSearch}
+                  onChange={handleChange}
+                  notFoundContent={null}
+                  options={(data || []).map((d) => ({
+                    value: d.value,
+                    label: d.text,
+                  }))}
+                />
+              </Form.Item>
+            </Form>
+          </Modal>
+          <Table
+            loading={memberTableLoading}
+            pagination={false}
+            dataSource={membersList}
+            columns={canEditMemberList() ? memberColumnsWithActions : memberColumns}
+            bordered={true}
+          />
+        </>
       )
     }
   ]

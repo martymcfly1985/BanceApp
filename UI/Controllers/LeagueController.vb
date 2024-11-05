@@ -35,5 +35,12 @@ Namespace Controllers
             Return Request.CreateResponse(HttpStatusCode.OK, LeagueService.GetLeagueMembers(leagueRecnum), Request.GetConfiguration())
         End Function
 
+        <Route("api/addNewLeagueMember")>
+        <HttpPost()>
+        Function AddNewLeagueMember(newMember As AddLeagueMemberRequest) As HttpResponseMessage
+            LeagueService.AddNewLeagueMember(newMember)
+            Return Request.CreateResponse(HttpStatusCode.OK)
+        End Function
+
     End Class
 End Namespace

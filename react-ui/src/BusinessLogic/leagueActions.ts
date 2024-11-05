@@ -14,3 +14,7 @@ export const fetchMembersList = async(leagueRecnum: number) => {
 export const updateLeague = async(newLeagueValues: ILeague) => {
   await post('api/updateLeague', newLeagueValues); 
 }
+
+export const addNewLeagueMember = async(leagueRecnum: number, userRecnum: number, leagueRole: string, sub: boolean) => {
+  await post('api/addNewLeagueMember', {leagueRecnum, userRecnum, leagueRole, sub})
+}

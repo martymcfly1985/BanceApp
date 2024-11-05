@@ -88,6 +88,21 @@ namespace API.Repositories.Tennis.League
             }
         }
 
+        public void AddNewLeagueMember(AddLeagueMemberRequest newMember)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                using (SqlCommand command = new SqlCommand("AddNewLeagueMember", connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add("@LeagueRecnum", SqlDbType.Int).Value = newMember.LeagueRecnum;
+                    command.Parameters.Add("@UserRecnum", SqlDbType.Int).Value = newMember.UserRecnum;
+                    command.Connection.Open();
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
         private LeagueMember GetLeagueMemberFromReader(EnhancedSqlDataReader reader)
         {
             var leagueMember = new LeagueMember();

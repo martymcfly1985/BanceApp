@@ -3,6 +3,7 @@ using System.Data;
 using System.Data.SqlClient;
 using API.Models.Account;
 using API.Services.Configuration;
+using System.Collections.Generic;
 
 namespace API.Repositories.Account
 {
@@ -31,6 +32,26 @@ namespace API.Repositories.Account
                 }
             }
             return null;
+        }
+
+        public List<User> SearchUsers(string input)
+        {
+            var usersList = new List<User>();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand("SearchUsers", connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add("@input", SqlDbType.VarChar).Value = input;
+                command.Connection.Open();
+                using (EnhancedSqlDataReader reader = new EnhancedSqlDataReader(command.ExecuteReader()))
+                {
+                    while (reader.Read())
+                    {
+                        usersList.Add(GetUserDataFromDb(reader));
+                    }
+                }
+            }
+            return usersList;
         }
 
         public void SaveNewUser(User newUser)

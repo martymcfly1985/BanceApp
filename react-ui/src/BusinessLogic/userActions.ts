@@ -9,6 +9,6 @@ export const signIn = async(values: any) => {
   return post<any>('api/signIn', values);
 }
 
-export const fetchUsersByName = async(value: string) => {
-  return get<IUser[]>(`api/getUsersByName/${value}`);
+export const searchUsers = async(value: string) => {
+  return get<IUser[]>(`api/searchUsers/${value}`);
 }

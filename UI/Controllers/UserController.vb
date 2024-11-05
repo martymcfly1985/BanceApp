@@ -71,5 +71,11 @@ Namespace Controllers
             Return Request.CreateResponse(HttpStatusCode.OK)
         End Function
 
+        <Route("api/searchUsers/{input}")>
+        <HttpGet>
+        Function SearchUsers(input As String) As HttpResponseMessage
+            Return Request.CreateResponse(HttpStatusCode.OK, UserService.SearchUsers(input), Request.GetConfiguration())
+        End Function
+
     End Class
 End Namespace

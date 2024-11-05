@@ -1,15 +1,16 @@
-import { AutoComplete, Button, Collapse, CollapseProps, Drawer, Form, Input, message, Modal, Select, SelectProps, Space, Switch, Table } from "antd";
+import { Button, Collapse, CollapseProps, Drawer, Form, Input, message, Modal, Select, SelectProps, Space, Switch, Table } from "antd";
 import { Content } from "antd/lib/layout/layout";
 import { useEffect, useState } from "react";
-import { fetchMembersList, fetchUserLeagueData, updateLeague } from "../../BusinessLogic/leagueActions";
+import { addNewLeagueMember, fetchMembersList, fetchUserLeagueData, updateLeague } from "../../BusinessLogic/leagueActions";
 import { useUser } from "../../Hooks/useUser";
 import { DeleteOutlined , EditOutlined} from '@ant-design/icons';
 import "../../css/Shared.css";
 import { IUserLeagueData } from "../../Models/UserLeagueData";
 import { ILeague } from "../../Models/League";
-import { ILeagueMember } from "../../Models/LeagueMember";
+import { ILeagueMember, LeagueRoleEnum } from "../../Models/LeagueMember";
 import { AlignType } from 'rc-table/lib/interface'
-import { fetchUsersByName } from "../../BusinessLogic/userActions";
+import { searchUsers } from "../../BusinessLogic/userActions";
+const { Option } = Select;
 
 function MyLeagues() {
   const userInfo = useUser();
@@ -17,6 +18,7 @@ function MyLeagues() {
   const [membersList, setMembersList] = useState<ILeagueMember[]>([]);
   const [leagueTableLoading, setLeagueTableLoading] = useState(true);
   const [memberTableLoading, setMemberTableLoading] = useState(false);
+  const [submitButtonLoading, setSubmitButtonLoading] = useState(false);
   const [memberTableModalVisible, setMemberTableModalVisible] = useState(false);
   const [data, setData] = useState<SelectProps['options']>([]);
   const [value, setValue] = useState<string>();
@@ -47,6 +49,17 @@ function MyLeagues() {
     setMemberTableModalVisible(true);
   }
 
+  const onSubmit = (values: any) => {
+    try {
+      console.log(values);
+      setSubmitButtonLoading(true);
+      addNewLeagueMember(selectedLeague!.league.recnum!, Number(value), values.leagueRole, values.sub);
+      setSubmitButtonLoading(false);
+    } catch {
+      message.error("Unable to add new league member.");
+      setSubmitButtonLoading(false);
+    }
+  }
 
 const fetch = (value: string, callback: (data: { value: number; text: string }[]) => void) => {
   if (timeout) {
@@ -56,7 +69,7 @@ const fetch = (value: string, callback: (data: { value: number; text: string }[]
   currentValue = value;
 
   const fake = async () => {
-    await fetchUsersByName(value)
+    await searchUsers(value)
       .then((d) => {
         if (currentValue === value) {
           const data = d.map((item) => ({
@@ -293,23 +306,82 @@ const handleChange = (newValue: string) => {
           </Button>
           <Modal
             open={memberTableModalVisible}
+            onCancel={() => {
+              setMemberTableModalVisible(false)
+              setValue(undefined)
+              setData([])
+            }}
+            centered
+            title='Add a Member'
+            closeIcon={false}
+            maskClosable={false}
+            okButtonProps={{
+              loading: submitButtonLoading,
+              form: 'AddMemberForm',
+              htmlType: 'submit'
+            }}
+            destroyOnClose
           >
-            <Form>
-              <Form.Item>
+            <Form
+              layout='vertical'
+              id='AddMemberForm'
+              onFinish={(values) => {
+                onSubmit(values)
+              }}
+            >
+              <Form.Item
+                label={'User:'}
+                name={'user'}
+                required={true}
+                rules={[
+                  { required: true, message: 'Please select a user.' }
+                ]}
+              >
                 <Select
                   showSearch
                   value={value}
-                  placeholder={'Whatever'}
+                  placeholder={'Search for users by name, email, or username.'}
                   defaultActiveFirstOption={false}
                   suffixIcon={null}
                   filterOption={false}
                   onSearch={handleSearch}
                   onChange={handleChange}
                   notFoundContent={null}
-                  options={(data || []).map((d) => ({
-                    value: d.value,
-                    label: d.text,
-                  }))}
+                >
+                  {(data || []).map((d, index) => {
+                    return (
+                      <Option
+                        value={d.value}
+                        key={index}
+                      >
+                        {d.text}
+                      </Option>
+                    )
+                  })}
+                </Select>
+              </Form.Item>
+              <Form.Item
+                label={'League Role:'}
+                name={'leagueRole'}
+              >
+                <Select
+                  defaultValue={LeagueRoleEnum.Member}
+                  options={
+                    Object.values(LeagueRoleEnum).map((leagueRole) => {
+                      return ({
+                        value: leagueRole,
+                        label: leagueRole
+                      });
+                    })}
+                />
+              </Form.Item>
+              <Form.Item
+                label={'Is this player a sub?:'}
+                name={'sub'}
+              >
+                <Switch
+                  checkedChildren={'Yes'}
+                  unCheckedChildren={'No'}
                 />
               </Form.Item>
             </Form>

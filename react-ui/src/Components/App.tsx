@@ -8,7 +8,7 @@ import SubmitNewLocation from './find-a-court/SubmitNewLocation';
 import { SolutionOutlined, ScheduleOutlined, LogoutOutlined } from '@ant-design/icons'
 import { useUser } from '../Hooks/useUser';
 import Profile from './profile/Profile';
-import MyLeagues from './league/MyLeagues';
+import MyLeagues from './league/my-leagues/MyLeagues';
 
 const { Header} = Layout;
 

@@ -23,9 +23,9 @@ namespace API.Services.Tennis.League
         {
             leagueRepository.UpdateLeague(newLeagueValues);
         }
-        public void AddNewLeagueMember(AddLeagueMemberRequest newMember)
+        public LeagueMember AddNewLeagueMember(AddLeagueMemberRequest newMember)
         {
-            leagueRepository.AddNewLeagueMember(newMember);
+            return leagueRepository.AddNewLeagueMember(newMember);
         }
     }
 }

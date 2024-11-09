@@ -33,9 +33,9 @@ namespace API.Services.Account
             return true;
         }
 
-        public List<User> SearchUsers(string input)
+        public List<User> SearchUsersNotInLeague(string input, int leagueRecnum)
         {
-            return userRepository.SearchUsers(input);
+            return userRepository.SearchUsersNotInLeague(input, leagueRecnum);
         }
 
         public void SaveNewUser(User user)

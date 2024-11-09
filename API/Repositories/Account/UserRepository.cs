@@ -34,14 +34,15 @@ namespace API.Repositories.Account
             return null;
         }
 
-        public List<User> SearchUsers(string input)
+        public List<User> SearchUsersNotInLeague(string input, int leagueRecnum)
         {
             var usersList = new List<User>();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                SqlCommand command = new SqlCommand("SearchUsers", connection);
+                SqlCommand command = new SqlCommand("SearchUsersNotInLeague", connection);
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.Add("@input", SqlDbType.VarChar).Value = input;
+                command.Parameters.Add("@leagueRecnum", SqlDbType.Int).Value = leagueRecnum;
                 command.Connection.Open();
                 using (EnhancedSqlDataReader reader = new EnhancedSqlDataReader(command.ExecuteReader()))
                 {

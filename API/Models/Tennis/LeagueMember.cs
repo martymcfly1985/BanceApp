@@ -16,5 +16,7 @@
     {
         public int LeagueRecnum { get; set; }
         public int UserRecnum { get; set; }
+        public string LeagueRole { get; set; }
+        public bool Sub { get; set; }
     }
 }

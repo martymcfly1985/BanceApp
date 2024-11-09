@@ -16,5 +16,5 @@ export const updateLeague = async(newLeagueValues: ILeague) => {
 }
 
 export const addNewLeagueMember = async(leagueRecnum: number, userRecnum: number, leagueRole: string, sub: boolean) => {
-  await post('api/addNewLeagueMember', {leagueRecnum, userRecnum, leagueRole, sub})
+  return await post<ILeagueMember>('api/addNewLeagueMember', {leagueRecnum, userRecnum, leagueRole, sub})
 }

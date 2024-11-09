@@ -1,4 +1,4 @@
-import { Button, Collapse, CollapseProps, Drawer, Form, Input, message, Modal, Select, SelectProps, Space, Switch, Table } from "antd";
+import { Button, Collapse, CollapseProps, Drawer, Form, Input, message, Modal, Select, SelectProps, Space, Switch, Table, Tooltip } from "antd";
 import { Content } from "antd/lib/layout/layout";
 import { useEffect, useState } from "react";
 import { addNewLeagueMember, fetchMembersList, fetchUserLeagueData, updateLeague } from "../../BusinessLogic/leagueActions";
@@ -9,7 +9,7 @@ import { IUserLeagueData } from "../../Models/UserLeagueData";
 import { ILeague } from "../../Models/League";
 import { ILeagueMember, LeagueRoleEnum } from "../../Models/LeagueMember";
 import { AlignType } from 'rc-table/lib/interface'
-import { searchUsers } from "../../BusinessLogic/userActions";
+import { searchUsersNotInLeague } from "../../BusinessLogic/userActions";
 const { Option } = Select;
 
 function MyLeagues() {
@@ -20,8 +20,8 @@ function MyLeagues() {
   const [memberTableLoading, setMemberTableLoading] = useState(false);
   const [submitButtonLoading, setSubmitButtonLoading] = useState(false);
   const [memberTableModalVisible, setMemberTableModalVisible] = useState(false);
-  const [data, setData] = useState<SelectProps['options']>([]);
-  const [value, setValue] = useState<string>();
+  const [matchingUsers, setMatchingUsers] = useState<SelectProps['options']>([]);
+  const [selectedUserRecnum, setSelectedUserRecnum] = useState<string>();
   const [selectedLeague, setSelectedLeague] = useState<IUserLeagueData>();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const canEditLeague = () => {return selectedLeague?.leagueMember.role === 'Owner';}
@@ -49,50 +49,52 @@ function MyLeagues() {
     setMemberTableModalVisible(true);
   }
 
-  const onSubmit = (values: any) => {
+  const onSubmit = async (values: any) => {
     try {
-      console.log(values);
       setSubmitButtonLoading(true);
-      addNewLeagueMember(selectedLeague!.league.recnum!, Number(value), values.leagueRole, values.sub);
+      const newLeagueMember = await addNewLeagueMember(selectedLeague!.league.recnum!, Number(selectedUserRecnum), values.leagueRole, values.sub);
+      setMembersList([...membersList, newLeagueMember]);
       setSubmitButtonLoading(false);
+      setMemberTableModalVisible(false);
     } catch {
       message.error("Unable to add new league member.");
       setSubmitButtonLoading(false);
     }
   }
 
-const fetch = (value: string, callback: (data: { value: number; text: string }[]) => void) => {
+const fetch = (searchString: string, callback: (data: { value: number; text: string }[]) => void) => {
   if (timeout) {
     clearTimeout(timeout);
     timeout = null;
   }
-  currentValue = value;
+  currentValue = searchString;
 
-  const fake = async () => {
-    await searchUsers(value)
-      .then((d) => {
-        if (currentValue === value) {
-          const data = d.map((item) => ({
-            value: item.recnum!,
-            text: `${item.firstName} ${item.lastName}`,
+  const search = async () => {
+    await searchUsersNotInLeague(searchString, selectedLeague!.league.recnum!)
+      .then((userSearchResults) => {
+        if (currentValue === searchString) {
+          const data = userSearchResults.map((user) => ({
+            value: user.recnum!,
+            text: `${user.firstName} ${user.lastName}`,
           }));
+
           callback(data);
         }
       });
   };
-  if (value) {
-    timeout = setTimeout(fake, 300);
+  if (searchString) {
+    timeout = setTimeout(search, 300);
   } else {
     callback([]);
   }
 };
 
 const handleSearch = (newValue: string) => {
-  fetch(newValue, setData);
+  fetch(newValue, setMatchingUsers);
 };
 
 const handleChange = (newValue: string) => {
-  setValue(newValue);
+  setSelectedUserRecnum(newValue);
 };
 
   const columns = [
@@ -171,7 +173,7 @@ const handleChange = (newValue: string) => {
       width: '10%',
       render: (record: any) => {
         return (
-          <Space hidden={!canEditMemberList()} size='small'>
+          <Space size='small'>
             <Button icon={<EditOutlined/>} /*onClick={() => {onEditRow(record)}}*//>
             <Button icon={<DeleteOutlined/>} /*onClick={() => {onDeleteRow(record.name)}}*//>
           </Space>
@@ -294,22 +296,27 @@ const handleChange = (newValue: string) => {
       label: 'Members List',
       key: 'members',
       children: (
-      <>
-          <Button
-            style={{marginBottom:'20px'}}
-            type='primary'
-            onClick={() => {
-              onAddMemberClick()
-            }}
+        <>
+          <Tooltip
+            title={!canEditMemberList() ? 'You must be a moderator or owner to add members.' : undefined}
           >
-            Add a Member
-          </Button>
+            <Button
+              style={{marginBottom:'20px'}}
+              disabled={!canEditMemberList()}
+              type='primary'
+              onClick={() => {
+                onAddMemberClick()
+              }}
+            >
+              Add a Member
+            </Button>
+          </Tooltip>
           <Modal
             open={memberTableModalVisible}
             onCancel={() => {
               setMemberTableModalVisible(false)
-              setValue(undefined)
-              setData([])
+              setSelectedUserRecnum(undefined)
+              setMatchingUsers([])
             }}
             centered
             title='Add a Member'
@@ -325,6 +332,7 @@ const handleChange = (newValue: string) => {
             <Form
               layout='vertical'
               id='AddMemberForm'
+              initialValues={{leagueRole: LeagueRoleEnum.Member}}
               onFinish={(values) => {
                 onSubmit(values)
               }}
@@ -332,6 +340,7 @@ const handleChange = (newValue: string) => {
               <Form.Item
                 label={'User:'}
                 name={'user'}
+                id='user'
                 required={true}
                 rules={[
                   { required: true, message: 'Please select a user.' }
@@ -339,7 +348,7 @@ const handleChange = (newValue: string) => {
               >
                 <Select
                   showSearch
-                  value={value}
+                  value={selectedUserRecnum}
                   placeholder={'Search for users by name, email, or username.'}
                   defaultActiveFirstOption={false}
                   suffixIcon={null}
@@ -348,7 +357,7 @@ const handleChange = (newValue: string) => {
                   onChange={handleChange}
                   notFoundContent={null}
                 >
-                  {(data || []).map((d, index) => {
+                  {(matchingUsers || []).map((d, index) => {
                     return (
                       <Option
                         value={d.value}
@@ -363,9 +372,10 @@ const handleChange = (newValue: string) => {
               <Form.Item
                 label={'League Role:'}
                 name={'leagueRole'}
+                id='leagueRole'
               >
                 <Select
-                  defaultValue={LeagueRoleEnum.Member}
+                  //defaultValue={LeagueRoleEnum.Member}
                   options={
                     Object.values(LeagueRoleEnum).map((leagueRole) => {
                       return ({
@@ -378,6 +388,7 @@ const handleChange = (newValue: string) => {
               <Form.Item
                 label={'Is this player a sub?:'}
                 name={'sub'}
+                id='sub'
               >
                 <Switch
                   checkedChildren={'Yes'}

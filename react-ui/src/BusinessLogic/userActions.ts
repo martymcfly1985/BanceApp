@@ -9,6 +9,6 @@ export const signIn = async(values: any) => {
   return post<any>('api/signIn', values);
 }
 
-export const searchUsers = async(value: string) => {
-  return get<IUser[]>(`api/searchUsers/${value}`);
+export const searchUsersNotInLeague = async(searchString: string, leagueRecnum: number) => {
+  return get<IUser[]>(`api/searchUsersNotInLeague/${searchString}/${leagueRecnum}`);
 }

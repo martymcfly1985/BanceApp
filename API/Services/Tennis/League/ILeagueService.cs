@@ -7,7 +7,7 @@ namespace API.Services.Tennis.League
     {
         List<UserLeagueData> GetUserLeagueData(int userRecnum);
         List<LeagueMember> GetLeagueMembers(int leagueRecnum);
+        LeagueMember AddNewLeagueMember(AddLeagueMemberRequest newMember);
         void UpdateLeague(API.Models.Tennis.League newLeagueValues);
-        void AddNewLeagueMember(AddLeagueMemberRequest newMember);
     }
 }

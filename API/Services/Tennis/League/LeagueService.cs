@@ -23,9 +23,9 @@ namespace API.Services.Tennis.League
         {
             leagueRepository.UpdateLeague(newLeagueValues);
         }
-        public LeagueMember AddNewLeagueMember(AddLeagueMemberRequest newMember)
+        public LeagueMember SaveLeagueMember(SaveLeagueMemberRequest leagueMember)
         {
-            return leagueRepository.AddNewLeagueMember(newMember);
+            return leagueRepository.SaveLeagueMember(leagueMember);
         }
 
         public void DeleteLeagueMember(DeleteLeagueMemberRequest userToDelete)

@@ -114,7 +114,7 @@
     <Build Include="dbo\Stored Procedures\UpdateLeague.sql" />
     <Build Include="dbo\Stored Procedures\GetLeagueMembers.sql" />
     <Build Include="dbo\Stored Procedures\SearchUsersNotInLeague.sql" />
-    <Build Include="dbo\Stored Procedures\AddNewLeagueMember.sql" />
+    <Build Include="dbo\Stored Procedures\SaveLeagueMember.sql" />
     <Build Include="dbo\Stored Procedures\DeleteLeagueMember.sql" />
   </ItemGroup>
   <ItemGroup>

@@ -35,10 +35,10 @@ Namespace Controllers
             Return Request.CreateResponse(HttpStatusCode.OK, LeagueService.GetLeagueMembers(leagueRecnum), Request.GetConfiguration())
         End Function
 
-        <Route("api/addNewLeagueMember")>
+        <Route("api/saveLeagueMember")>
         <HttpPost()>
-        Function AddNewLeagueMember(newMember As AddLeagueMemberRequest) As HttpResponseMessage
-            Return Request.CreateResponse(HttpStatusCode.OK, LeagueService.AddNewLeagueMember(newMember), Request.GetConfiguration())
+        Function SaveLeagueMember(leagueMember As SaveLeagueMemberRequest) As HttpResponseMessage
+            Return Request.CreateResponse(HttpStatusCode.OK, LeagueService.SaveLeagueMember(leagueMember), Request.GetConfiguration())
         End Function
 
         <Route("api/deleteLeagueMember")>

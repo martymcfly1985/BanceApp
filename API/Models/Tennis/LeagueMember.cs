@@ -12,7 +12,7 @@
         public string Email { get; set; }
     }
 
-    public class AddLeagueMemberRequest
+    public class SaveLeagueMemberRequest
     {
         public int LeagueRecnum { get; set; }
         public int UserRecnum { get; set; }

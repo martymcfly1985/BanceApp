@@ -88,17 +88,17 @@ namespace API.Repositories.Tennis.League
             }
         }
 
-        public LeagueMember AddNewLeagueMember(AddLeagueMemberRequest newMember)
+        public LeagueMember SaveLeagueMember(SaveLeagueMemberRequest leagueMember)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                using (SqlCommand command = new SqlCommand("AddNewLeagueMember", connection))
+                using (SqlCommand command = new SqlCommand("SaveLeagueMember", connection))
                 {
                     command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.Add("@LeagueRecnum", SqlDbType.Int).Value = newMember.LeagueRecnum;
-                    command.Parameters.Add("@UserRecnum", SqlDbType.Int).Value = newMember.UserRecnum;
-                    command.Parameters.Add("@Role", SqlDbType.VarChar).Value = newMember.LeagueRole;
-                    command.Parameters.Add("@Sub", SqlDbType.Bit).Value = newMember.Sub;
+                    command.Parameters.Add("@LeagueRecnum", SqlDbType.Int).Value = leagueMember.LeagueRecnum;
+                    command.Parameters.Add("@UserRecnum", SqlDbType.Int).Value = leagueMember.UserRecnum;
+                    command.Parameters.Add("@Role", SqlDbType.VarChar).Value = leagueMember.LeagueRole;
+                    command.Parameters.Add("@Sub", SqlDbType.Bit).Value = leagueMember.Sub;
                     command.Connection.Open();
                     using (EnhancedSqlDataReader reader = new EnhancedSqlDataReader(command.ExecuteReader()))
                     {

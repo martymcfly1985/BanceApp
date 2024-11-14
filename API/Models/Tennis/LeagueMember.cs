@@ -19,4 +19,10 @@
         public string LeagueRole { get; set; }
         public bool Sub { get; set; }
     }
+
+    public class DeleteLeagueMemberRequest
+    {
+        public int LeagueRecnum { get; set; }
+        public int UserRecnum { get; set; }
+    }
 }

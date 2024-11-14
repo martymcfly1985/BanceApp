@@ -112,6 +112,20 @@ namespace API.Repositories.Tennis.League
             return null;
         }
 
+        public void DeleteLeagueMember(DeleteLeagueMemberRequest userToDelete)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                using (SqlCommand command = new SqlCommand("DeleteLeagueMember", connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add("@UserRecnum", SqlDbType.Int).Value = userToDelete.UserRecnum;
+                    command.Parameters.Add("@LeagueRecnum", SqlDbType.Int).Value = userToDelete.LeagueRecnum;
+                    command.Connection.Open();
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
         private LeagueMember GetLeagueMemberFromReader(EnhancedSqlDataReader reader)
         {
             var leagueMember = new LeagueMember();

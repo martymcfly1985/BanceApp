@@ -27,5 +27,10 @@ namespace API.Services.Tennis.League
         {
             return leagueRepository.AddNewLeagueMember(newMember);
         }
+
+        public void DeleteLeagueMember(DeleteLeagueMemberRequest userToDelete)
+        {
+            leagueRepository.DeleteLeagueMember(userToDelete);
+        }
     }
 }

@@ -102,6 +102,9 @@ function MyLeagues() {
           onNewLeagueMemberAdded={(newLeagueMember) => {
             setMembersList([...membersList, newLeagueMember]);
           }}
+          onLeagueMemberDeleted={(deletedLeagueMember) => {
+            setMembersList(membersList.filter((leagueMember) => leagueMember.userRecnum !== deletedLeagueMember.userRecnum))
+          }}
         />
       )
     }

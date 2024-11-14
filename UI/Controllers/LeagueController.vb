@@ -41,5 +41,12 @@ Namespace Controllers
             Return Request.CreateResponse(HttpStatusCode.OK, LeagueService.AddNewLeagueMember(newMember), Request.GetConfiguration())
         End Function
 
+        <Route("api/deleteLeagueMember")>
+        <HttpPost>
+        Function DeleteLeagueMember(userToDelete As DeleteLeagueMemberRequest) As HttpResponseMessage
+            LeagueService.DeleteLeagueMember(userToDelete)
+            Return Request.CreateResponse(HttpStatusCode.OK)
+        End Function
+
     End Class
 End Namespace

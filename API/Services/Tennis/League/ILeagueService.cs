@@ -9,5 +9,6 @@ namespace API.Services.Tennis.League
         List<LeagueMember> GetLeagueMembers(int leagueRecnum);
         LeagueMember AddNewLeagueMember(AddLeagueMemberRequest newMember);
         void UpdateLeague(API.Models.Tennis.League newLeagueValues);
+        void DeleteLeagueMember(DeleteLeagueMemberRequest userToDelete);
     }
 }

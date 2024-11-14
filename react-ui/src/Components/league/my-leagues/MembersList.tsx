@@ -1,6 +1,6 @@
-import { Button, Form, message, Modal, Select, SelectProps, Space, Switch, Table, Tooltip } from "antd"
+import { Button, Form, message, Modal, Popconfirm, Select, SelectProps, Space, Switch, Table, Tooltip } from "antd"
 import { useState } from "react";
-import { addNewLeagueMember } from "../../../BusinessLogic/leagueActions";
+import { addNewLeagueMember, deleteLeagueMember } from "../../../BusinessLogic/leagueActions";
 import { ILeagueMember, LeagueRoleEnum } from "../../../Models/LeagueMember";
 import { IUserLeagueData } from "../../../Models/UserLeagueData";
 import { searchUsersNotInLeague } from "../../../BusinessLogic/userActions";
@@ -12,19 +12,23 @@ interface MembersListProps {
   loading: boolean,
   selectedLeague: IUserLeagueData,
   membersList: ILeagueMember[],
-  onNewLeagueMemberAdded(newLeagueMember: ILeagueMember): void;
+  onNewLeagueMemberAdded(newLeagueMember: ILeagueMember): void,
+  onLeagueMemberDeleted(deletedLeagueMember: ILeagueMember) : void;
 }
 
 function MembersList({
   loading,
   selectedLeague,
   membersList,
-  onNewLeagueMemberAdded
+  onNewLeagueMemberAdded,
+  onLeagueMemberDeleted
 } : MembersListProps) {
   const [submitButtonLoading, setSubmitButtonLoading] = useState(false);
   const [memberTableModalVisible, setMemberTableModalVisible] = useState(false);
   const [matchingUsers, setMatchingUsers] = useState<SelectProps['options']>([]);
   const [selectedUserRecnum, setSelectedUserRecnum] = useState<string>();
+  const [deleteButtonLoading, setDeleteButtonLoading] = useState(false);
+  const [selectedDeleteRecnum, setSelectedDeleteRecnum] = useState<number>();
   const canEditMemberList = () => {return selectedLeague?.leagueMember.role === 'Owner' || selectedLeague?.leagueMember.role === 'Moderator';}
   let timeout: ReturnType<typeof setTimeout> | null;
   let currentValue: string;
@@ -36,6 +40,7 @@ function MembersList({
       setSubmitButtonLoading(false);
       setMemberTableModalVisible(false);
       onNewLeagueMemberAdded(newLeagueMember);
+      setMatchingUsers([])
     } catch {
       message.error("Unable to add new league member.");
       setSubmitButtonLoading(false);
@@ -81,6 +86,23 @@ function MembersList({
     setMemberTableModalVisible(true);
   }
 
+  const onDeleteRow = async (userToDelete: ILeagueMember) => {
+    if (userToDelete.role !== LeagueRoleEnum.Owner) {
+      try {
+        setDeleteButtonLoading(true);
+        await deleteLeagueMember(userToDelete.leagueRecnum, userToDelete.userRecnum);
+        message.success('The league member has been deleted.');
+        onLeagueMemberDeleted(userToDelete);
+        setDeleteButtonLoading(false);
+      } catch {
+        message.error("Unable to delete league member. Please try again.");
+        setDeleteButtonLoading(false);
+      }
+    } else {
+      message.error('A league owner cannot be deleted. Please change their role first.')
+    }
+  }
+
   const memberColumns = [
     {
       title:'First Name',
@@ -115,6 +137,7 @@ function MembersList({
     }
   ]
 
+  
   const memberColumnsWithActions = [
     ...memberColumns,
     {
@@ -122,11 +145,19 @@ function MembersList({
       key: 'actions',
       align: 'center' as AlignType,
       width: '10%',
-      render: (record: any) => {
+      render: (record: ILeagueMember) => {
         return (
           <Space size='small'>
             <Button icon={<EditOutlined/>} /*onClick={() => {onEditRow(record)}}*//>
-            <Button icon={<DeleteOutlined/>} /*onClick={() => {onDeleteRow(record.name)}}*//>
+            <Popconfirm
+              title='Delete Member'
+              description='Are you sure you would like to delete this member?'
+              onConfirm={() => {onDeleteRow(record)}}
+            >
+              <Button onClick={() => {
+                setSelectedDeleteRecnum(record.recnum)
+              }} disabled={deleteButtonLoading && record.recnum === selectedDeleteRecnum} loading={deleteButtonLoading && record.recnum === selectedDeleteRecnum} icon={<DeleteOutlined/>}/> 
+            </Popconfirm>
           </Space>
         )
       }

@@ -5,32 +5,45 @@ import { ILeagueMember, LeagueRoleEnum } from "../../../Models/LeagueMember";
 import { IUserLeagueData } from "../../../Models/UserLeagueData";
 import { DeleteOutlined , EditOutlined} from '@ant-design/icons';
 import { AlignType } from 'rc-table/lib/interface'
-import MemberAddEdit from "./MemberAddEdit";
+import MemberAddEdit, { MemberAddEditFormItems } from "./MemberAddEdit";
 
 interface MembersListProps {
   loading: boolean,
   selectedLeague: IUserLeagueData,
   membersList: ILeagueMember[],
-  onNewLeagueMemberAdded(newLeagueMember: ILeagueMember): void,
+  onLeagueMemberAdded(newLeagueMember: ILeagueMember): void,
   onLeagueMemberDeleted(deletedLeagueMember: ILeagueMember) : void;
+  onLeagueMemberEdited(editedLeagueMember: ILeagueMember) : void;
 }
 
 function MembersList({
   loading,
   selectedLeague,
   membersList,
-  onNewLeagueMemberAdded,
-  onLeagueMemberDeleted
+  onLeagueMemberAdded,
+  onLeagueMemberDeleted,
+  onLeagueMemberEdited
 } : MembersListProps) {
   const [memberTableModalVisible, setMemberTableModalVisible] = useState(false);
   const [modalTitle, setModalTitle] = useState('');
+  const [addedMember, setAddedMember] = useState(false);
   const [deleteButtonLoading, setDeleteButtonLoading] = useState(false);
   const [selectedDeleteRecnum, setSelectedDeleteRecnum] = useState<number>();
+  const [memberAddEditInitialValues, setMemberAddEditInitialValues] = useState<MemberAddEditFormItems | undefined>(undefined);
   const canEditMemberList = () => {return selectedLeague?.leagueMember.role === 'Owner' || selectedLeague?.leagueMember.role === 'Moderator';}
 
   const onAddMemberClick = () => {
+    setAddedMember(true);
+    setMemberAddEditInitialValues({leagueRole: LeagueRoleEnum.Member})
     setMemberTableModalVisible(true);
     setModalTitle('Add a Member');
+  }
+
+  const onEditRow = (leagueMemberToEdit: ILeagueMember) => {
+    setAddedMember(false);
+    setMemberAddEditInitialValues({user: {value: leagueMemberToEdit.userRecnum, text: `${leagueMemberToEdit.firstName} ${leagueMemberToEdit.lastName}`}, leagueRole: leagueMemberToEdit.role, sub: leagueMemberToEdit.sub})
+    setMemberTableModalVisible(true);
+    setModalTitle('Edit a Member');
   }
 
   const onDeleteRow = async (userToDelete: ILeagueMember) => {
@@ -94,7 +107,7 @@ function MembersList({
       render: (record: ILeagueMember) => {
         return (
           <Space size='small'>
-            <Button icon={<EditOutlined/>} /*onClick={() => {onEditRow(record)}}*//>
+            <Button icon={<EditOutlined/>} onClick={() => {onEditRow(record)}}/>
             <Popconfirm
               title='Delete Member'
               description='Are you sure you would like to delete this member?'
@@ -130,8 +143,13 @@ function MembersList({
         title={modalTitle}
         open={memberTableModalVisible}
         leagueRecnum={selectedLeague!.league.recnum!}
+        initialFormValues={memberAddEditInitialValues}
         onSuccess={(savedLeagueMember) => {
-          onNewLeagueMemberAdded(savedLeagueMember);
+          if (addedMember) {
+            onLeagueMemberAdded(savedLeagueMember);
+          } else {
+            onLeagueMemberEdited(savedLeagueMember)
+          }
           setMemberTableModalVisible(false)
         }}
         onCancel={() => {

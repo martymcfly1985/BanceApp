@@ -99,11 +99,20 @@ function MyLeagues() {
           loading={memberTableLoading}
           selectedLeague={selectedLeague!}
           membersList={membersList}
-          onNewLeagueMemberAdded={(newLeagueMember) => {
+          onLeagueMemberAdded={(newLeagueMember) => {
             setMembersList([...membersList, newLeagueMember]);
           }}
           onLeagueMemberDeleted={(deletedLeagueMember) => {
             setMembersList(membersList.filter((leagueMember) => leagueMember.userRecnum !== deletedLeagueMember.userRecnum))
+          }}
+          onLeagueMemberEdited={(editedLeagueMember) => {
+            setMembersList(membersList.map((member) => {
+              if (member.userRecnum === editedLeagueMember.userRecnum) {
+                return editedLeagueMember;
+              } else {
+                return member;
+              }
+            }))
           }}
         />
       )

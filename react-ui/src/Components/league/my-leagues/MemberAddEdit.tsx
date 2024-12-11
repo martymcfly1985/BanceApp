@@ -1,14 +1,21 @@
 import { Form, message, Modal, Select, SelectProps, Switch } from "antd";
 import { ILeagueMember, LeagueRoleEnum } from "../../../Models/LeagueMember";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { saveLeagueMember } from "../../../BusinessLogic/leagueActions";
 import { searchUsersNotInLeague } from "../../../BusinessLogic/userActions";
 const { Option } = Select;
+
+export interface MemberAddEditFormItems {
+  user?: { value: number; text: string } | undefined,
+  leagueRole?: LeagueRoleEnum | undefined, 
+  sub?: boolean | undefined
+}
 
 interface MemberAddEditProps {
   leagueRecnum: number,
   open: boolean,
   title: string,
+  initialFormValues?: MemberAddEditFormItems | undefined,
   onSuccess(savedLeagueMember: ILeagueMember) : void,
   onCancel() : void;
 }
@@ -17,6 +24,7 @@ function MemberAddEdit({
   leagueRecnum,
   open,
   title,
+  initialFormValues,
   onSuccess,
   onCancel
 } : MemberAddEditProps) {
@@ -25,6 +33,13 @@ function MemberAddEdit({
   const [selectedUserRecnum, setSelectedUserRecnum] = useState<string>();
   let timeout: ReturnType<typeof setTimeout> | null;
   let currentValue: string;
+
+  useEffect(() => {
+    if (initialFormValues?.user) {
+      setMatchingUsers([initialFormValues.user]);
+      setSelectedUserRecnum(String(initialFormValues.user.value));
+    } 
+  }, [initialFormValues])
 
   const onSubmit = async (values: any) => {
     try {
@@ -97,7 +112,7 @@ function MemberAddEdit({
         <Form
           layout='vertical'
           id='AddEditMemberForm'
-          initialValues={{leagueRole: LeagueRoleEnum.Member}}
+          initialValues={initialFormValues}
           onFinish={(values) => {
             onSubmit(values);
           }}
@@ -112,6 +127,7 @@ function MemberAddEdit({
             ]}
           >
             <Select
+              disabled={initialFormValues?.user ? true : false}
               showSearch
               value={selectedUserRecnum}
               placeholder={'Search for users by name, email, or username.'}

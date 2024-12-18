@@ -10,6 +10,11 @@ function Verify() {
   const params = useParams();
   const navigate = useNavigate();
   const [verificationLoading, setVerificationLoading] = useState(false);
+
+  const backSpaceEmptySpaceOrNumber = (input: string) => {
+    return /[0-9\\B]/.test(input);
+  }
+
   const onVerifyAccountCode = async(value: string) => {
     const verificationInformation: VerificationInformation = {
       email: params.userEmail ?? "",
@@ -47,6 +52,11 @@ function Verify() {
               variant={"filled"}
               status={"error"}
               disabled={verificationLoading}
+              onKeyDown={(event) => {
+                if (!backSpaceEmptySpaceOrNumber(event.key)) {
+                  event.preventDefault();
+                }
+              }}
             />
             <Button type='primary' onClick={() => {message.success('New Verification Code Sent!')}}>Re-Send Code</Button>
           </Space>

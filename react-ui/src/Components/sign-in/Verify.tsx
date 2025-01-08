@@ -52,7 +52,6 @@ function Verify() {
                 length={6} 
                 onChange={(value) => onVerifyAccountCode(value)}
                 size={"large"}
-                
                 variant={"filled"}
                 status={incorrectVerificationCode ? "error" : undefined}
                 disabled={verificationLoading}

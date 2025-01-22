@@ -104,9 +104,12 @@
     <Compile Include="Models\Tennis\Court.cs" />
     <Compile Include="Models\Tennis\CourtCondition.cs" />
     <Compile Include="Models\Tennis\CourtSurface.cs" />
+    <Compile Include="Models\Tennis\League.cs" />
+    <Compile Include="Models\Tennis\LeagueMember.cs" />
     <Compile Include="Models\Tennis\Location.cs" />
     <Compile Include="Models\Tennis\NewRating.cs" />
     <Compile Include="Models\Account\User.cs" />
+    <Compile Include="Models\Tennis\UserLeagueData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\Campground\CampgroundRepository.cs" />
     <Compile Include="Repositories\Campground\ICampgroundRepository.cs" />
@@ -115,6 +118,8 @@
     <Compile Include="Repositories\Tennis\CourtRepository.cs" />
     <Compile Include="Repositories\Tennis\ICourtRepository.cs" />
     <Compile Include="Repositories\Tennis\ILocationRepository.cs" />
+    <Compile Include="Repositories\Tennis\League\ILeagueRepository.cs" />
+    <Compile Include="Repositories\Tennis\League\LeagueRepository.cs" />
     <Compile Include="Repositories\Tennis\LocationRepository.cs" />
     <Compile Include="Repositories\Account\IUserRepository.cs" />
     <Compile Include="Repositories\Account\UserRepository.cs" />
@@ -127,6 +132,8 @@
     <Compile Include="Services\Tennis\CourtService.cs" />
     <Compile Include="Services\Tennis\ICourtService.cs" />
     <Compile Include="Services\Tennis\ILocationService.cs" />
+    <Compile Include="Services\Tennis\League\ILeagueService.cs" />
+    <Compile Include="Services\Tennis\League\LeagueService.cs" />
     <Compile Include="Services\Tennis\LocationService.cs" />
     <Compile Include="Services\Account\IUserService.cs" />
     <Compile Include="Services\Account\UserService.cs" />

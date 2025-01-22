@@ -1,5 +1,6 @@
 ﻿
 using API.Models.Account;
+using System.Collections.Generic;
 
 namespace API.Repositories.Account
 {
@@ -7,6 +8,7 @@ namespace API.Repositories.Account
     {
         User GetUserByUsername(string username);
         User GetUserByEmail(string email);
+        List<User> SearchUsersNotInLeague(string input, int leagueRecnum);
         void SaveNewUser(User newUser);
         void UpdateUser(User userInformation);
         void SaveVerificationCode(string email, int verificationCode);

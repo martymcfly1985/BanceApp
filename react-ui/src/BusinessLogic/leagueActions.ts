@@ -16,9 +16,13 @@ export const updateLeague = async(newLeagueValues: ILeague) => {
 }
 
 export const saveLeagueMember = async(leagueRecnum: number, userRecnum: number, leagueRole: string, sub: boolean) => {
-  return await post<ILeagueMember>('api/saveLeagueMember', {leagueRecnum, userRecnum, leagueRole, sub})
+  return await post<ILeagueMember>('api/saveLeagueMember', {leagueRecnum, userRecnum, leagueRole, sub});
 }
 
 export const deleteLeagueMember = async(leagueRecnum: number, userRecnum: number) => {
-  return await post<ILeagueMember>('api/deleteLeagueMember', {leagueRecnum, userRecnum})
+  return await post<ILeagueMember>('api/deleteLeagueMember', {leagueRecnum, userRecnum});
+}
+
+export const insertLeagueData = async(leagueDataToInsert: IUserLeagueData) => {
+  return await post<IUserLeagueData>('api/insertLeagueData', leagueDataToInsert);
 }

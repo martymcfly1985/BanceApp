@@ -31,15 +31,7 @@ namespace API.Repositories.Tennis.League
                     while (reader.Read())
                     {
                         UserLeagueData userLeagueData = new UserLeagueData();
-                        var league = new API.Models.Tennis.League();
-                        league.Recnum = reader.GetInt32("LG_Recnum");
-                        league.Name = reader.GetString("LG_Name");
-                        league.Public = reader.GetBoolean("LG_Public");
-                        league.Joinable = reader.GetBoolean("LG_Joinable");
-                        league.City = reader.GetString("LG_City");
-                        league.State = reader.GetString("LG_State");
-                        league.Playtime = reader.GetString("LG_Playtime");
-                        userLeagueData.League = league;
+                        userLeagueData.League = GetLeagueFromReader(reader);
                         userLeagueData.LeagueMember = GetLeagueMemberFromReader(reader);
                         userLeagueDataList.Add(userLeagueData);
                     }
@@ -126,6 +118,32 @@ namespace API.Repositories.Tennis.League
                 }
             }
         }
+
+        public API.Models.Tennis.League InsertLeague(API.Models.Tennis.League leagueToInsert)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                using (SqlCommand command = new SqlCommand("InsertLeague", connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add("@Name", SqlDbType.VarChar).Value = leagueToInsert.Name;
+                    command.Parameters.Add("@Public", SqlDbType.Bit).Value = leagueToInsert.Public;
+                    command.Parameters.Add("@Joinable", SqlDbType.Bit).Value = leagueToInsert.Joinable;
+                    command.Parameters.Add("@City", SqlDbType.VarChar).Value = leagueToInsert.City;
+                    command.Parameters.Add("@State", SqlDbType.VarChar).Value = leagueToInsert.State;
+                    command.Parameters.Add("@Playtime", SqlDbType.VarChar).Value = leagueToInsert.Playtime;
+                    command.Connection.Open();
+                    using (EnhancedSqlDataReader reader = new EnhancedSqlDataReader(command.ExecuteReader()))
+                    {
+                        while (reader.Read())
+                        {
+                            return GetLeagueFromReader(reader);
+                        }
+                    }
+                }
+            }
+            return null;
+        }
         private LeagueMember GetLeagueMemberFromReader(EnhancedSqlDataReader reader)
         {
             var leagueMember = new LeagueMember();
@@ -138,6 +156,19 @@ namespace API.Repositories.Tennis.League
             leagueMember.FirstName = reader.GetString("U_FirstName");
             leagueMember.LastName = reader.GetString("U_LastName");
             return leagueMember;
+        }
+
+        private API.Models.Tennis.League GetLeagueFromReader(EnhancedSqlDataReader reader)
+        {
+            var league = new API.Models.Tennis.League();
+            league.Recnum = reader.GetInt32("LG_Recnum");
+            league.Name = reader.GetString("LG_Name");
+            league.Public = reader.GetBoolean("LG_Public");
+            league.Joinable = reader.GetBoolean("LG_Joinable");
+            league.City = reader.GetString("LG_City");
+            league.State = reader.GetString("LG_State");
+            league.Playtime = reader.GetString("LG_Playtime");
+            return league;
         }
     }
 }

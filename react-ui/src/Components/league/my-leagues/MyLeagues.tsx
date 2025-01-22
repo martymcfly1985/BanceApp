@@ -1,13 +1,14 @@
-import { Collapse, CollapseProps, Drawer, message, Table } from "antd";
+import { Button, Collapse, CollapseProps, Drawer, message, Table } from "antd";
 import { Content } from "antd/lib/layout/layout";
 import { useEffect, useState } from "react";
 import { fetchMembersList, fetchUserLeagueData } from "../../../BusinessLogic/leagueActions";
 import { useUser } from "../../../Hooks/useUser";
+import { PlusOutlined } from "@ant-design/icons";
 import "../../../css/Shared.css";
 import { IUserLeagueData } from "../../../Models/UserLeagueData";
 import { ILeague } from "../../../Models/League";
-import { ILeagueMember } from "../../../Models/LeagueMember";
-import LeagueEditForm from "./LeagueEditForm";
+import { ILeagueMember, LeagueRoleEnum } from "../../../Models/LeagueMember";
+import LeagueAddEditForm from "./LeagueAddEditForm";
 import MembersList from "./MembersList";
 
 function MyLeagues() {
@@ -34,6 +35,33 @@ function MyLeagues() {
       fetch();
     }
   }, [userInfo]);
+
+  const onCreateLeagueButtonClick = () => {
+    const initialLeagueValues = {
+      league: {
+        recnum: 0,
+        name: '',
+        public: false,
+        joinable: false,
+        city: '',
+        state: '',
+        playtime: ''
+      },
+      leagueMember: {
+        recnum: 0,
+        leagueRecnum: 0,
+        userRecnum: userInfo?.recnum,
+        role: LeagueRoleEnum.Owner,
+        sub: false,
+        firstName: userInfo?.firstName,
+        lastName: userInfo?.lastName,
+        email: userInfo?.email
+      }
+    } as IUserLeagueData;
+    setMembersList([initialLeagueValues.leagueMember])
+    setSelectedLeague(initialLeagueValues);
+    setDrawerOpen(true);
+  }
 
   const columns = [
     {
@@ -73,8 +101,12 @@ function MyLeagues() {
       label: 'League Information',
       key: 'information',
       children: (
-        <LeagueEditForm
+        <LeagueAddEditForm
           selectedLeague = {selectedLeague!}
+          onSuccessfulLeagueInsert={(insertedLeague) => {
+            setLeagueInformation([...leagueInformation, insertedLeague]);
+            setSelectedLeague(insertedLeague);
+          }}
           onSuccessfulLeagueUpdate={(updatedLeague) => {
             const updatedLeagueInformation = leagueInformation.map((league) => {
               if (league.league.recnum === updatedLeague?.recnum) {
@@ -83,10 +115,9 @@ function MyLeagues() {
                   league: updatedLeague
                 }
               }
-              return league
-            }
-          )
-          setLeagueInformation(updatedLeagueInformation);
+              return league;
+            });
+            setLeagueInformation(updatedLeagueInformation);
           }}
         />
       )
@@ -122,6 +153,16 @@ function MyLeagues() {
   return (
     <>
       <Content className="content">
+        <Button 
+          style={{marginBottom:'10px'}} 
+          icon={<PlusOutlined />} 
+          type="primary"
+          onClick={() => {
+            onCreateLeagueButtonClick();
+          }}
+        >
+          Create a League
+        </Button>
         <Table
           loading={leagueTableLoading}
           pagination={false}

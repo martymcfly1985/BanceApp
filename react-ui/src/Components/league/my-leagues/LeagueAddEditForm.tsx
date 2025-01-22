@@ -1,17 +1,19 @@
 import { Button, Form, Input, message, Switch } from "antd";
 import { ILeague } from "../../../Models/League";
-import { updateLeague } from "../../../BusinessLogic/leagueActions";
+import { insertLeagueData, updateLeague } from "../../../BusinessLogic/leagueActions";
 import { IUserLeagueData } from "../../../Models/UserLeagueData";
 
-interface LeagueEditFormProps {
+interface LeagueAddEditFormProps {
   selectedLeague: IUserLeagueData;
   onSuccessfulLeagueUpdate(updatedLeague: ILeague): void;
+  onSuccessfulLeagueInsert(insertedLeagueData: IUserLeagueData): void;
 }
 
-function LeagueEditForm({
+function LeagueAddEditForm({
   selectedLeague,
-  onSuccessfulLeagueUpdate
-} : LeagueEditFormProps) {
+  onSuccessfulLeagueUpdate,
+  onSuccessfulLeagueInsert
+} : LeagueAddEditFormProps) {
   const canEditLeague = () => {return selectedLeague?.leagueMember.role === 'Owner';}
   return (
     <Form
@@ -20,7 +22,20 @@ function LeagueEditForm({
       layout={'vertical'}
       disabled={!canEditLeague()}
       onFinish={async (values: ILeague) => {
-          try {
+          if (selectedLeague.league.recnum === 0) {
+            try {
+              const leagueDataToInsert: IUserLeagueData = {
+                league: values,
+                leagueMember: selectedLeague.leagueMember
+              }
+              const insertedLeagueData = await insertLeagueData(leagueDataToInsert);
+              message.success('League successfully created!');  
+              onSuccessfulLeagueInsert(insertedLeagueData);
+            } catch {
+              message.error('Unable to create the league. Please try again later.');
+            }
+          } else {
+            try {
               const updatedLeague: ILeague = {
                 ...values,
                 recnum: selectedLeague?.league.recnum
@@ -28,8 +43,9 @@ function LeagueEditForm({
               await updateLeague(updatedLeague);
               message.success('League information updated successfully!');  
               onSuccessfulLeagueUpdate(updatedLeague);
-          } catch {
-            message.error('Unable to update league information. Please try again later.');
+            } catch {
+              message.error('Unable to update league information. Please try again later.');
+            }
           }
         }
       }
@@ -110,4 +126,4 @@ function LeagueEditForm({
   )
 }
 
-export default LeagueEditForm
+export default LeagueAddEditForm

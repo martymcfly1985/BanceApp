@@ -11,5 +11,6 @@ namespace API.Repositories.Tennis.League
         LeagueMember SaveLeagueMember(SaveLeagueMemberRequest leagueMember);
         void UpdateLeague(API.Models.Tennis.League newLeagueValues);
         void DeleteLeagueMember(DeleteLeagueMemberRequest userToDelete);
+        API.Models.Tennis.League InsertLeague(API.Models.Tennis.League leagueToInsert);
     }
 }

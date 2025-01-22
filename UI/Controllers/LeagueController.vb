@@ -48,5 +48,11 @@ Namespace Controllers
             Return Request.CreateResponse(HttpStatusCode.OK)
         End Function
 
+        <Route("api/insertLeagueData")>
+        <HttpPost>
+        Function InsertLeagueData(leagueDataToInsert As UserLeagueData) As HttpResponseMessage
+            Return Request.CreateResponse(HttpStatusCode.OK, LeagueService.InsertLeagueData(leagueDataToInsert), Request.GetConfiguration())
+        End Function
+
     End Class
 End Namespace

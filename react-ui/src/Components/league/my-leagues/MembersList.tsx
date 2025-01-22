@@ -30,7 +30,7 @@ function MembersList({
   const [deleteButtonLoading, setDeleteButtonLoading] = useState(false);
   const [selectedDeleteRecnum, setSelectedDeleteRecnum] = useState<number>();
   const [memberAddEditInitialValues, setMemberAddEditInitialValues] = useState<MemberAddEditFormItems | undefined>(undefined);
-  const canEditMemberList = () => {return selectedLeague?.leagueMember.role === 'Owner' || selectedLeague?.leagueMember.role === 'Moderator';}
+  const canEditMemberList = () => {return (selectedLeague?.leagueMember.role === 'Owner' || selectedLeague?.leagueMember.role === 'Moderator') && selectedLeague.league.recnum !== 0;}
 
   const onAddMemberClick = () => {
     setAddedMember(true);

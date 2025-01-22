@@ -32,5 +32,23 @@ namespace API.Services.Tennis.League
         {
             leagueRepository.DeleteLeagueMember(userToDelete);
         }
+
+        public UserLeagueData InsertLeagueData(UserLeagueData leagueDataToInsert)
+        {
+            var insertedLeague = leagueRepository.InsertLeague(leagueDataToInsert.League);
+
+            var saveLeagueMemberRequest = new SaveLeagueMemberRequest();
+            saveLeagueMemberRequest.LeagueRecnum = insertedLeague.Recnum;
+            saveLeagueMemberRequest.UserRecnum = leagueDataToInsert.LeagueMember.UserRecnum;
+            saveLeagueMemberRequest.LeagueRole = leagueDataToInsert.LeagueMember.Role;
+            saveLeagueMemberRequest.Sub = leagueDataToInsert.LeagueMember.Sub;
+            var insertedLeagueMember = leagueRepository.SaveLeagueMember(saveLeagueMemberRequest);
+
+            var insertedLeagueData = new UserLeagueData();
+            insertedLeagueData.League = insertedLeague;
+            insertedLeagueData.LeagueMember = insertedLeagueMember;
+
+            return insertedLeagueData;
+        }
     }
 }

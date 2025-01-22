@@ -116,6 +116,7 @@
     <Build Include="dbo\Stored Procedures\SearchUsersNotInLeague.sql" />
     <Build Include="dbo\Stored Procedures\SaveLeagueMember.sql" />
     <Build Include="dbo\Stored Procedures\DeleteLeagueMember.sql" />
+    <Build Include="dbo\Stored Procedures\InsertLeague.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Database.refactorlog" />

@@ -160,6 +160,7 @@ function MembersList({
       <Table
         loading={loading}
         pagination={false}
+        rowKey={(record: ILeagueMember) => String(record.recnum)}
         dataSource={membersList}
         columns={canEditMemberList() ? memberColumnsWithActions : memberColumns}
         bordered={true}

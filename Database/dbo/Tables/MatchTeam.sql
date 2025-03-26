@@ -1,0 +1,7 @@
+﻿CREATE TABLE [dbo].[MatchTeam]
+(
+	MT_Recnum INT IDENTITY (1,1) NOT NULL,
+	MT_MRecnum INT NOT NULL,
+	MT_URecnum INT NOT NULL,
+	MT_Team INT NOT NULL
+)

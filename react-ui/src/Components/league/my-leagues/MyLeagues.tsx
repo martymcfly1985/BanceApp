@@ -10,6 +10,7 @@ import { ILeague } from "../../../Models/League";
 import { ILeagueMember, LeagueRoleEnum } from "../../../Models/LeagueMember";
 import LeagueAddEditForm from "./LeagueAddEditForm";
 import MembersList from "./MembersList";
+import UpcomingMatches from "./UpcomingMatches";
 
 function MyLeagues() {
   const userInfo = useUser();
@@ -145,6 +146,15 @@ function MyLeagues() {
               }
             }))
           }}
+        />
+      )
+    },
+    {
+      label: 'Upcoming Matches',
+      key: 'upcomingMatches',
+      children: (
+        <UpcomingMatches
+          selectedLeague={selectedLeague!}
         />
       )
     }

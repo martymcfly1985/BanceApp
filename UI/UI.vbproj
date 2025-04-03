@@ -177,6 +177,7 @@
     <Compile Include="App_Start\FilterConfig.vb" />
     <Compile Include="App_Start\RouteConfig.vb" />
     <Compile Include="Controllers\CourtController.vb" />
+    <Compile Include="Controllers\LeagueController.vb" />
     <Compile Include="Controllers\LocationController.vb" />
     <Compile Include="Controllers\UserController.vb" />
     <Compile Include="Global.asax.vb">

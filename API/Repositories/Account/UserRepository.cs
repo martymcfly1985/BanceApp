@@ -3,7 +3,7 @@ using System.Data;
 using System.Data.SqlClient;
 using API.Models.Account;
 using API.Services.Configuration;
-using System;
+using System.Collections.Generic;
 
 namespace API.Repositories.Account
 {
@@ -32,6 +32,27 @@ namespace API.Repositories.Account
                 }
             }
             return null;
+        }
+
+        public List<User> SearchUsersNotInLeague(string input, int leagueRecnum)
+        {
+            var usersList = new List<User>();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand("SearchUsersNotInLeague", connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add("@input", SqlDbType.VarChar).Value = input;
+                command.Parameters.Add("@leagueRecnum", SqlDbType.Int).Value = leagueRecnum;
+                command.Connection.Open();
+                using (EnhancedSqlDataReader reader = new EnhancedSqlDataReader(command.ExecuteReader()))
+                {
+                    while (reader.Read())
+                    {
+                        usersList.Add(GetUserDataFromDb(reader));
+                    }
+                }
+            }
+            return usersList;
         }
 
         public void SaveNewUser(User newUser)

@@ -103,7 +103,6 @@ function Profile() {
               <Form 
                 id='ProfileForm' 
                 onFinish={(values) => {
-                  console.log(values)
                   const newUserInformation = {
                     recnum: userInfo!.recnum,
                     username: values.username,

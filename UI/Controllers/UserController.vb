@@ -71,5 +71,11 @@ Namespace Controllers
             Return Request.CreateResponse(HttpStatusCode.OK)
         End Function
 
+        <Route("api/searchUsersNotInLeague/{input}/{leagueRecnum}")>
+        <HttpGet>
+        Function SearchUsers(input As String, leagueRecnum As Int32) As HttpResponseMessage
+            Return Request.CreateResponse(HttpStatusCode.OK, UserService.SearchUsersNotInLeague(input, leagueRecnum), Request.GetConfiguration())
+        End Function
+
     End Class
 End Namespace

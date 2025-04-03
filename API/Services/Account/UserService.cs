@@ -1,6 +1,7 @@
 ﻿using API.Models.Account;
 using API.Repositories.Account;
 using System;
+using System.Collections.Generic;
 using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
@@ -30,6 +31,11 @@ namespace API.Services.Account
                 return false;
             }
             return true;
+        }
+
+        public List<User> SearchUsersNotInLeague(string input, int leagueRecnum)
+        {
+            return userRepository.SearchUsersNotInLeague(input, leagueRecnum);
         }
 
         public void SaveNewUser(User user)

@@ -1,0 +1,10 @@
+﻿CREATE TABLE [dbo].[League]
+(
+	LG_Recnum INT IDENTITY (1,1) NOT NULL,
+	[LG_Name] VARCHAR(50) NOT NULL,
+	LG_Public BIT NOT NULL,
+	LG_Joinable BIT NOT NULL,
+	LG_City VARCHAR(50) NOT NULL,
+	LG_State VARCHAR(50) NOT NULL,
+	LG_Playtime VARCHAR(50)
+)

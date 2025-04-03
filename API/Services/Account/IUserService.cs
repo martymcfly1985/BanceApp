@@ -1,4 +1,5 @@
 ﻿using API.Models.Account;
+using System.Collections.Generic;
 
 namespace API.Services.Account
 {
@@ -6,6 +7,7 @@ namespace API.Services.Account
     {
         bool IsUsernameUnique(string username);
         bool IsEmailUnique(string email);
+        List<User> SearchUsersNotInLeague(string input, int leagueRecnum);
         string SignIn(SignInInfo signInInfo);
         void SaveNewUser(User user);
         void UpdateUser(User userInformation);

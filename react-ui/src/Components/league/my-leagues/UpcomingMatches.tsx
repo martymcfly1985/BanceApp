@@ -9,9 +9,10 @@ function UpcomingMatches({
   selectedLeague
 } : UpcomingMatchesProps) {
   const canScheduleMatches = () => {return (selectedLeague?.leagueMember.role === 'Owner' || selectedLeague?.leagueMember.role === 'Moderator') && selectedLeague.league.recnum !== 0;}
-const disabledTimes = () => ({
-    disabledHours: () => {return [11,12]}
-})
+  
+  const disabledTimes = () => {
+    return {disabledHours: () => {return [11,12]}}
+  };
   
   return (
     <>
@@ -64,7 +65,13 @@ const disabledTimes = () => ({
 										use12Hours: true,
 										format:"h:mm a",
 										minuteStep: 15,
-                    disabledTime: disabledTimes()
+                    disabledTime: () => {
+                      return {
+                        disabledHours: () => {
+                          return [11, 12]
+                        }
+                      }
+                    }
                   }}
                   style={{width:'100%'}}
                 >

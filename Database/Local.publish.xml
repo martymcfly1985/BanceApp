@@ -10,6 +10,6 @@
 		<DeployScriptFileName>Debug.sql</DeployScriptFileName>
 		<ProfileVersionNumber>1</ProfileVersionNumber>
 		<TargetDatabaseName>Bance</TargetDatabaseName>
-		<TargetConnectionString>Data Source=localhost;Integrated Security=True;Pooling=False</TargetConnectionString>
+		<TargetConnectionString>Data Source=localhost;Integrated Security=True;Pooling=False;TrustServerCertificate=True</TargetConnectionString>
 	</PropertyGroup>
 </Project>

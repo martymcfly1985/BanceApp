@@ -33,6 +33,7 @@ class FindACourt extends React.Component<IFindACourtProps, IFindACourtState> {
         lights: true,
         condition: 0,
         surface: '',
+        upcomingMatches: []
       }
     }
   }
@@ -89,7 +90,8 @@ class FindACourt extends React.Component<IFindACourtProps, IFindACourtState> {
               surface: court.surface,
               condition: newCondition,
               recnum: courtRecnum,
-              locationRecnum: locationRecnum
+              locationRecnum: locationRecnum,
+              upcomingMatches: court.upcomingMatches
             }
             this.setState ({
               selectedCourt: newCourt

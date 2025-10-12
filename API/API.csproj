@@ -107,6 +107,7 @@
     <Compile Include="Models\Tennis\League.cs" />
     <Compile Include="Models\Tennis\LeagueMember.cs" />
     <Compile Include="Models\Tennis\Location.cs" />
+    <Compile Include="Models\Tennis\Match.cs" />
     <Compile Include="Models\Tennis\NewRating.cs" />
     <Compile Include="Models\Account\User.cs" />
     <Compile Include="Models\Tennis\UserLeagueData.cs" />

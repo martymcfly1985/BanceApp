@@ -1,4 +1,6 @@
-﻿namespace API.Models.Tennis
+﻿using System.Collections.Generic;
+
+namespace API.Models.Tennis
 {
     public class Court
     {
@@ -8,5 +10,6 @@
         public int? Condition { get; set; }
         public bool Lights { get; set; }
         public string Name { get; set; }
+        public List<Match> UpcomingMatches { get; set; }
     }
 }

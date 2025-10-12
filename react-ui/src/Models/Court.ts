@@ -1,3 +1,5 @@
+import { IMatch } from "./Match";
+
 export interface ICourt {
   recnum?: number;
   locationRecnum?: number;
@@ -5,4 +7,5 @@ export interface ICourt {
   condition: number | null;
   lights: boolean;
   name: string;
+  upcomingMatches: IMatch[];
 }

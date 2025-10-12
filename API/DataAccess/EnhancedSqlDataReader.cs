@@ -194,6 +194,11 @@ namespace API.DataAccess
             return dataReader.GetInt16(dataReader.GetOrdinal(name));
         }
 
+        public int? GetNullableInt32(string name)
+        {
+            return dataReader.IsDBNull(dataReader.GetOrdinal(name)) ? (int?)null : dataReader.GetInt32(dataReader.GetOrdinal(name));
+        }
+
         public int GetInt32(string name)
         {
             return dataReader.GetInt32(dataReader.GetOrdinal(name));

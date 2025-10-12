@@ -11,9 +11,12 @@ function UpcomingMatches({
   selectedLeague
 } : UpcomingMatchesProps) {
   const canScheduleMatches = () => {return (selectedLeague?.leagueMember.role === 'Owner' || selectedLeague?.leagueMember.role === 'Moderator') && selectedLeague.league.recnum !== 0;}
-  const [teamAMembers, setTeamAMembers] = useState<DefaultOptionType[]>([]);
-  const [teamBMembers, setTeamBMembers] = useState<DefaultOptionType[]>([]);
+  const [scheduleMatchModalVisible, setScheduleMatchModalVisible] = useState(false);
+  const [teamAMembersList, setTeamAMembersList] = useState<DefaultOptionType[]>([]);
+  const [teamBMembersList, setTeamBMembersList] = useState<DefaultOptionType[]>([]);
   const [locationValue, setLocationValue] = useState<number>();
+  const [selectedTeamAMembers, setSelectedTeamAMembers] = useState<number[]>([]);
+  const [selectedTeamBMembers, setSelectedTeamBMembers] = useState<number[]>([]);
 
   const onMatchLocationChange = (newValue: number) => {
     setLocationValue(newValue);
@@ -32,24 +35,34 @@ function UpcomingMatches({
   ];
 
   const onTeamAMemberChange = (recnums: number[]) => {
-    setTeamBMembers(
+    setSelectedTeamAMembers(recnums);
+    setTeamBMembersList(
       leagueMembers.filter((member) => {
-        return !recnums.includes(Number(member.value))
+        return !recnums.includes(Number(member.value));
       })
-    )
+    );
   }
 
   const onTeamBMemberChange = (recnums: number[]) => {
-    setTeamAMembers(
+    setSelectedTeamBMembers(recnums);
+    setTeamAMembersList(
       leagueMembers.filter((member) => {
         return !recnums.includes(Number(member.value))
       })
-    )
+    );
+  }
+
+  const handleScheduleMatchModalClose = () => {
+    setSelectedTeamAMembers([]);
+    setSelectedTeamBMembers([]);
+    setTeamAMembersList(leagueMembers);
+    setTeamBMembersList(leagueMembers);
+    setScheduleMatchModalVisible(false);
   }
 
   useEffect(() => {
-    setTeamAMembers(leagueMembers)
-    setTeamBMembers(leagueMembers)
+    setTeamAMembersList(leagueMembers);
+    setTeamBMembersList(leagueMembers);
   }, [])
 
   const leagueLocations = [
@@ -107,17 +120,21 @@ function UpcomingMatches({
           disabled={!canScheduleMatches()}
           type='primary'
           onClick={() => {
-            console.log('Match Scheduled');
+            setScheduleMatchModalVisible(true);
           }}
         >
           Schedule a Match
         </Button>
       </Tooltip>
       <Modal 
-        open={true}
+        open={scheduleMatchModalVisible}
         title={'Schedule a Match'}
         width={'65%'}
         centered={true}
+        onCancel={() => {
+          handleScheduleMatchModalClose();
+        }}
+        closable={false}
       >
         <Form
           layout="vertical"
@@ -176,9 +193,10 @@ function UpcomingMatches({
               >
                 <Form.Item>
                   <Select
+                    value={selectedTeamAMembers}
                     mode="multiple"
                     style={{width:'100%'}}
-                    options={teamAMembers}
+                    options={teamAMembersList}
                     onChange={onTeamAMemberChange}
                   >
                   </Select>
@@ -193,9 +211,10 @@ function UpcomingMatches({
               >
                 <Form.Item>
                   <Select
+                    value={selectedTeamBMembers}                  
                     mode="multiple"
                     style={{width:'100%'}}
-                    options={teamBMembers}
+                    options={teamBMembersList}
                     onChange={onTeamBMemberChange}
                   >
                   </Select>

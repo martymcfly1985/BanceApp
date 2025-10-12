@@ -48,6 +48,7 @@ class SubmitNewLocation extends React.Component<ISubmitNewLocationProps, ISubmit
 			lights: values.lights,
 			surface: values.surface,
 			condition: values.condition,
+			upcomingMatches: []
 		}
 		if (courtNameIsUnique(newCourt.name,this.state.courtList)) {
 			this.setState({
@@ -137,6 +138,7 @@ class SubmitNewLocation extends React.Component<ISubmitNewLocationProps, ISubmit
 			lights: record.lights,
 			surface: record.surface,
 			condition: record.condition,
+			upcomingMatches: record.upcomingMatches
 		}
 		this.setState({
 			drawerOpen: true,

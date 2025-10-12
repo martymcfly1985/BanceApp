@@ -46,7 +46,8 @@ class SubmitNewCourt extends React.Component<ISubmitNewCourtProps, ISubmitNewCou
       lights: values.lights,
       surface: values.surface,
       condition: values.condition,
-      locationRecnum: this.state.selectedLocationRecnum
+      locationRecnum: this.state.selectedLocationRecnum,
+      upcomingMatches: []
     }
     try {
       this.setState ({

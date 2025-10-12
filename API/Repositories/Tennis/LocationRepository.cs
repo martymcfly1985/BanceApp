@@ -141,15 +141,43 @@ namespace API.Repositories.Tennis
 
         private void AddCourtFromDbToLocation(Location location, EnhancedSqlDataReader reader)
         {
-            var court = new Court();
-            court.Recnum = reader.GetInt32("C_Recnum");
-            court.LocationRecnum = reader.GetInt32("L_Recnum");
-            court.Surface = reader.GetStringValueOrEmptyString("C_Surface");
-            court.Condition = GetIntOrNull(reader);
-            court.Lights = reader.IsDBNull("C_Lights") ? false : reader.GetBoolean("C_Lights");
-            court.Name = reader.GetStringValueOrEmptyString("C_Name");
+            var courtRecnum = reader.GetInt32("C_Recnum");
+            var court = location.Courts.Find(c => c.Recnum == courtRecnum);
+            if (court == null)
+            {
+                court = new Court();
+                court.Recnum = courtRecnum;
+                court.LocationRecnum = reader.GetInt32("L_Recnum");
+                court.Surface = reader.GetStringValueOrEmptyString("C_Surface");
+                court.Condition = GetIntOrNull(reader);
+                court.Lights = reader.IsDBNull("C_Lights") ? false : reader.GetBoolean("C_Lights");
+                court.Name = reader.GetStringValueOrEmptyString("C_Name");
+                court.UpcomingMatches = new List<Match>();
+                location.Courts.Add(court);
+            }
 
-            location.Courts.Add(court);
+            var matchRecnum = reader.GetNullableInt32("M_Recnum");
+            if(matchRecnum != null)
+            {
+                var match = court.UpcomingMatches.Find(m => m.Recnum == matchRecnum);
+                if (match == null) 
+                { 
+                    match = new Match();
+                    match.Recnum = (int)matchRecnum;
+                    match.LeagueRecnum = reader.GetInt32("M_LGRecnum");
+                    match.CourtRecnum = reader.GetInt32("M_CRecnum");
+                    match.Datetime = reader.GetDateTime("M_DateTime");
+                    match.Players = new List<MatchPlayer>();
+                    court.UpcomingMatches.Add(match);
+                }
+
+                var matchPlayer = new MatchPlayer();
+
+                matchPlayer.UserRecnum = reader.GetInt32("MT_URecnum");
+                matchPlayer.Team = reader.GetInt32("MT_Team");
+
+                match.Players.Add(matchPlayer);
+            }
         }
     }
 }

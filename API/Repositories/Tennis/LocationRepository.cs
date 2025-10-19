@@ -4,6 +4,8 @@ using API.Services.Configuration;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
+using System.Runtime.Remoting.Messaging;
 
 namespace API.Repositories.Tennis
 {
@@ -57,32 +59,25 @@ namespace API.Repositories.Tennis
                 command.Connection.Open();
                 using (EnhancedSqlDataReader reader = new EnhancedSqlDataReader(command.ExecuteReader()))
                 {
-                    var currentLocationRecnum = 0;
-                    Location location = new Location();
-                    var locationTableEmpty = true;
-                    while (reader.Read())
-                    {
-                        locationTableEmpty = false;
-                        var locationRecnumInDb = reader.GetInt32("L_Recnum");
+                    GetLocationsFromDb(locations, reader);
+                }
+            }
+            return locations;
+        }
 
-                        if (LocationHasChanged(currentLocationRecnum, locationRecnumInDb))
-                        {
-                            if (NotInitialLoop(currentLocationRecnum))
-                            {
-                                locations.Add(location);
-                            }
-                            location = new Location();
-                            GetLocationDataFromDb(location, reader);
+        public List<Location> GetLeagueLocations(int leagueRecnum)
+        {
+            List<Location> locations = new List<Location>();
 
-                            currentLocationRecnum = locationRecnumInDb;
-                        }
-
-                        AddCourtFromDbToLocation(location, reader); 
-                    }
-                    if (!locationTableEmpty)
-                    {
-                        locations.Add(location);
-                    }
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand("GetLeagueLocations", connection);
+                command.Parameters.Add("@LeagueRecnum", SqlDbType.VarChar).Value = leagueRecnum;
+                command.CommandType = CommandType.StoredProcedure;
+                command.Connection.Open();
+                using (EnhancedSqlDataReader reader = new EnhancedSqlDataReader(command.ExecuteReader()))
+                {
+                    GetLocationsFromDb(locations, reader);
                 }
             }
             return locations;
@@ -177,6 +172,36 @@ namespace API.Repositories.Tennis
                 matchPlayer.Team = reader.GetInt32("MT_Team");
 
                 match.Players.Add(matchPlayer);
+            }
+        }
+
+        private void GetLocationsFromDb(List<Location> locations, EnhancedSqlDataReader reader)
+        {
+            var currentLocationRecnum = 0;
+            Location location = new Location();
+            var locationTableEmpty = true;
+            while (reader.Read())
+            {
+                locationTableEmpty = false;
+                var locationRecnumInDb = reader.GetInt32("L_Recnum");
+
+                if (LocationHasChanged(currentLocationRecnum, locationRecnumInDb))
+                {
+                    if (NotInitialLoop(currentLocationRecnum))
+                    {
+                        locations.Add(location);
+                    }
+                    location = new Location();
+                    GetLocationDataFromDb(location, reader);
+
+                    currentLocationRecnum = locationRecnumInDb;
+                }
+
+                AddCourtFromDbToLocation(location, reader);
+            }
+            if (!locationTableEmpty)
+            {
+                locations.Add(location);
             }
         }
     }

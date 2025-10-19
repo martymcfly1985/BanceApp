@@ -7,6 +7,7 @@ namespace API.Repositories.Tennis
     {
         List<Location> GetLocations();
         Location GetLocationByName(string locationName);
+        List<Location> GetLeagueLocations(int leagueRecnum);
         int SaveLocation(Location location);
     }
 }

@@ -1,6 +1,7 @@
 import { get, post } from "../CommonFunctions/HttpMethods"
 import { ILeague } from "../Models/League";
 import { ILeagueMember } from "../Models/LeagueMember";
+import { IMasterLeagueIndex } from "../Models/MasterLeagueIndex";
 import { IUserLeagueData } from "../Models/UserLeagueData"
 
 export const fetchUserLeagueData = async(userRecnum: number) => {
@@ -25,4 +26,8 @@ export const deleteLeagueMember = async(leagueRecnum: number, userRecnum: number
 
 export const insertLeagueData = async(leagueDataToInsert: IUserLeagueData) => {
   return await post<IUserLeagueData>('api/insertLeagueData', leagueDataToInsert);
+}
+
+export const getMasterLeagueIndex = async(leagueRecnum: number) => {
+  return await get<IMasterLeagueIndex>(`api/getMasterLeagueIndex/${leagueRecnum}`);
 }

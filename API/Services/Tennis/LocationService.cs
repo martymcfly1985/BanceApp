@@ -1,5 +1,6 @@
 ﻿using API.Models.Tennis;
 using API.Repositories.Tennis;
+using API.Repositories.Tennis.League;
 using System.Collections.Generic;
 
 namespace API.Services.Tennis
@@ -29,6 +30,11 @@ namespace API.Services.Tennis
                 return true;
             }
             return false;
+        }
+
+        public List<Location> GetLeagueLocations(int leagueRecnum)
+        {
+            return locationRepository.GetLeagueLocations(leagueRecnum);
         }
 
         public List<Location> GetLocationInformation()

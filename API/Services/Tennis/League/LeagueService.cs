@@ -7,9 +7,11 @@ namespace API.Services.Tennis.League
     public class LeagueService : ILeagueService
     {
         private readonly ILeagueRepository leagueRepository;
-        public LeagueService(ILeagueRepository leagueRepository)
+        private readonly ILocationService locationService;
+        public LeagueService(ILeagueRepository leagueRepository, ILocationService locationService)
         {
             this.leagueRepository = leagueRepository;
+            this.locationService = locationService;
         }
         public List<UserLeagueData> GetUserLeagueData(int userRecnum)
         {
@@ -18,6 +20,10 @@ namespace API.Services.Tennis.League
         public List<LeagueMember> GetLeagueMembers(int leagueRecnum)
         {
             return leagueRepository.GetLeagueMembers(leagueRecnum);
+        }
+        public API.Models.Tennis.League GetLeagueByRecnum(int leagueRecnum)
+        {
+            return leagueRepository.GetLeagueByRecnum(leagueRecnum);
         }
         public void UpdateLeague(API.Models.Tennis.League newLeagueValues)
         {
@@ -49,6 +55,25 @@ namespace API.Services.Tennis.League
             insertedLeagueData.LeagueMember = insertedLeagueMember;
 
             return insertedLeagueData;
+        }
+
+        public MasterLeagueIndex GetMasterLeagueIndex(int leagueRecnum)
+        {
+            var masterLeagueIndex = new MasterLeagueIndex();
+            var league = GetLeagueByRecnum(leagueRecnum);
+
+            masterLeagueIndex.Recnum = leagueRecnum;
+            masterLeagueIndex.Name = league.Name;
+            masterLeagueIndex.Public = league.Public;
+            masterLeagueIndex.Joinable = league.Joinable;
+            masterLeagueIndex.City = league.City;
+            masterLeagueIndex.State = league.State;
+            masterLeagueIndex.Playtime = league.Playtime;
+
+            masterLeagueIndex.Members = GetLeagueMembers(leagueRecnum);
+            masterLeagueIndex.Locations = locationService.GetLeagueLocations(leagueRecnum);
+            
+            return masterLeagueIndex;
         }
     }
 }

@@ -40,6 +40,26 @@ namespace API.Repositories.Tennis.League
             return userLeagueDataList;
         }
 
+        public API.Models.Tennis.League GetLeagueByRecnum(int leagueRecnum)
+        {
+            API.Models.Tennis.League leagueData = new API.Models.Tennis.League();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand("GetLeagueByRecnum", connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add("@leagueRecnum", SqlDbType.Int).Value = leagueRecnum;
+                command.Connection.Open();
+                using (EnhancedSqlDataReader reader = new EnhancedSqlDataReader(command.ExecuteReader()))
+                {
+                    while (reader.Read())
+                    {
+                        leagueData = GetLeagueFromReader(reader);                     
+                    }
+                }
+            }
+            return leagueData;
+        }
+
         public List<LeagueMember> GetLeagueMembers(int leagueRecnum)
         {
             List<LeagueMember> leagueMembersList = new List<LeagueMember>();

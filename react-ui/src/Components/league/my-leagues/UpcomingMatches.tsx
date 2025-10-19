@@ -1,7 +1,9 @@
-import { Button, Card, Col, DatePicker, Form, Modal, Row, Select, Tooltip, TreeSelect } from "antd";
+import { Button, Card, Col, DatePicker, Form, message, Modal, Row, Select, Tooltip, TreeSelect } from "antd";
 import { IUserLeagueData } from "../../../Models/UserLeagueData";
 import { useEffect, useState } from "react";
 import { DefaultOptionType } from "antd/es/cascader";
+import { getMasterLeagueIndex } from "../../../BusinessLogic/leagueActions";
+import { IMasterLeagueIndex } from "../../../Models/MasterLeagueIndex";
 
 interface UpcomingMatchesProps {
   selectedLeague: IUserLeagueData;
@@ -17,22 +19,14 @@ function UpcomingMatches({
   const [locationValue, setLocationValue] = useState<number>();
   const [selectedTeamAMembers, setSelectedTeamAMembers] = useState<number[]>([]);
   const [selectedTeamBMembers, setSelectedTeamBMembers] = useState<number[]>([]);
+  const [leagueMembers, setLeagueMembers] = useState<DefaultOptionType[]>([]);
+  const [leagueLocations, setLeagueLocations] = useState<DefaultOptionType[]>([]);
+  const [masterLeagueIndex, setMasterLeagueIndex] = useState<IMasterLeagueIndex>();
 
   const onMatchLocationChange = (newValue: number) => {
     setLocationValue(newValue);
     console.log(newValue);
   };
-
-  const leagueMembers:DefaultOptionType[] = [
-    {
-      value: 1000,
-      label: 'Lance'
-    },
-    {
-      value: 1001,
-      label: 'Ben'
-    }
-  ];
 
   const onTeamAMemberChange = (recnums: number[]) => {
     setSelectedTeamAMembers(recnums);
@@ -61,54 +55,40 @@ function UpcomingMatches({
   }
 
   useEffect(() => {
-    setTeamAMembersList(leagueMembers);
-    setTeamBMembersList(leagueMembers);
-  }, [])
+    async function fetch() {
+      try {
+        const mli = await getMasterLeagueIndex(selectedLeague.league.recnum!);
+        setMasterLeagueIndex(mli);
+        const members:DefaultOptionType[] = mli.members.map((member) => {
+          return {
+            value: member.recnum,
+            label: `${member.firstName} ${member.lastName}`
+          };
+        })
+        setLeagueMembers(members);
+        setTeamAMembersList(members);
+        setTeamBMembersList(members);
 
-  const leagueLocations = [
-    {
-      value: 'parent 1',
-      title: 'parent 1',
-      selectable: false,
-      children: [
-        {
-          value: 1,
-          title: 'leaf1',
-        },
-        {
-          value: 2,
-          title: 'leaf2',
-        },
-        {
-          value: 3,
-          title: 'leaf3',
-        },
-        {
-          value: 4,
-          title: 'leaf4',
-        },
-        {
-          value: 5,
-          title: 'leaf5',
-        },
-        {
-          value: 6,
-          title: 'leaf6',
-        },
-      ],
-    },
-    {
-      value: 'parent 1-1',
-      title: 'parent 1-1',
-      selectable: false,
-      children: [
-        {
-          value: 'leaf11',
-          title: 'leaf11',
-        },
-      ],
-    },
-  ];
+        const locations:DefaultOptionType[] = mli.locations.map((location) => {
+          return {
+            value: location.recnum,
+            title: location.name,
+            selectable: false,
+            children: location.courts.map((court) => {
+              return {
+                value: court.recnum,
+                title: court.name
+              }
+            })
+          };
+        })
+        setLeagueLocations(locations);
+      } catch {
+        message.error("Unable to obtain league information.");
+      }
+    }
+    fetch();
+  }, [])
 
   return (
     <>
@@ -195,6 +175,7 @@ function UpcomingMatches({
                   <Select
                     value={selectedTeamAMembers}
                     mode="multiple"
+                    maxCount={2}
                     style={{width:'100%'}}
                     options={teamAMembersList}
                     onChange={onTeamAMemberChange}
@@ -213,6 +194,7 @@ function UpcomingMatches({
                   <Select
                     value={selectedTeamBMembers}                  
                     mode="multiple"
+                    maxCount={2}
                     style={{width:'100%'}}
                     options={teamBMembersList}
                     onChange={onTeamBMemberChange}

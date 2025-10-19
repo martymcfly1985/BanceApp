@@ -54,5 +54,11 @@ Namespace Controllers
             Return Request.CreateResponse(HttpStatusCode.OK, LeagueService.InsertLeagueData(leagueDataToInsert), Request.GetConfiguration())
         End Function
 
+        <Route("api/getMasterLeagueIndex/{leagueRecnum}")>
+        <HttpGet>
+        Function GetMasterLeagueIndex(leagueRecnum As Int32) As HttpResponseMessage
+            Return Request.CreateResponse(HttpStatusCode.OK, LeagueService.GetMasterLeagueIndex(leagueRecnum), Request.GetConfiguration())
+        End Function
+
     End Class
 End Namespace

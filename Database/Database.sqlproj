@@ -118,6 +118,8 @@
     <Build Include="dbo\Stored Procedures\DeleteLeagueMember.sql" />
     <Build Include="dbo\Stored Procedures\InsertLeague.sql" />
     <Build Include="dbo\Tables\MatchTeam.sql" />
+    <Build Include="dbo\Stored Procedures\GetLeagueLocations.sql" />
+    <Build Include="dbo\Stored Procedures\GetLeagueByRecnum.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Database.refactorlog" />
